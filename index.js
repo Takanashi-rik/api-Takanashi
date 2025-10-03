@@ -10,40 +10,44 @@ require("./function.js");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Ganti webhook Discord lu disini:
-const WEBHOOK_URL = 'https://discord.com/api/webhooks/1396122030163628112/-vEj4HjREjbaOVXDu5932YjeHpTkjNSKyUKugBFF9yVCBeQSrdgK8qM3HNxVYTOD5BYP';
+// Konfigurasi Telegram Bot
+const TELEGRAM_BOT_TOKEN = '7623684118:AAHSPZCvzwSGzPxQFHuQBdXr_9i6bUf1n7w';
+const TELEGRAM_CHAT_ID = '8062985789';
+const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
 // Buffer untuk batch log
 let logBuffer = [];
 
-// Kirim batch tiap detik
+// Kirim batch log ke Telegram tiap 2 detik
 setInterval(() => {
     if (logBuffer.length === 0) return;
 
     const combinedLogs = logBuffer.join('\n');
     logBuffer = [];
 
-    const payload =
-` \`\`\`ansi
-${combinedLogs}
-\`\`\`
-`;
+    const payload = {
+        chat_id: TELEGRAM_CHAT_ID,
+        text: `\`\`\`\n${combinedLogs}\n\`\`\``,
+        parse_mode: 'MarkdownV2'
+    };
 
-    axios.post(WEBHOOK_URL, { content: payload }).catch(console.error);
+    axios.post(TELEGRAM_API_URL, payload).catch(error => {
+        console.error('Error sending to Telegram:', error.message);
+    });
 }, 2000);
 
 // Function log queue
 function queueLog({ method, status, url, duration, error = null }) {
-    let colorCode;
-    if (status >= 500) colorCode = '[2;31m';
-    else if (status >= 400) colorCode = '[2;31m';
-    else if (status === 304) colorCode = '[2;34m';
-    else colorCode = '[2;32m';
+    let statusText;
+    if (status >= 500) statusText = 'ERROR';
+    else if (status >= 400) statusText = 'CLIENT_ERROR';
+    else if (status === 304) statusText = 'NOT_MODIFIED';
+    else statusText = 'SUCCESS';
 
-    let line = `${colorCode}[${method}] ${status} ${url} - ${duration}ms[0m`;
+    let line = `[${method}] ${status} ${statusText} ${url} - ${duration}ms`;
 
     if (error) {
-        line += `\n[2;31m[ERROR] ${error.message || error}[0m`;
+        line += `\n[ERROR] ${error.message || error}`;
     }
 
     logBuffer.push(line);
@@ -76,19 +80,18 @@ app.use((req, res, next) => {
         const cooldownTime = (Math.random() * (120000 - 60000) + 60000).toFixed(3);
 
         console.log(`⚠️ SPAM DETECT: Cooldown ${cooldownTime / 1000} detik`);
-        const userTag = '<@1162931657276395600>';
-        const spamMsg =
-`${userTag}
-\`\`\`ansi
-⚠️ [ SPAM DETECT ] ⚠️
+        
+        const spamMsg = `⚠️ SPAM DETECT ⚠️\n\n[!] Too many requests, server cooldown for ${cooldownTime / 1000} sec!\n\n[${req.method}] 503 ${req.originalUrl} - 0ms`;
 
-[ ! ] Too many requests, server cooldown for ${cooldownTime / 1000} sec!
+        const payload = {
+            chat_id: TELEGRAM_CHAT_ID,
+            text: `\`\`\`\n${spamMsg}\n\`\`\``,
+            parse_mode: 'MarkdownV2'
+        };
 
-[2;31m[${req.method}] 503 ${req.originalUrl} - 0ms[0m
-\`\`\`
-`;
-
-        axios.post(WEBHOOK_URL, { content: spamMsg }).catch(console.error);
+        axios.post(TELEGRAM_API_URL, payload).catch(error => {
+            console.error('Error sending spam alert to Telegram:', error.message);
+        });
 
         setTimeout(() => {
             isCooldown = false;
@@ -154,46 +157,53 @@ app.use('/src', (req, res) => {
     res.status(403).json({ error: 'Forbidden access' });
 });
 
-// Load API routes dinamis dari src/api/ - FIXED VERSION
+// Load API routes dinamis dari src/api/
 let totalRoutes = 0;
 const apiFolder = path.join(__dirname, './src/api');
 
-try {
-    if (!fs.existsSync(apiFolder)) {
-        console.log(chalk.bgHex('#FF9999').hex('#333').bold(' API folder not found! '));
-    } else {
-        fs.readdirSync(apiFolder).forEach((subfolder) => {
+function loadRoutes() {
+    try {
+        if (!fs.existsSync(apiFolder)) {
+            console.error('API folder not found:', apiFolder);
+            return;
+        }
+
+        const subfolders = fs.readdirSync(apiFolder);
+        
+        subfolders.forEach((subfolder) => {
             const subfolderPath = path.join(apiFolder, subfolder);
+            
             if (fs.statSync(subfolderPath).isDirectory()) {
-                fs.readdirSync(subfolderPath).forEach((file) => {
+                const files = fs.readdirSync(subfolderPath);
+                
+                files.forEach((file) => {
                     const filePath = path.join(subfolderPath, file);
+                    
                     if (path.extname(file) === '.js') {
                         try {
-                            console.log(chalk.bgHex('#FFFF99').hex('#333').bold(` Trying to load: ${file} `));
-                            
                             const routeModule = require(filePath);
-                            
-                            // Debug: log type of exported module
-                            console.log(chalk.blue(` Type of ${file}: ${typeof routeModule} `));
                             
                             if (typeof routeModule === 'function') {
                                 routeModule(app);
                                 totalRoutes++;
-                                console.log(chalk.bgHex('#90EE90').hex('#333').bold(` Loaded Route: ${path.basename(file)} `));
+                                console.log(chalk.bgHex('#FFFF99').hex('#333').bold(` Loaded Route: ${path.basename(file)} `));
                             } else {
-                                console.log(chalk.bgHex('#FF9999').hex('#333').bold(` Skipped ${file}: Not a function (type: ${typeof routeModule}) `));
+                                console.warn(chalk.yellow(`Warning: ${file} does not export a function`));
                             }
                         } catch (error) {
-                            console.log(chalk.bgHex('#FF9999').hex('#333').bold(` Error loading ${file}: ${error.message} `));
+                            console.error(chalk.red(`Error loading route ${file}:`), error.message);
                         }
                     }
                 });
             }
         });
+    } catch (error) {
+        console.error('Error loading routes:', error.message);
     }
-} catch (error) {
-    console.log(chalk.bgHex('#FF9999').hex('#333').bold(` Error reading API folder: ${error.message} `));
 }
+
+// Panggil fungsi load routes
+loadRoutes();
 
 console.log(chalk.bgHex('#90EE90').hex('#333').bold(' Load Complete! ✓ '));
 console.log(chalk.bgHex('#90EE90').hex('#333').bold(` Total Routes Loaded: ${totalRoutes} `));
@@ -213,7 +223,7 @@ app.use((req, res, next) => {
         error: 'Not Found'
     });
 
-    res.status(404).sendFile(process.cwd() + "/api-page/404.html");
+    res.status(404).sendFile(path.join(__dirname, 'api-page', '404.html'));
 });
 
 app.use((err, req, res, next) => {
@@ -224,10 +234,10 @@ app.use((err, req, res, next) => {
         status: 500,
         url: req.originalUrl,
         duration: 0,
-        error: err
+        error: err.message
     });
 
-    res.status(500).sendFile(process.cwd() + "/api-page/500.html");
+    res.status(500).sendFile(path.join(__dirname, 'api-page', '500.html'));
 });
 
 app.listen(PORT, () => {
