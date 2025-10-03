@@ -1,14 +1,14 @@
-module.exports = function(app) {
-    async function anim() {
+async function anim() {
         try {
-            const data = await fetchJson(`https://api.waifu.pics/sfw/waifu`)
-            const response = await getBuffer(data.url)
+            const data = `https://img12.pixhost.to/images/507/570627648_skyzopedia.jpg`
+            const response = await getBuffer(data)
             return response
         } catch (error) {
             throw error;
         }
     }
-    app.get('/random/waifu', async (req, res) => {
+module.exports = function app (app) {
+app.get('/random/papayang', async (req, res) => {
         try {
             const pedo = await anim();
             res.writeHead(200, {
@@ -20,4 +20,4 @@ module.exports = function(app) {
             res.status(500).send(`Error: ${error.message}`);
         }
     });
-};
+}

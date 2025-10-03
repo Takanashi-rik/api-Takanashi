@@ -1,14 +1,16 @@
 module.exports = function(app) {
     async function anim() {
         try {
-            const data = await fetchJson(`https://api.waifu.pics/sfw/waifu`)
+            let type = ["blowjob", "neko", "trap", "waifu"]
+            let rn = type[Math.floor(Math.random() * type.length)]
+            const data = await fetchJson(`https://api.waifu.pics/nsfw/${rn}`)
             const response = await getBuffer(data.url)
             return response
         } catch (error) {
             throw error;
         }
     }
-    app.get('/random/waifu', async (req, res) => {
+    app.get('/random/nsfw', async (req, res) => {
         try {
             const pedo = await anim();
             res.writeHead(200, {
