@@ -61,507 +61,364 @@
             transform: translateY(-1px);
             box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4);
         }
-        
-        .theme-red { --primary-color: #dc2626; --secondary-color: #f87171; }
-        .theme-yellow { --primary-color: #d97706; --secondary-color: #fbbf24; }
-        .theme-blue { --primary-color: #2563eb; --secondary-color: #60a5fa; }
-        .theme-purple { --primary-color: #7c3aed; --secondary-color: #a78bfa; }
-        .theme-green { --primary-color: #059669; --secondary-color: #34d399; }
-        .theme-black { --primary-color: #1f2937; --secondary-color: #6b7280; }
-        
-        .light-theme-red { --primary-color: #dc2626; --secondary-color: #fee2e2; }
-        .light-theme-yellow { --primary-color: #d97706; --secondary-color: #fef3c7; }
-        .light-theme-blue { --primary-color: #2563eb; --secondary-color: #dbeafe; }
-        .light-theme-purple { --primary-color: #7c3aed; --secondary-color: #ede9fe; }
-        .light-theme-green { --primary-color: #059669; --secondary-color: #d1fae5; }
-        .light-theme-black { --primary-color: #1f2937; --secondary-color: #f3f4f6; }
-        
-        * {
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
-        
-        .theme-switcher {
-            transform: scale(0);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .theme-switcher.active {
-            transform: scale(1);
-            opacity: 1;
-        }
     </style>
 </head>
 <body class="bg-gray-900 text-slate-300 antialiased font-mono min-h-screen">
-    <div class="fixed top-4 right-4 z-50">
-        <div class="relative">
-            <button id="theme-toggle" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center border border-gray-700 hover:bg-gray-700">
-                <span class="material-icons text-gray-300">palette</span>
-            </button>
+    <main class="max-w-2xl mx-auto px-8 py-16">
+
+<div class="text-left mb-8">
+    <div class="flex items-center gap-4 mb-4">
+        <img src="/assets/icon.png" class="w-12 md:w-9">
+        <h1 class="text-3xl md:text-4xl font-bold gradient-text">Takanashi-API</h1>
+    </div>
+    <p class="text-slate-400 text-xs mx-auto mb-4">
+Hai, selamat datang di Takanashi API! Di sini kamu bisa menjelajahi berbagai endpoint yang udah aku siapin buat kamu. Semua bisa dicoba langsung secara real-time, serasa lagi main portal ajaib Rikka  Yuk, mulai petualangan coding bareng Takanashi API!
+    </p>
+    
+     <div class="mb-4 text-xs space-y-1">
             
-            <div id="theme-switcher" class="theme-switcher absolute top-12 right-0 bg-gray-800 border border-gray-700 rounded-lg p-3 w-48 shadow-lg">
-                <div class="grid grid-cols-3 gap-2">
-                    <button class="theme-option w-8 h-8 rounded-full bg-red-500 hover:scale-110 transition-transform" data-theme="red"></button>
-                    <button class="theme-option w-8 h-8 rounded-full bg-yellow-500 hover:scale-110 transition-transform" data-theme="yellow"></button>
-                    <button class="theme-option w-8 h-8 rounded-full bg-blue-500 hover:scale-110 transition-transform" data-theme="blue"></button>
-                    <button class="theme-option w-8 h-8 rounded-full bg-purple-500 hover:scale-110 transition-transform" data-theme="purple"></button>
-                    <button class="theme-option w-8 h-8 rounded-full bg-green-500 hover:scale-110 transition-transform" data-theme="green"></button>
-                    <button class="theme-option w-8 h-8 rounded-full bg-gray-800 border border-gray-600 hover:scale-110 transition-transform" data-theme="black"></button>
+                <div>
+                    <a href="https://t.me/Takanashi " target="_blank" class="text-slate-300 hover:text-white underline">Contact Takanashi.</a>
                 </div>
-                <div class="mt-3 pt-3 border-t border-gray-700">
-                    <button id="mode-toggle" class="w-full py-2 px-3 bg-gray-700 hover:bg-gray-600 rounded text-xs flex items-center justify-center">
-                        <span class="material-icons text-sm mr-2">dark_mode</span>
-                        <span>Switch to Light Mode</span>
-                    </button>
-                </div>
-            </div>
+            
+        </div>
+</div>
+ 
+<!-- Notifications Panel -->
+<div class="mb-8">
+    <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-semibold text-slate-300 flex items-center">
+            <span class="material-icons text-xl mr-2 text-gray-400">notifications</span>
+            Informasi
+        </h2>
+        <span id="unread-count" class="text-xs bg-indigo-500/50 text-indigo-300 px-2 py-1 rounded-full hidden"></span>
+    </div>
+    <div id="notifications-list" class="space-y-2">
+        <!-- Notifications will be loaded here -->
+        <div class="loader"></div>
+    </div>
+</div>
+
+<div class="flex items-center justify-between mb-4">
+    <div class="flex-1 relative">
+        <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+            <span class="material-icons text-gray-500 text-lg">search</span>
+        </div>
+        <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Search API endpoints..." 
+            class="w-full pl-12 pr-5 py-4 text-sm border border-gray-700 bg-gray-800 text-slate-300 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+        >
+    </div>
+</div>
+
+<div id="content" class="space-y-4">
+    <div id="noResults" class="text-center py-16" style="display: none;">
+        <div class="max-w-md mx-auto">
+            <h3 class="text-xs text-slate-400 mb-2">No result found.</h3>
         </div>
     </div>
 
-    <main class="max-w-2xl mx-auto px-8 py-16">
-        <div class="text-left mb-8">
-            <div class="flex items-center gap-4 mb-4">
-                <img src="/assets/icon.png" class="w-12 md:w-9">
-                <h1 class="text-3xl md:text-4xl font-bold gradient-text">Takanashi-API</h1>
-            </div>
-            <p class="text-slate-400 text-xs mx-auto mb-4">
-                Hai, selamat datang di Takanashi API! Di sini kamu bisa menjelajahi berbagai endpoint yang udah aku siapin buat kamu. Semua bisa dicoba langsung secara real-time, serasa lagi main portal ajaib Rikka  Yuk, mulai petualangan coding bareng Takanashi API!
-            </p>
-            
-            <div id="links-container" class="flex flex-wrap gap-2 mb-4">
-            </div>
-        </div>
- 
-        <div class="mb-8">
-            <div class="flex items-center justify-between mb-3">
-                <h2 class="text-lg font-semibold text-slate-300 flex items-center">
-                    <span class="material-icons text-xl mr-2 text-gray-400">notifications</span>
-                    Informasi
-                </h2>
-                <span id="unread-count" class="text-xs bg-indigo-500/50 text-indigo-300 px-2 py-1 rounded-full hidden"></span>
-            </div>
-            <div id="notifications-list" class="space-y-2">
-                <div class="loader"></div>
-            </div>
-        </div>
+    <div id="apiList" class="space-y-3">
+        <!-- API list will be loaded here dynamically -->
+    </div>
+</div>
+<footer>
+    <p class="text-slate-400 text-xs mx-auto mb-4">
+      2025 Takanashi  
+    </p>
+    <p class="text-slate-400 text-xs mx-auto mb-4">
+inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank">api.nekolabs.my.id</a>   
+    </p>
+</footer>
+</main>
 
-        <div class="flex items-center justify-between mb-4">
-            <div class="flex-1 relative">
-                <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                    <span class="material-icons text-gray-500 text-lg">search</span>
-                </div>
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    placeholder="Search API endpoints..." 
-                    class="w-full pl-12 pr-5 py-4 text-sm border border-gray-700 bg-gray-800 text-slate-300 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
-                >
-            </div>
-        </div>
-
-        <div id="content" class="space-y-4">
-            <div id="noResults" class="text-center py-16" style="display: none;">
-                <div class="max-w-md mx-auto">
-                    <h3 class="text-xs text-slate-400 mb-2">No result found.</h3>
-                </div>
-            </div>
-
-            <div id="apiList" class="space-y-3">
-            </div>
-        </div>
-        
-        <footer>
-            <p class="text-slate-400 text-xs mx-auto mb-4">
-                2025 Takanashi  
-            </p>
-            <p class="text-slate-400 text-xs mx-auto mb-4">
-                inspirasi design dari: <a href="https://api.nekolabs.my.id/" target="_blank" class="underline">api.nekolabs.my.id</a>   
-            </p>
-        </footer>
-    </main>
-
-    <script>
-        let currentTheme = localStorage.getItem('theme') || 'purple';
-        let isDarkMode = localStorage.getItem('darkMode') !== 'false';
-        
-        function applyTheme() {
-            document.body.classList.remove('light-theme-red', 'light-theme-yellow', 'light-theme-blue', 
-                                         'light-theme-purple', 'light-theme-green', 'light-theme-black',
-                                         'theme-red', 'theme-yellow', 'theme-blue', 
-                                         'theme-purple', 'theme-green', 'theme-black');
-            
-            const themeClass = isDarkMode ? `theme-${currentTheme}` : `light-theme-${currentTheme}`;
-            document.body.classList.add(themeClass);
-            
-            if (isDarkMode) {
-                document.documentElement.classList.add('dark');
-                document.body.classList.add('bg-gray-900', 'text-slate-300');
-                document.body.classList.remove('bg-gray-50', 'text-gray-800');
-                document.getElementById('mode-toggle').innerHTML = '<span class="material-icons text-sm mr-2">light_mode</span><span>Switch to Light Mode</span>';
-            } else {
-                document.documentElement.classList.remove('dark');
-                document.body.classList.add('bg-gray-50', 'text-gray-800');
-                document.body.classList.remove('bg-gray-900', 'text-slate-300');
-                document.getElementById('mode-toggle').innerHTML = '<span class="material-icons text-sm mr-2">dark_mode</span><span>Switch to Dark Mode</span>';
-            }
-            
-            updateThemeColors();
+<script>
+    // Existing functions from the original file
+    function toggleCategory(index) {
+        const category = document.getElementById(`category-${index}`);
+        const icon = document.getElementById(`category-icon-${index}`);
+        if (category.classList.contains('hidden')) {
+            category.classList.remove('hidden');
+            icon.textContent = 'expand_less';
+        } else {
+            category.classList.add('hidden');
+            icon.textContent = 'expand_more';
         }
-        
-        function updateThemeColors() {
-            const root = document.documentElement;
-            const computedStyle = getComputedStyle(document.body);
-            const primaryColor = computedStyle.getPropertyValue('--primary-color').trim();
-            const secondaryColor = computedStyle.getPropertyValue('--secondary-color').trim();
-            
-            document.querySelectorAll('.gradient-text').forEach(el => {
-                el.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
-            });
-            
-            document.querySelectorAll('.btn-gradient').forEach(el => {
-                el.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
-            });
-        }
-        
-        document.getElementById('theme-toggle').addEventListener('click', function() {
-            const switcher = document.getElementById('theme-switcher');
-            switcher.classList.toggle('active');
-        });
-        
-        document.querySelectorAll('.theme-option').forEach(button => {
-            button.addEventListener('click', function() {
-                currentTheme = this.dataset.theme;
-                localStorage.setItem('theme', currentTheme);
-                applyTheme();
-                document.getElementById('theme-switcher').classList.remove('active');
-            });
-        });
-        
-        document.getElementById('mode-toggle').addEventListener('click', function() {
-            isDarkMode = !isDarkMode;
-            localStorage.setItem('darkMode', isDarkMode);
-            applyTheme();
-        });
-        
-        document.addEventListener('click', function(event) {
-            const themeToggle = document.getElementById('theme-toggle');
-            const themeSwitcher = document.getElementById('theme-switcher');
-            
-            if (!themeToggle.contains(event.target) && !themeSwitcher.contains(event.target)) {
-                themeSwitcher.classList.remove('active');
-            }
-        });
+    }
 
-        async function loadLinks() {
-            const linksContainer = document.getElementById('links-container');
-            try {
-                const response = await fetch('/assets/settings.json');
+    function toggleEndpoint(catIndex, endpointIndex) {
+        const endpoint = document.getElementById(`endpoint-${catIndex}-${endpointIndex}`);
+        const icon = document.getElementById(`endpoint-icon-${catIndex}-${endpointIndex}`);
+        if (endpoint.classList.contains('hidden')) {
+            endpoint.classList.remove('hidden');
+            icon.textContent = 'expand_less';
+        } else {
+            endpoint.classList.add('hidden');
+            icon.textContent = 'expand_more';
+        }
+    }
+
+    async function executeRequest(event, catIndex, endpointIndex, method, path, produces) {
+        event.preventDefault();
+        const form = document.getElementById(`form-${catIndex}-${endpointIndex}`);
+        const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
+        const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
+        const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
+        
+        const formData = new FormData(form);
+        const params = new URLSearchParams();
+        for (const [key, value] of formData.entries()) {
+            if (value) {
+                params.append(key, value);
+            }
+        }
+
+        const fullPath = `${path}?${params.toString()}`;
+        responseDiv.classList.remove('hidden');
+        responseContent.innerHTML = '<div class="loader"></div>';
+
+        try {
+            const response = await fetch(fullPath);
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
                 const data = await response.json();
-                
-                let html = '';
-                if (data.links && data.links.length > 0) {
-                    data.links.forEach(link => {
-                        html += `
-                            <a href="${link.url}" target="_blank" class="px-4 py-2 text-xs border border-gray-700 bg-gray-800 hover:bg-gray-700 transition-colors duration-150">
-                                ${link.text}
-                            </a>
-                        `;
-                    });
-                }
-                
+                responseContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } else if (contentType && contentType.startsWith("image/")) {
+                const blob = await response.blob();
+                const imageUrl = URL.createObjectURL(blob);
+                responseContent.innerHTML = `<img src="${imageUrl}" class="max-w-full h-auto rounded-md">`;
+            } else {
+                const text = await response.text();
+                responseContent.innerHTML = `<pre>${text}</pre>`;
+            }
+        } catch (error) {
+            responseContent.innerHTML = `<pre>${error}</pre>`;
+        }
+        clearButton.classList.remove('hidden');
+    }
+
+    function clearResponse(catIndex, endpointIndex) {
+        const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
+        const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
+        const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
+        responseContent.innerHTML = '';
+        responseDiv.classList.add('hidden');
+        clearButton.classList.add('hidden');
+    }
+
+    // Function to load and render APIs
+    async function loadApis() {
+        const apiList = document.getElementById('apiList');
+        try {
+            const response = await fetch('/assets/settings.json');
+            const data = await response.json();
+            
+            let html = '';
+            data.categories.forEach((category, catIndex) => {
                 html += `
-                    <a href="https://t.me/Takanashi_Dev" target="_blank" class="px-4 py-2 text-xs border border-gray-700 bg-gray-800 hover:bg-gray-700 transition-colors duration-150">
-                        Contact Takanashi
-                    </a>
-                `;
+                <div class="category-group" data-category="${category.name}">
+                    <div class="mb-2">
+                        <div class="bg-gray-800 border border-gray-700">
+                            <button onclick="toggleCategory(${catIndex})" class="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-700 transition-colors duration-150">
+                                <h2 class="font-bold flex items-center">
+                                    <span class="material-icons text-lg mr-3 text-gray-400">folder</span>
+                                    <span class="truncate max-w-xs text-sm">${category.name}</span>
+                                    <span class="ml-2 text-xs text-gray-500">(${category.items.length})</span>
+                                </h2>
+                                <span class="material-icons transition-transform duration-150" id="category-icon-${catIndex}">expand_more</span>
+                            </button>
+                            
+                            <div id="category-${catIndex}" class="hidden">`;
                 
-                linksContainer.innerHTML = html;
-            } catch (error) {
-                linksContainer.innerHTML = `
-                    <a href="https://t.me/Takanashi_Dev" target="_blank" class="px-4 py-2 text-xs border border-gray-700 bg-gray-800 hover:bg-gray-700 transition-colors duration-150">
-                        Contact Takanashi
-                    </a>
-                `;
-            }
-        }
+                category.items.forEach((item, endpointIndex) => {
+                    const method = 'GET'; // Assuming all are GET for now
+                    const pathParts = item.path.split('?');
+                    const path = pathParts[0];
+                    const queryParams = new URLSearchParams(pathParts[1] || '');
 
-        function toggleCategory(index) {
-            const category = document.getElementById(`category-${index}`);
-            const icon = document.getElementById(`category-icon-${index}`);
-            if (category.classList.contains('hidden')) {
-                category.classList.remove('hidden');
-                icon.textContent = 'expand_less';
-            } else {
-                category.classList.add('hidden');
-                icon.textContent = 'expand_more';
-            }
-        }
+                    const statusClasses = {
+                        'ready': 'bg-green-500/20 text-green-400',
+                        'update': 'bg-yellow-500/20 text-yellow-400',
+                        'error': 'bg-red-500/20 text-red-400'
+                    };
+                    const statusClass = statusClasses[item.status] || 'bg-gray-600';
 
-        function toggleEndpoint(catIndex, endpointIndex) {
-            const endpoint = document.getElementById(`endpoint-${catIndex}-${endpointIndex}`);
-            const icon = document.getElementById(`endpoint-icon-${catIndex}-${endpointIndex}`);
-            if (endpoint.classList.contains('hidden')) {
-                endpoint.classList.remove('hidden');
-                icon.textContent = 'expand_less';
-            } else {
-                endpoint.classList.add('hidden');
-                icon.textContent = 'expand_more';
-            }
-        }
-
-        async function executeRequest(event, catIndex, endpointIndex, method, path, produces) {
-            event.preventDefault();
-            const form = document.getElementById(`form-${catIndex}-${endpointIndex}`);
-            const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
-            const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
-            const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
-            
-            const formData = new FormData(form);
-            const params = new URLSearchParams();
-            for (const [key, value] of formData.entries()) {
-                if (value) {
-                    params.append(key, value);
-                }
-            }
-
-            const fullPath = `${path}?${params.toString()}`;
-            responseDiv.classList.remove('hidden');
-            responseContent.innerHTML = '<div class="loader"></div>';
-
-            try {
-                const response = await fetch(fullPath);
-                const contentType = response.headers.get("content-type");
-                if (contentType && contentType.includes("application/json")) {
-                    const data = await response.json();
-                    responseContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-                } else if (contentType && contentType.startsWith("image/")) {
-                    const blob = await response.blob();
-                    const imageUrl = URL.createObjectURL(blob);
-                    responseContent.innerHTML = `<img src="${imageUrl}" class="max-w-full h-auto rounded-md">`;
-                } else {
-                    const text = await response.text();
-                    responseContent.innerHTML = `<pre>${text}</pre>`;
-                }
-            } catch (error) {
-                responseContent.innerHTML = `<pre>${error}</pre>`;
-            }
-            clearButton.classList.remove('hidden');
-        }
-
-        function clearResponse(catIndex, endpointIndex) {
-            const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
-            const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
-            const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
-            responseContent.innerHTML = '';
-            responseDiv.classList.add('hidden');
-            clearButton.classList.add('hidden');
-        }
-
-        async function loadApis() {
-            const apiList = document.getElementById('apiList');
-            try {
-                const response = await fetch('/assets/settings.json');
-                const data = await response.json();
-                
-                let html = '';
-                data.categories.forEach((category, catIndex) => {
                     html += `
-                    <div class="category-group" data-category="${category.name}">
-                        <div class="mb-2">
-                            <div class="bg-gray-800 border border-gray-700">
-                                <button onclick="toggleCategory(${catIndex})" class="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-700 transition-colors duration-150">
-                                    <h2 class="font-bold flex items-center">
-                                        <span class="material-icons text-lg mr-3 text-gray-400">folder</span>
-                                        <span class="truncate max-w-xs text-sm">${category.name}</span>
-                                        <span class="ml-2 text-xs text-gray-500">(${category.items.length})</span>
-                                    </h2>
-                                    <span class="material-icons transition-transform duration-150" id="category-icon-${catIndex}">expand_more</span>
-                                </button>
-                                
-                                <div id="category-${catIndex}" class="hidden">`;
-                    
-                    category.items.forEach((item, endpointIndex) => {
-                        const method = 'GET';
-                        const pathParts = item.path.split('?');
-                        const path = pathParts[0];
-                        const queryParams = new URLSearchParams(pathParts[1] || '');
-
-                        const statusClasses = {
-                            'ready': 'bg-green-500/20 text-green-400',
-                            'update': 'bg-yellow-500/20 text-yellow-400',
-                            'error': 'bg-red-500/20 text-red-400'
-                        };
-                        const statusClass = statusClasses[item.status] || 'bg-gray-600';
-
-                        html += `
-                                    <div class="border-t border-gray-700 api-item" 
-                                         data-method="${method}"
-                                         data-path="${path}"
-                                         data-alias="${item.name}"
-                                         data-description="${item.desc}"
-                                         data-category="${category.name}">
-                                        <button onclick="toggleEndpoint(${catIndex}, ${endpointIndex})" class="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-700 transition-colors duration-150">
-                                            <div class="flex items-center min-w-0 flex-1">
-                                                <span class="inline-block px-3 py-1 text-xs font-semibold text-white mr-3 flex-shrink-0 bg-gray-600">
-                                                    ${method}
-                                                </span>
-                                                <div class="flex flex-col min-w-0 flex-1">
-                                                    <span class="font-semibold truncate max-w-[90%] font-mono text-sm" title="${path}">${path}</span>
-                                                    <div class="flex items-center">
-                                                        <span class="text-xs text-gray-400 truncate max-w-[90%]" title="${item.name}">${item.name}</span>
-                                                        <span class="ml-2 px-2 py-0.5 text-xs rounded-full ${statusClass}">${item.status || 'ready'}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class="material-icons transition-transform duration-150 flex-shrink-0" id="endpoint-icon-${catIndex}-${endpointIndex}">expand_more</span>
-                                        </button>
-                                        
-                                        <div id="endpoint-${catIndex}-${endpointIndex}" class="hidden bg-gray-800 p-4 border-t border-gray-700">
-                                            <div class="mb-3">
-                                                <div class="text-gray-400 text-xs">${item.desc}</div>
-                                            </div>
-                                            `;
-                        if (item.status === 'ready') {
-                            html += `
-                                                <div>
-                                                    <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
-                                                        <span class="material-icons text-sm mr-1">play_arrow</span>
-                                                        TRY IT OUT
-                                                    </div>
-                                                    <div>
-                                                        <form id="form-${catIndex}-${endpointIndex}" onsubmit="executeRequest(event, ${catIndex}, ${endpointIndex}, '${method}', '${path}', 'application/json')">
-                                                            <div class="mb-4 space-y-2">`;
-                            if (item.params) {
-                                Object.keys(item.params).forEach(paramName => {
-                                    const isRequired = !queryParams.has(paramName) || queryParams.get(paramName) === '';
-                                     html += `<div>
-                                                <label class="block text-xs font-medium text-slate-400 mb-2">${paramName} ${isRequired ? '<span class="text-red-500">*</span>' : ''}</label>
-                                                <input type="text" name="${paramName}" class="w-full px-3 py-2 border border-gray-600 text-sm focus:outline-none focus:border-indigo-500 bg-gray-700 placeholder:text-slate-500" placeholder="${item.params[paramName]}" ${isRequired ? 'required' : ''}>
-                                              </div>`;
-                                });
-                            }
-                            html += `
-                                                            </div>
-                                                            <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 font-semibold text-white px-6 py-2 text-xs font-medium transition-colors duration-150">
-                                                                Execute
-                                                            </button>
-                                                            <button type="button" id="clear-${catIndex}-${endpointIndex}" onclick="clearResponse(${catIndex}, ${endpointIndex})" class="hidden bg-gray-700 border border-gray-600 hover:border-gray-500 font-semibold text-slate-300 px-6 py-2 text-xs font-medium transition-colors duration-150 ml-2">
-                                                                Clear
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>`;
-                        } else {
-                            html += `<div class="text-yellow-400 text-xs p-3 bg-yellow-500/20 border border-yellow-500/30">Endpoint ini tidak dapat diuji coba saat ini.</div>`;
-                        }
-
-                        html += `
-                                            <div id="response-${catIndex}-${endpointIndex}" class="hidden mt-4">
-                                                <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
-                                                    <span class="material-icons text-sm mr-1">code</span>
-                                                    RESPONSE
-                                                </div>
-                                                <div class="bg-gray-900 text-white text-xs p-4 border border-gray-700">
-                                                    <div class="max-h-80 overflow-auto" id="response-content-${catIndex}-${endpointIndex}"></div>
+                                <div class="border-t border-gray-700 api-item" 
+                                     data-method="${method}"
+                                     data-path="${path}"
+                                     data-alias="${item.name}"
+                                     data-description="${item.desc}"
+                                     data-category="${category.name}">
+                                    <button onclick="toggleEndpoint(${catIndex}, ${endpointIndex})" class="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-700 transition-colors duration-150">
+                                        <div class="flex items-center min-w-0 flex-1">
+                                            <span class="inline-block px-3 py-1 text-xs font-semibold text-white mr-3 flex-shrink-0 bg-gray-600">
+                                                ${method}
+                                            </span>
+                                            <div class="flex flex-col min-w-0 flex-1">
+                                                <span class="font-semibold truncate max-w-[90%] font-mono text-sm" title="${path}">${path}</span>
+                                                <div class="flex items-center">
+                                                    <span class="text-xs text-gray-400 truncate max-w-[90%]" title="${item.name}">${item.name}</span>
+                                                    <span class="ml-2 px-2 py-0.5 text-xs rounded-full ${statusClass}">${item.status || 'ready'}</span>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>`;
-                    });
-                    html += `</div></div></div>`;
-                });
-                apiList.innerHTML = html;
-            } catch (error) {
-                apiList.innerHTML = '<p class="text-red-500">Failed to load API data.</p>';
-            }
-        }
-        
-        async function loadNotifications() {
-            const notificationsList = document.getElementById('notifications-list');
-            const unreadCountBadge = document.getElementById('unread-count');
-            try {
-                const response = await fetch('/notifications.json');
-                const notifications = await response.json();
-
-                notificationsList.innerHTML = '';
-                let unreadCount = 0;
-
-                notifications.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-                notifications.forEach(notif => {
-                    if (!notif.read) {
-                        unreadCount++;
+                                        <span class="material-icons transition-transform duration-150 flex-shrink-0" id="endpoint-icon-${catIndex}-${endpointIndex}">expand_more</span>
+                                    </button>
+                                    
+                                    <div id="endpoint-${catIndex}-${endpointIndex}" class="hidden bg-gray-800 p-4 border-t border-gray-700">
+                                        <div class="mb-3">
+                                            <div class="text-gray-400 text-xs">${item.desc}</div>
+                                        </div>
+                                        `;
+                    if (item.status === 'ready') {
+                        html += `
+                                            <div>
+                                                <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
+                                                    <span class="material-icons text-sm mr-1">play_arrow</span>
+                                                    TRY IT OUT
+                                                </div>
+                                                <div>
+                                                    <form id="form-${catIndex}-${endpointIndex}" onsubmit="executeRequest(event, ${catIndex}, ${endpointIndex}, '${method}', '${path}', 'application/json')">
+                                                        <div class="mb-4 space-y-2">`;
+                        if (item.params) {
+                            Object.keys(item.params).forEach(paramName => {
+                                const isRequired = !queryParams.has(paramName) || queryParams.get(paramName) === '';
+                                 html += `<div>
+                                            <label class="block text-xs font-medium text-slate-400 mb-2">${paramName} ${isRequired ? '<span class="text-red-500">*</span>' : ''}</label>
+                                            <input type="text" name="${paramName}" class="w-full px-3 py-2 border border-gray-600 text-sm focus:outline-none focus:border-indigo-500 bg-gray-700 placeholder:text-slate-500" placeholder="${item.params[paramName]}" ${isRequired ? 'required' : ''}>
+                                          </div>`;
+                            });
+                        }
+                        html += `
+                                                        </div>
+                                                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 font-semibold text-white px-6 py-2 text-xs font-medium transition-colors duration-150">
+                                                            Execute
+                                                        </button>
+                                                        <button type="button" id="clear-${catIndex}-${endpointIndex}" onclick="clearResponse(${catIndex}, ${endpointIndex})" class="hidden bg-gray-700 border border-gray-600 hover:border-gray-500 font-semibold text-slate-300 px-6 py-2 text-xs font-medium transition-colors duration-150 ml-2">
+                                                            Clear
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>`;
+                    } else {
+                        html += `<div class="text-yellow-400 text-xs p-3 bg-yellow-500/20 border border-yellow-500/30">Endpoint ini tidak dapat diuji coba saat ini.</div>`;
                     }
-                    const notifElement = document.createElement('div');
-                    notifElement.className = `bg-gray-800 border border-gray-700 p-4 text-xs ${notif.read ? 'opacity-60' : ''}`;
-                    notifElement.innerHTML = `
-                        <div class="flex justify-between items-start">
-                            <div class="flex-1">
-                                <p class="font-bold text-slate-300 mb-1">${notif.title}</p>
-                                <p class="text-slate-400">${notif.message}</p>
-                            </div>
-                            <div class="flex items-center ml-4 flex-shrink-0">
-                                ${!notif.read ? '<div class="w-2 h-2 bg-green-400 rounded-full mr-2" title="Unread"></div>' : ''}
-                                <span class="text-slate-500">${new Date(notif.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-                            </div>
-                        </div>
-                    `;
-                    notificationsList.appendChild(notifElement);
+
+                    html += `
+                                        <div id="response-${catIndex}-${endpointIndex}" class="hidden mt-4">
+                                            <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
+                                                <span class="material-icons text-sm mr-1">code</span>
+                                                RESPONSE
+                                            </div>
+                                            <div class="bg-gray-900 text-white text-xs p-4 border border-gray-700">
+                                                <div class="max-h-80 overflow-auto" id="response-content-${catIndex}-${endpointIndex}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
                 });
-
-                if (unreadCount > 0) {
-                    unreadCountBadge.textContent = `${unreadCount} Belum dibaca`;
-                    unreadCountBadge.classList.remove('hidden');
-                }
-
-            } catch (error) {
-                notificationsList.innerHTML = '<p class="text-red-500 text-xs">Gagal memuat notifikasi.</p>';
-            }
+                html += `</div></div></div>`;
+            });
+            apiList.innerHTML = html;
+        } catch (error) {
+            apiList.innerHTML = '<p class="text-red-500">Failed to load API data.</p>';
+            console.error('Error loading API data:', error);
         }
+    }
+    
+    // Function to load and render notifications
+    async function loadNotifications() {
+        const notificationsList = document.getElementById('notifications-list');
+        const unreadCountBadge = document.getElementById('unread-count');
+        try {
+            const response = await fetch('/notifications.json');
+            const notifications = await response.json();
 
-        document.getElementById('searchInput').addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const apiItems = document.querySelectorAll('.api-item');
-            const categories = document.querySelectorAll('.category-group');
-            const noResults = document.getElementById('noResults');
-            let visibleCount = 0;
+            notificationsList.innerHTML = ''; // Clear loader
+            let unreadCount = 0;
 
-            apiItems.forEach(item => {
-                const path = item.dataset.path.toLowerCase();
-                const alias = item.dataset.alias.toLowerCase();
-                const description = item.dataset.description.toLowerCase();
-                
-                if (path.includes(searchTerm) || alias.includes(searchTerm) || description.includes(searchTerm)) {
-                    item.style.display = '';
-                    visibleCount++;
-                } else {
-                    item.style.display = 'none';
+            // Sort notifications by date, newest first
+            notifications.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            notifications.forEach(notif => {
+                if (!notif.read) {
+                    unreadCount++;
                 }
+                const notifElement = document.createElement('div');
+                notifElement.className = `bg-gray-800 border border-gray-700 p-4 text-xs ${notif.read ? 'opacity-60' : ''}`;
+                notifElement.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <p class="font-bold text-slate-300 mb-1">${notif.title}</p>
+                            <p class="text-slate-400">${notif.message}</p>
+                        </div>
+                        <div class="flex items-center ml-4 flex-shrink-0">
+                            ${!notif.read ? '<div class="w-2 h-2 bg-green-400 rounded-full mr-2" title="Unread"></div>' : ''}
+                            <span class="text-slate-500">${new Date(notif.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                        </div>
+                    </div>
+                `;
+                notificationsList.appendChild(notifElement);
             });
 
-            categories.forEach(category => {
-                const visibleItems = category.querySelectorAll('.api-item[style=""]');
-                if (visibleItems.length > 0) {
-                    category.style.display = '';
-                } else {
-                    category.style.display = 'none';
-                }
-            });
+            if (unreadCount > 0) {
+                unreadCountBadge.textContent = `${unreadCount} Belum dibaca`;
+                unreadCountBadge.classList.remove('hidden');
+            }
 
-            if (visibleCount === 0) {
-                noResults.style.display = 'block';
+        } catch (error) {
+            notificationsList.innerHTML = '<p class="text-red-500 text-xs">Gagal memuat notifikasi.</p>';
+            console.error('Error loading notifications:', error);
+        }
+    }
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const apiItems = document.querySelectorAll('.api-item');
+        const categories = document.querySelectorAll('.category-group');
+        const noResults = document.getElementById('noResults');
+        let visibleCount = 0;
+
+        apiItems.forEach(item => {
+            const path = item.dataset.path.toLowerCase();
+            const alias = item.dataset.alias.toLowerCase();
+            const description = item.dataset.description.toLowerCase();
+            
+            if (path.includes(searchTerm) || alias.includes(searchTerm) || description.includes(searchTerm)) {
+                item.style.display = '';
+                visibleCount++;
             } else {
-                noResults.style.display = 'none';
+                item.style.display = 'none';
             }
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            applyTheme();
-            loadLinks();
-            loadApis();
-            loadNotifications();
+        categories.forEach(category => {
+            const visibleItems = category.querySelectorAll('.api-item[style=""]');
+            if (visibleItems.length > 0) {
+                category.style.display = '';
+            } else {
+                category.style.display = 'none';
+            }
         });
-    </script>
+
+        if (visibleCount === 0) {
+            noResults.style.display = 'block';
+        } else {
+            noResults.style.display = 'none';
+        }
+    });
+
+
+    // Initial load
+    document.addEventListener('DOMContentLoaded', () => {
+        loadApis();
+        loadNotifications();
+    });
+</script>
+
 </body>
 </html>
-                                         
