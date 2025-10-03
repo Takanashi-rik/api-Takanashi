@@ -3,7 +3,7 @@ const cheerio = require("cheerio")
 
 async function happymod(query) {
   try {
-    const res = await axios.get("https://unduh.happymod.com/search.html?q=" + query);
+    const res = await axios.get("https://happymod.pro/search.html?q=" + query);
     const html = res.data;
     const $ = cheerio.load(html);
     const data = [];
@@ -16,7 +16,7 @@ async function happymod(query) {
         data.push({
           name: appName,
           version: appVersion,
-          url: "https://unduh.happymod.com/"+appUrl
+          url: "https://happymod.pro/"+appUrl
         });
       }
     });
