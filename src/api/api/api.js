@@ -26,4 +26,4 @@ app.get('/api/status', async (req, res) => {
             res.status(500).send(`Error: ${error.message}`);
         }
 });
-                                           }
+}
