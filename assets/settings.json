@@ -14,7 +14,7 @@
     },
     "categories": [
         {
-            "nama": "AI",
+            "name":  "AI",
             "items": [
                 {
                     "name": "AI Arona",
@@ -173,7 +173,7 @@
             ]
         },
         {
-            "nama": "Anime & Manga",
+            "name":  "Anime & Manga",
             "items": [
                 {
                     "name": "Alqanime Detail",
@@ -467,7 +467,7 @@
             ]
         },
         {
-            "nama": "Download",
+            "name":  "Download",
             "items": [
                 {
                     "name": "9xBuddy Download",
@@ -679,7 +679,7 @@
             ]
         },
         {
-            "nama": "Games",
+            "name":  "Games",
             "items": [
                 {
                     "name": "Asah Otak",
@@ -854,7 +854,7 @@
             ]
         },
         {
-            "nama": "Maker",
+            "name":  "Maker",
             "items": [
                 {
                     "name": "Brat Image",
@@ -880,7 +880,7 @@
                     "path": "/maker/fakecall",
                     "status": "ready",
                     "params": {
-                        "nama": "string",
+                        "name":  "string",
                         "durasi": "string",
                         "avatar": "string"
                     }
@@ -902,7 +902,7 @@
             ]
         },
         {
-            "nama": "NSFW",
+            "name":  "NSFW",
             "items": [
                 {
                     "name": "NSFW 69",
@@ -1026,7 +1026,7 @@
             ]
         },
         {
-            "nama": "Random",
+            "name":  "Random",
             "items": [
                 {
                     "name": "Anime Quote",
@@ -1227,7 +1227,7 @@
             ]
         },
         {
-            "nama": "Search",
+            "name":  "Search",
             "items": [
                 {
                     "name": "AN1 Search",
@@ -1464,7 +1464,7 @@
             ]
         },
         {
-            "nama": "Tools",
+            "name":  "Tools",
             "items": [
                 {
                     "name": "API Status",
