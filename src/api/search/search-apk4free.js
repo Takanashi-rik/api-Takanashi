@@ -1,8 +1,8 @@
 const axios = require('axios');
 
-async function searchAn1(query) {
+async function searchApk4Free(query) {
     try {
-        const apiUrl = `https://api.siputzx.my.id/api/apk/an1?search=${encodeURIComponent(query)}`;
+        const apiUrl = `https://api.nekolabs.my.id/discovery/apk4free/search?q=${encodeURIComponent(query)}`;
         
         const { data } = await axios.get(apiUrl, {
             timeout: 30000,
@@ -12,19 +12,19 @@ async function searchAn1(query) {
         });
 
         if (!data) {
-            throw new Error("Response kosong dari AN1 API");
+            throw new Error("Response kosong dari Apk4Free API");
         }
 
         const result = data.result || data.data || data;
         return result;
     } catch (error) {
-        console.error("Error AN1 Search:", error.message);
+        console.error("Error Apk4Free Search:", error.message);
         throw error;
     }
 }
 
 module.exports = function (app) {
-    app.get('/search/an1', async (req, res) => {
+    app.get('/search/apk4free', async (req, res) => {
         const { q } = req.query;
 
         if (!q) {
@@ -44,13 +44,13 @@ module.exports = function (app) {
         }
 
         try {
-            const results = await searchAn1(q.trim());
+            const results = await searchApk4Free(q.trim());
             
             if (!results || (Array.isArray(results) && results.length === 0)) {
                 return res.status(404).json({
                     status: false,
                     creator: "Takanashi",
-                    message: "Tidak ada aplikasi yang ditemukan di AN1."
+                    message: "Tidak ada hasil yang ditemukan di Apk4Free."
                 });
             }
 
@@ -60,13 +60,13 @@ module.exports = function (app) {
                 result: results
             });
         } catch (error) {
-            console.error("Error AN1 Search API:", error.message);
+            console.error("Error Apk4Free Search API:", error.message);
             
             if (error.code === 'ECONNABORTED') {
                 return res.status(408).json({
                     status: false,
                     creator: "Takanashi",
-                    message: "Request timeout - AN1 API terlalu lama merespons.",
+                    message: "Request timeout - Apk4Free API terlalu lama merespons.",
                     error: "Timeout"
                 });
             }
@@ -75,14 +75,14 @@ module.exports = function (app) {
                 return res.status(error.response.status).json({
                     status: false,
                     creator: "Takanashi",
-                    message: "Gagal mengambil data dari AN1 API.",
+                    message: "Gagal mengambil data dari Apk4Free API.",
                     error: error.response.data?.message || error.response.statusText
                 });
             } else if (error.request) {
                 return res.status(503).json({
                     status: false,
                     creator: "Takanashi",
-                    message: "Tidak dapat terhubung ke AN1 API.",
+                    message: "Tidak dapat terhubung ke Apk4Free API.",
                     error: "Network Error"
                 });
             } else {
