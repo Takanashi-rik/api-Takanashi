@@ -38,8 +38,8 @@ async function capcutdl(url) {
 }
 
 module.exports = function (app) {
-app.get('/download/capcut', async (req, res) => {
-       const { url } = req.query
+    app.get('/download/capcut', async (req, res) => {
+        const { url } = req.query;
         try {
             const results = await capcutdl(url);
             res.status(200).json({
@@ -49,5 +49,5 @@ app.get('/download/capcut', async (req, res) => {
         } catch (error) {
             res.status(500).send(`Error: ${error.message}`);
         }
-});
+    });
 }
