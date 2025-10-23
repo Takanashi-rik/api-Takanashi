@@ -1,9 +1,9 @@
 const axios = require('axios');
 
 module.exports = function (app) {
-    app.get("/games/asahotak", async (req, res) => {
+    app.get("/games/tekateki", async (req, res) => {
         try {
-            const apiUrl = "https://raw.githubusercontent.com/BochilTeam/database/master/games/asahotak.json";
+            const apiUrl = "https://raw.githubusercontent.com/BochilTeam/database/refs/heads/master/games/tekateki.json";
             
             const { data } = await axios.get(apiUrl, {
                 timeout: 30000,
@@ -16,12 +16,11 @@ module.exports = function (app) {
                 return res.status(500).json({
                     status: false,
                     creator: "Takanashi",
-                    message: "Data asahotak tidak valid atau kosong.",
+                    message: "Data tekateki tidak valid atau kosong.",
                     error: "Invalid data format"
                 });
             }
 
-            // Ambil random question dari array JSON
             const randomIndex = Math.floor(Math.random() * data.length);
             const randomQuestion = data[randomIndex];
 
@@ -52,7 +51,7 @@ module.exports = function (app) {
                 return res.status(error.response.status).json({
                     status: false,
                     creator: "Takanashi",
-                    message: "Gagal mengambil data asahotak dari GitHub.",
+                    message: "Gagal mengambil data tekateki dari GitHub.",
                     error: error.response.data?.message || error.response.statusText
                 });
             } else if (error.request) {

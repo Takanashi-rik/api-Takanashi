@@ -1,9 +1,9 @@
 const axios = require('axios');
 
 module.exports = function (app) {
-    app.get("/games/asahotak", async (req, res) => {
+    app.get("/games/tebakkarakterfreefire", async (req, res) => {
         try {
-            const apiUrl = "https://raw.githubusercontent.com/BochilTeam/database/master/games/asahotak.json";
+            const apiUrl = "https://raw.githubusercontent.com/siputzx/karakter-freefire/refs/heads/main/data.json";
             
             const { data } = await axios.get(apiUrl, {
                 timeout: 30000,
@@ -16,14 +16,13 @@ module.exports = function (app) {
                 return res.status(500).json({
                     status: false,
                     creator: "Takanashi",
-                    message: "Data asahotak tidak valid atau kosong.",
+                    message: "Data karakter free fire tidak valid atau kosong.",
                     error: "Invalid data format"
                 });
             }
 
-            // Ambil random question dari array JSON
             const randomIndex = Math.floor(Math.random() * data.length);
-            const randomQuestion = data[randomIndex];
+            const randomCharacter = data[randomIndex];
 
             res.json({
                 status: true,
@@ -31,8 +30,9 @@ module.exports = function (app) {
                 result: {
                     data: {
                         index: randomIndex,
-                        soal: randomQuestion.soal,
-                        jawaban: randomQuestion.jawaban
+                        nama: randomCharacter.name,
+                        gambar: randomCharacter.image,
+                        deskripsi: randomCharacter.description
                     },
                     timestamp: new Date().toISOString()
                 }
@@ -52,7 +52,7 @@ module.exports = function (app) {
                 return res.status(error.response.status).json({
                     status: false,
                     creator: "Takanashi",
-                    message: "Gagal mengambil data asahotak dari GitHub.",
+                    message: "Gagal mengambil data karakter free fire dari GitHub.",
                     error: error.response.data?.message || error.response.statusText
                 });
             } else if (error.request) {
