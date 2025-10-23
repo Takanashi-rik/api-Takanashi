@@ -5,32 +5,22 @@ module.exports = function (app) {
         try {
             const apiUrl = "https://api.nekolabs.my.id/random/nsfwhub/fuck";
             
-            const { data } = await axios.get(apiUrl, {
+            const imageResponse = await axios.get(apiUrl, {
+                responseType: 'stream',
                 timeout: 30000,
                 headers: {
                     "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36"
                 }
             });
 
-            if (!data || !data.result || !data.result.url) {
-                return res.status(500).json({
-                    status: false,
-                    creator: "Takanashi",
-                    message: "Data tidak valid atau kosong.",
-                    error: "Invalid data format"
-                });
+            res.setHeader('Content-Type', imageResponse.headers['content-type'] || 'image/jpeg');
+            res.setHeader('Cache-Control', imageResponse.headers['cache-control'] || 'public, max-age=3600');
+            
+            if (imageResponse.headers['content-length']) {
+                res.setHeader('Content-Length', imageResponse.headers['content-length']);
             }
 
-            const imageResponse = await axios.get(data.result.url, {
-                responseType: 'arraybuffer',
-                timeout: 30000
-            });
-
-            res.writeHead(200, {
-                'Content-Type': imageResponse.headers['content-type'] || 'image/jpeg',
-                'Content-Length': imageResponse.data.length,
-            });
-            res.end(imageResponse.data);
+            imageResponse.data.pipe(res);
 
         } catch (error) {
             if (error.code === 'ECONNABORTED') {
@@ -43,11 +33,16 @@ module.exports = function (app) {
             }
             
             if (error.response) {
+                if (error.response.headers['content-type'] && error.response.headers['content-type'].includes('image')) {
+                    res.setHeader('Content-Type', error.response.headers['content-type']);
+                    return res.status(error.response.status).send(error.response.data);
+                }
+                
                 return res.status(error.response.status).json({
                     status: false,
                     creator: "Takanashi",
                     message: "Gagal mengambil data dari API.",
-                    error: error.response.data?.message || error.response.statusText
+                    error: error.response.statusText
                 });
             } else if (error.request) {
                 return res.status(503).json({
