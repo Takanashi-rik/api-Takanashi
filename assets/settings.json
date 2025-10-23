@@ -14,54 +14,1024 @@
     },
     "categories": [
         {
-            "name": "Random",
+            "nama": "AI",
             "items": [
                 {
-                    "name": "Anime Quote",
-                    "desc": "Random anime quote - kutipan acak dari berbagai anime dengan karakter dan judul",
+                    "name": "AI Arona",
+                    "desc": "Chat dengan Arona dari Blue Archive - asisten AI yang lembut, sopan, dan penuh perhatian untuk Sensei",
+                    "path": "/ai/aiarona?text=",
+                    "status": "ready",
+                    "params": {
+                        "text": "Pertanyaan atau pesan untuk Arona"
+                    }
+                },
+                {
+                    "name": "AoyoAI",
+                    "desc": "Chat dengan AoyoAI model - AI chatting dengan performa cepat dan akurat",
+                    "path": "/ai/aoyoai?text=",
+                    "status": "ready",
+                    "params": {
+                        "text": "Teks atau pesan untuk AI"
+                    }
+                },
+                {
+                    "name": "Chatbox",
+                    "desc": "Chat dengan AI custom - tentukan nama dan prompt karakter AI sesuai keinginan",
+                    "path": "/ai/chatbox?name=&prompt=&text=",
+                    "status": "ready",
+                    "params": {
+                        "name": "Nama karakter AI",
+                        "prompt": "Prompt/personality untuk AI",
+                        "text": "Pertanyaan atau pesan untuk AI"
+                    }
+                },
+                {
+                    "name": "Claude 3.5 Haiku",
+                    "desc": "Chat dengan Claude 3.5 Haiku dari Anthropic - AI yang analitis dan detail-oriented",
+                    "path": "/ai/claude?text=&prompt=",
+                    "status": "ready",
+                    "params": {
+                        "text": "Pertanyaan atau pesan untuk Claude",
+                        "prompt": "Custom prompt (opsional)"
+                    }
+                },
+                {
+                    "name": "DeepSeek R1",
+                    "desc": "Chat dengan DeepSeek R1 model - AI reasoning yang powerful untuk analisis mendalam",
+                    "path": "/ai/deepseek?text=",
+                    "status": "ready",
+                    "params": {
+                        "text": "Teks atau pertanyaan untuk DeepSeek"
+                    }
+                },
+                {
+                    "name": "GPT 3.5 Turbo",
+                    "desc": "Chat dengan GPT 3.5 Turbo - model cepat dan efisien untuk berbagai keperluan",
+                    "path": "/ai/gpt-turbo?text=&prompt=",
+                    "status": "ready",
+                    "params": {
+                        "text": "Pertanyaan atau pesan untuk AI",
+                        "prompt": "Custom prompt (opsional)"
+                    }
+                },
+                {
+                    "name": "GPT 4.1",
+                    "desc": "Chat dengan GPT 4.1 - model advanced dengan kemampuan reasoning yang superior",
+                    "path": "/ai/gpt-4.1?text=&prompt=",
+                    "status": "ready",
+                    "params": {
+                        "text": "Pertanyaan atau pesan untuk AI",
+                        "prompt": "Custom prompt (opsional)"
+                    }
+                },
+                {
+                    "name": "GPT 4.1 Mini",
+                    "desc": "Chat dengan GPT 4.1 Mini - model compact dengan kemampuan analisis yang baik",
+                    "path": "/ai/gpt-mini?text=&prompt=",
+                    "status": "ready",
+                    "params": {
+                        "text": "Pertanyaan atau pesan untuk AI",
+                        "prompt": "Custom prompt (opsional)"
+                    }
+                },
+                {
+                    "name": "GPT 4.1 Nano",
+                    "desc": "Chat dengan GPT 4.1 Nano - model ringan dengan performa optimal untuk tugas sehari-hari",
+                    "path": "/ai/gpt-nano?text=&prompt=",
+                    "status": "ready",
+                    "params": {
+                        "text": "Pertanyaan atau pesan untuk AI",
+                        "prompt": "Custom prompt (opsional)"
+                    }
+                },
+                {
+                    "name": "GPT-3 AI",
+                    "desc": "Chat dengan model GPT-3 dari OpenAI - cocok untuk tugas umum dan percakapan sehari-hari",
+                    "path": "/ai/gpt3?prompt=&content=",
+                    "status": "ready",
+                    "params": {
+                        "prompt": "Sistem prompt (opsional)",
+                        "content": "Pertanyaan atau pesan untuk GPT-3"
+                    }
+                },
+                {
+                    "name": "GPT-5",
+                    "desc": "Chat dengan GPT-5 - model terbaru dengan kemampuan AI generatif paling mutakhir",
+                    "path": "/ai/gpt-5?text=&prompt=",
+                    "status": "ready",
+                    "params": {
+                        "text": "Pertanyaan atau pesan untuk AI",
+                        "prompt": "Custom prompt (opsional)"
+                    }
+                },
+                {
+                    "name": "GPT OSS 120B",
+                    "desc": "Chat dengan GPT OSS 120B model - open source AI berukuran besar dengan kemampuan luas",
+                    "path": "/ai/gpt-oss?text=",
+                    "status": "ready",
+                    "params": {
+                        "text": "Teks atau pertanyaan untuk GPT OSS"
+                    }
+                },
+                {
+                    "name": "Grok 3 Mini",
+                    "desc": "Chat dengan Grok 3 Mini - model AI dari xAI dengan kemampuan reasoning yang cepat dan efisien",
+                    "path": "/ai/grok-mini?text=",
+                    "status": "ready",
+                    "params": {
+                        "text": "Pertanyaan atau pesan untuk AI"
+                    }
+                },
+                {
+                    "name": "Llama 3.3 70B",
+                    "desc": "Chat dengan model Llama 3.3 70B yang powerful - ideal untuk tugas kompleks dan analisis mendalam",
+                    "path": "/ai/llama33?prompt=&text=",
+                    "status": "ready",
+                    "params": {
+                        "prompt": "Custom prompt untuk AI",
+                        "text": "Pertanyaan atau pesan"
+                    }
+                },
+                {
+                    "name": "OpenAI",
+                    "desc": "Chat dengan model OpenAI generik melalui WriteCream - versatile dan responsive",
+                    "path": "/ai/openai?text=",
+                    "status": "ready",
+                    "params": {
+                        "text": "Teks atau pertanyaan untuk AI"
+                    }
+                },
+                {
+                    "name": "Rikka AI",
+                    "desc": "Chat dengan AI karakter Rikka Takanashi - personality dreamy, misterius, dan menyenangkan",
+                    "path": "/ai/rikkaai?text=",
+                    "status": "ready",
+                    "params": {
+                        "text": "Teks atau pertanyaan untuk AI"
+                    }
+                }
+            ]
+        },
+        {
+            "nama": "Anime & Manga",
+            "items": [
+                {
+                    "name": "Alqanime Detail",
+                    "desc": "Detail lengkap anime dari Alqanime - sinopsis, genre, informasi, dan cover",
+                    "path": "/anime/alqanime/detail?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL detail anime dari Alqanime"
+                    }
+                },
+                {
+                    "name": "Alqanime Download",
+                    "desc": "Download episode anime dari Alqanime - berbagai kualitas dan server download",
+                    "path": "/anime/alqanime/download?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL episode anime dari Alqanime"
+                    }
+                },
+                {
+                    "name": "Alqanime Hangat",
+                    "desc": "Anime yang sedang hangat dari Alqanime - series trending dengan update terbaru",
+                    "path": "/anime/alqanime/hangat",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Alqanime Movie",
+                    "desc": "Koleksi movie anime dari Alqanime - film anime dengan kualitas terbaik",
+                    "path": "/anime/alqanime/movie",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Alqanime Ongoing",
+                    "desc": "Anime yang masih ongoing dari Alqanime - series yang masih berlanjut",
+                    "path": "/anime/alqanime/ongoing",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Alqanime Populer",
+                    "desc": "Anime populer mingguan dari Alqanime - series yang banyak ditonton",
+                    "path": "/anime/alqanime/populer",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Alqanime Rilisan",
+                    "desc": "Rilisan anime terbaru dari Alqanime - episode baru yang baru saja dirilis",
+                    "path": "/anime/alqanime/rilisan",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Alqanime Selesai",
+                    "desc": "Anime yang sudah selesai tayang dari Alqanime - series lengkap untuk maraton",
+                    "path": "/anime/alqanime/selesai",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Anime Populer",
+                    "desc": "Anime trending dan populer dari AnimeDao - series yang sedang hangat dibicarakan",
+                    "path": "/anime/hot",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Anime Terbaru",
+                    "desc": "Dapatkan anime terbaru dari AnimeDao - update episode dan series terbaru",
+                    "path": "/anime/latest",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Anixverse Detail",
+                    "desc": "Detail anime dari Anixverse - informasi lengkap termasuk sinopsis, gambar, dan daftar episode",
+                    "path": "/detail/anixverse?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL detail anime dari Anixverse"
+                    }
+                },
+                {
+                    "name": "Anixverse Download",
+                    "desc": "Download episode anime dari Anixverse - link download berbagai kualitas video",
+                    "path": "/download/anixverse?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL episode anime dari Anixverse"
+                    }
+                },
+                {
+                    "name": "Anixverse Latest",
+                    "desc": "Dapatkan anime terbaru dari Anixverse - update episode dan series terbaru",
+                    "path": "/latest/anixverse",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Anixverse Search",
+                    "desc": "Cari anime di Anixverse - platform streaming anime dengan berbagai judul terbaru",
+                    "path": "/search/anixverse?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Judul anime atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Berita Anime",
+                    "desc": "Dapatkan berita anime terbaru dari MyAnimeList - update informasi seputar dunia anime",
+                    "path": "/anime/berita",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Berita Anime Kaori",
+                    "desc": "Berita anime terbaru dari Kaori Nusantara - artikel aktual seputar anime",
+                    "path": "/search/anime-news",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Chapter Doujin/Manga",
+                    "desc": "Baca chapter doujin/manga - gambar chapter lengkap untuk dibaca online",
+                    "path": "/anime/doujin/chapter?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL chapter doujin/manga"
+                    }
+                },
+                {
+                    "name": "Detail Anime",
+                    "desc": "Detail lengkap anime dari AnimeDao - sinopsis, studio, episode, dan informasi lainnya",
+                    "path": "/anime/detail?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL detail anime dari AnimeDao"
+                    }
+                },
+                {
+                    "name": "Detail Berita Anime",
+                    "desc": "Detail lengkap berita anime berdasarkan ID - konten, gambar, dan informasi lengkap",
+                    "path": "/anime/beritaanime?id=",
+                    "status": "ready",
+                    "params": {
+                        "id": "ID berita dari MyAnimeList"
+                    }
+                },
+                {
+                    "name": "Detail Doujin/Manga",
+                    "desc": "Detail lengkap doujin/manga - sinopsis, genre, info chapter, dan cover",
+                    "path": "/anime/doujin/detail?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL detail doujin/manga"
+                    }
+                },
+                {
+                    "name": "Detail Kompi Anime",
+                    "desc": "Detail lengkap anime dari AnimeKompi - info studio, genre, episode, dan rekomendasi",
+                    "path": "/anime/kompi/detail?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL detail anime dari AnimeKompi"
+                    }
+                },
+                {
+                    "name": "Download Doujin/Manga",
+                    "desc": "Download chapter doujin/manga dalam format PDF - convert gambar ke PDF",
+                    "path": "/anime/doujin/download?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL chapter doujin/manga"
+                    }
+                },
+                {
+                    "name": "Home Doujin/Manga",
+                    "desc": "Homepage doujin dan manga - koleksi terbaru dengan chapter update",
+                    "path": "/anime/doujin/home?page=",
+                    "status": "ready",
+                    "params": {
+                        "page": "Nomor halaman (opsional, default: 1)"
+                    }
+                },
+                {
+                    "name": "Home Kompi Anime",
+                    "desc": "Homepage AnimeKompi - slide anime, rilisan terbaru, dan rekomendasi berdasarkan genre",
+                    "path": "/anime/kompi/home?page=",
+                    "status": "ready",
+                    "params": {
+                        "page": "Nomor halaman (opsional, default: 1)"
+                    }
+                },
+                {
+                    "name": "Jadwal Rilis Anime",
+                    "desc": "Jadwal rilis anime mingguan dari LiveChart - update episode baru per hari",
+                    "path": "/anime/jadwalrilis",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Mikoroku Download",
+                    "desc": "Download chapter dari Mikoroku - extract link download berbagai format file (PDF, ZIP, EPUB, dll)",
+                    "path": "/download/mikoroku?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL chapter dari Mikoroku"
+                    }
+                },
+                {
+                    "name": "Mikoroku Download by Chapter ID",
+                    "desc": "Download chapter dari Mikoroku menggunakan Chapter ID - alternatif endpoint untuk download",
+                    "path": "/download/mikoroku/chapter?chapterId=",
+                    "status": "ready",
+                    "params": {
+                        "chapterId": "ID chapter dari Mikoroku"
+                    }
+                },
+                {
+                    "name": "Mikoroku Search",
+                    "desc": "Cari konten di Mikoroku - platform untuk berbagai jenis konten dengan info detail lengkap",
+                    "path": "/search/mikoroku?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL konten dari Mikoroku"
+                    }
+                },
+                {
+                    "name": "Nekopoi Search",
+                    "desc": "Cari konten di Nekopoi - platform untuk berbagai jenis konten media",
+                    "path": "/search/nekopoi?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Kata kunci pencarian"
+                    }
+                },
+                {
+                    "name": "Pencarian Alqanime",
+                    "desc": "Cari anime di Alqanime berdasarkan judul atau kata kunci",
+                    "path": "/anime/alqanime/search?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Judul anime atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Pencarian Anime",
+                    "desc": "Cari anime di AnimeDao berdasarkan judul atau kata kunci",
+                    "path": "/anime/search?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Judul anime atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Pencarian Doujin/Manga",
+                    "desc": "Cari doujin dan manga berdasarkan judul atau kata kunci",
+                    "path": "/anime/doujin/search?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Judul doujin/manga atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Pencarian Kompi Anime",
+                    "desc": "Cari anime di AnimeKompi berdasarkan judul atau kata kunci",
+                    "path": "/anime/kompi/search?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Judul anime atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Revinime Update",
+                    "desc": "Update anime terbaru dari Revinime - last update dengan info episode dan gambar",
+                    "path": "/anime/revinime",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Stream Kompi Anime",
+                    "desc": "Streaming anime dari AnimeKompi - server streaming, download links, dan info episode",
+                    "path": "/anime/kompi/stream?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL streaming episode anime"
+                    }
+                }
+            ]
+        },
+        {
+            "nama": "Download",
+            "items": [
+                {
+                    "name": "9xBuddy Download",
+                    "desc": "Download video dari berbagai platform menggunakan 9xBuddy - support multiple format",
+                    "path": "/download/9xbuddy?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL video dari berbagai platform"
+                    }
+                },
+                {
+                    "name": "Anixverse Download",
+                    "desc": "Download episode anime dari Anixverse - link download berbagai kualitas video",
+                    "path": "/download/anixverse?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL episode anime dari Anixverse"
+                    }
+                },
+                {
+                    "name": "CapCut Download",
+                    "desc": "Download video template CapCut - dapatkan video template dengan kualitas original",
+                    "path": "/download/capcut?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL template CapCut"
+                    }
+                },
+                {
+                    "name": "Chapter Doujin/Manga",
+                    "desc": "Baca chapter doujin/manga - gambar chapter lengkap untuk dibaca online",
+                    "path": "/anime/doujin/chapter?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL chapter doujin/manga"
+                    }
+                },
+                {
+                    "name": "Download Alqanime",
+                    "desc": "Download episode anime dari Alqanime - berbagai kualitas dan server download",
+                    "path": "/anime/alqanime/download?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL episode anime dari Alqanime"
+                    }
+                },
+                {
+                    "name": "Download Doujin/Manga",
+                    "desc": "Download chapter doujin/manga dalam format PDF - convert gambar ke PDF",
+                    "path": "/anime/doujin/download?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL chapter doujin/manga"
+                    }
+                },
+                {
+                    "name": "Doodstream Download",
+                    "desc": "Download video dari Doodstream - extract link download dari platform Doodstream",
+                    "path": "/download/doodstream?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL video Doodstream"
+                    }
+                },
+                {
+                    "name": "Douyin Download",
+                    "desc": "Download video Douyin (TikTok China) - support download video dari platform Douyin",
+                    "path": "/download/douyin?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL video Douyin"
+                    }
+                },
+                {
+                    "name": "Instagram Download",
+                    "desc": "Download video dan foto Instagram - support download media dari post Instagram",
+                    "path": "/download/instagram?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL post Instagram"
+                    }
+                },
+                {
+                    "name": "MediaFire Download",
+                    "desc": "Download file dari MediaFire - extract direct download link dari platform MediaFire",
+                    "path": "/download/mediafire?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL file MediaFire"
+                    }
+                },
+                {
+                    "name": "Mikoroku Download",
+                    "desc": "Download chapter dari Mikoroku - extract link download berbagai format file (PDF, ZIP, EPUB, dll)",
+                    "path": "/download/mikoroku?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL chapter dari Mikoroku"
+                    }
+                },
+                {
+                    "name": "Mikoroku Download by Chapter ID",
+                    "desc": "Download chapter dari Mikoroku menggunakan Chapter ID - alternatif endpoint untuk download",
+                    "path": "/download/mikoroku/chapter?chapterId=",
+                    "status": "ready",
+                    "params": {
+                        "chapterId": "ID chapter dari Mikoroku"
+                    }
+                },
+                {
+                    "name": "PixelDrain Download",
+                    "desc": "Download file dari PixelDrain - dapatkan info lengkap dan link download file",
+                    "path": "/download/pixeldrain?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL file PixelDrain"
+                    }
+                },
+                {
+                    "name": "SnackVideo Download",
+                    "desc": "Download video SnackVideo - download video tanpa watermark dari platform SnackVideo",
+                    "path": "/download/snackvideo?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL video SnackVideo"
+                    }
+                },
+                {
+                    "name": "Spotify Download",
+                    "desc": "Download lagu dari Spotify - convert track Spotify ke format audio berkualitas tinggi",
+                    "path": "/download/spotify?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL track Spotify"
+                    }
+                },
+                {
+                    "name": "Stream Kompi Anime",
+                    "desc": "Streaming anime dari AnimeKompi - server streaming, download links, dan info episode",
+                    "path": "/anime/kompi/stream?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL streaming episode anime"
+                    }
+                },
+                {
+                    "name": "TikTok Download",
+                    "desc": "Download video TikTok tanpa watermark - support video HD, musik, dan info lengkap",
+                    "path": "/download/tiktok?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL video TikTok"
+                    }
+                },
+                {
+                    "name": "TikTok Download V2",
+                    "desc": "Download video TikTok V2 - teknologi terbaru untuk download video TikTok berkualitas tinggi",
+                    "path": "/download/tiktok/v2?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL video TikTok"
+                    }
+                },
+                {
+                    "name": "Videy Download",
+                    "desc": "Download video dari Videy.co - extract direct link dari platform Videy",
+                    "path": "/download/videy?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL video Videy"
+                    }
+                },
+                {
+                    "name": "YouTube Download",
+                    "desc": "Download video YouTube kualitas terbaik - otomatis pilih kualitas tertinggi yang tersedia",
+                    "path": "/download/youtube?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL video YouTube"
+                    }
+                },
+                {
+                    "name": "YouTube Download V2",
+                    "desc": "YouTube API V2 - Download video dengan kualitas terbaik menggunakan teknologi terbaru",
+                    "path": "/download/youtubeev2?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL video YouTube"
+                    }
+                },
+                {
+                    "name": "YouTube MP3",
+                    "desc": "Download audio MP3 dari YouTube - convert video YouTube ke format audio berkualitas tinggi",
+                    "path": "/download/ytmp3?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL video YouTube"
+                    }
+                },
+                {
+                    "name": "YouTube MP3 V2",
+                    "desc": "YouTube MP3 API V2 - Download audio MP3 dengan teknologi converter terbaru dan cepat",
+                    "path": "/download/ytmp3v2?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL video YouTube"
+                    }
+                }
+            ]
+        },
+        {
+            "nama": "Games",
+            "items": [
+                {
+                    "name": "Asah Otak",
+                    "desc": "Game asah otak dengan berbagai pertanyaan menantang untuk menguji kecerdasan",
+                    "path": "/games/asahotak",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Buta Warna",
+                    "desc": "Game tebak warna - uji kemampuan mata dalam mengenali warna dari gambar",
+                    "path": "/games/tebakwarna",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Cak Lontong",
+                    "desc": "Game tebak-tebakan ala Cak Lontong dengan pertanyaan lucu dan menghibur",
+                    "path": "/games/caklontong",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Family 100",
+                    "desc": "Game family 100 dengan berbagai pertanyaan seru untuk dimainkan bersama",
+                    "path": "/games/family100",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Lengkap Kalimat",
+                    "desc": "Game melengkapi kalimat - tebak kata yang tepat untuk melengkapi kalimat",
+                    "path": "/games/lengkapikalimat",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Matematika",
+                    "desc": "Game matematika dengan berbagai level kesulitan untuk menguji kemampuan berhitung",
+                    "path": "/games/matematika?level=",
+                    "status": "ready",
+                    "params": {
+                        "level": "Level kesulitan (noob, easy, medium, hard, extreme, impossible)"
+                    }
+                },
+                {
+                    "name": "Siapakah Aku",
+                    "desc": "Game tebak karakter - tebak siapa tokoh berdasarkan petunjuk yang diberikan",
+                    "path": "/games/siapakahaku",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Susun Kata",
+                    "desc": "Game menyusun kata dari huruf acak - uji kemampuan bahasa dan kosakata",
+                    "path": "/games/susunkata",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Aplikasi",
+                    "desc": "Game tebak aplikasi berdasarkan icon - kenali aplikasi dari logonya",
+                    "path": "/games/tebakapp",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Bendera",
+                    "desc": "Game tebak bendera negara - kenali bendera dari berbagai negara di dunia",
+                    "path": "/games/tebakbendera",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Gambar",
+                    "desc": "Game tebak gambar - kenali objek dari gambar yang ditampilkan",
+                    "path": "/games/tebakgambar",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Game",
+                    "desc": "Game tebak game - kenali game dari petunjuk yang diberikan",
+                    "path": "/games/tebakgame",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Hero ML",
+                    "desc": "Game tebak hero Mobile Legends dari audio quote - kenali hero dari suaranya",
+                    "path": "/games/tebakheroml",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Kabupaten",
+                    "desc": "Game tebak kabupaten Indonesia - kenali kabupaten dari peta dan informasinya",
+                    "path": "/games/tebakkabupaten",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Kalimat",
+                    "desc": "Game tebak kalimat - tebak jawaban dari pertanyaan yang diberikan",
+                    "path": "/games/tebakkalimat",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Karakter Free Fire",
+                    "desc": "Game tebak karakter Free Fire - kenali karakter dari game battle royale populer",
+                    "path": "/games/tebakkarakterfreefire",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Kartun",
+                    "desc": "Game tebak kartun - kenali karakter kartun dari gambar yang ditampilkan",
+                    "path": "/games/tebakkartun",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Kata",
+                    "desc": "Game tebak kata - tebak kata dari petunjuk yang diberikan",
+                    "path": "/games/tebakkata",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Kimia",
+                    "desc": "Game tebak unsur kimia - kenali unsur dari lambang kimianya",
+                    "path": "/games/tebakkimia",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Lagu",
+                    "desc": "Game tebak lagu - kenali judul lagu dan penyanyinya",
+                    "path": "/games/tebaklagu",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Lirik",
+                    "desc": "Game tebak lirik lagu - tebak judul lagu dari lirik yang diberikan",
+                    "path": "/games/tebaklirik",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Surah",
+                    "desc": "Game tebak surah Al-Quran - kenali surah dari ayat yang dibacakan",
+                    "path": "/games/tebaksurah",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tebak Tebakan",
+                    "desc": "Game tebak-tebakan umum dengan berbagai pertanyaan seru dan menghibur",
+                    "path": "/games/tebaktebakan",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Tekateki",
+                    "desc": "Game tekateki dengan berbagai teka-teki menantang untuk mengasah otak",
+                    "path": "/games/tekateki",
+                    "status": "ready",
+                    "params": {}
+                }
+            ]
+        },
+        {
+            "nama": "Maker",
+            "items": [
+                {
+                    "name": "Brat Image",
+                    "desc": "Generate gambar brat dengan teks custom",
+                    "path": "/maker/brat",
+                    "status": "ready",
+                    "params": {
+                        "text": "string"
+                    }
+                },
+                {
+                    "name": "Brat Video",
+                    "desc": "Generate video/gif brat dengan teks custom",
+                    "path": "/maker/bratvid",
+                    "status": "ready",
+                    "params": {
+                        "text": "string"
+                    }
+                },
+                {
+                    "name": "Fake Call",
+                    "desc": "Generate gambar fake call",
+                    "path": "/maker/fakecall",
+                    "status": "ready",
+                    "params": {
+                        "nama": "string",
+                        "durasi": "string",
+                        "avatar": "string"
+                    }
+                },
+                {
+                    "name": "iPhone Chat",
+                    "desc": "Generate screenshot chat iPhone",
+                    "path": "/maker/iqc",
+                    "status": "ready",
+                    "params": {
+                        "time": "string",
+                        "messageText": "string",
+                        "carrierName": "string",
+                        "batteryPercentage": "string",
+                        "signalStrength": "string",
+                        "emojiStyle": "string"
+                    }
+                }
+            ]
+        },
+        {
+            "nama": "NSFW",
+            "items": [
+                {
+                    "name": "NSFW 69",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
                     "path": "/random/nsfw/69",
                     "status": "ready",
                     "params": {}
                 },
                 {
-                    "name": "Anime Quote",
-                    "desc": "Random anime quote - kutipan acak dari berbagai anime dengan karakter dan judul",
-                    "path": "/random/anime-quote",
-                    "status": "ready",
-                    "params": {}
-                },
-                {
-                    "name": "Blue Archive",
-                    "desc": "Random Blue Archive image - gambar karakter acak dari game Blue Archive",
+                    "name": "NSFW Anal",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
                     "path": "/random/nsfw/anal",
                     "status": "ready",
                     "params": {}
                 },
                 {
-                    "name": "Cat",
-                    "desc": "Random cat image - gambar kucing lucu dan menggemaskan secara acak",
+                    "name": "NSFW Ass",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
                     "path": "/random/nsfw/ass",
                     "status": "ready",
                     "params": {}
                 },
                 {
-                    "name": "China Girl",
-                    "desc": "Random China girl image - gambar gadis China cantik secara acak",
-                    "path": "/random/nsfw/blowjob,
+                    "name": "NSFW BlowJob",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/blowjob",
                     "status": "ready",
                     "params": {}
                 },
                 {
-                    "name": "Indonesia Girl",
-                    "desc": "Random Indonesia girl image - gambar gadis Indonesia cantik secara acak",
+                    "name": "NSFW Boobs",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
                     "path": "/random/nsfw/boobs",
                     "status": "ready",
                     "params": {}
                 },
                 {
-                    "name": "Japan Girl",
-                    "desc": "Random Japan girl image - gambar gadis Jepang cantik secara acak",
+                    "name": "NSFW BottomLess",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
                     "path": "/random/nsfw/bottomless",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Cum",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/cum",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW CumsLuts",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/cumsluts",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Fingers",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/finger",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Fuck",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/fuck",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Futa",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/futa",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Gay",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/gay",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Hentai",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/hentai",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Kiss",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/kiss",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Lesbian",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/lesbian",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Pussy",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/pussy",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Real",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/real",
+                    "status": "ready",
+                    "params": {}
+                }
+            ]
+        },
+        {
+            "nama": "Random",
+            "items": [
+                {
+                    "name": "Anime Quote",
+                    "desc": "Random anime quote - kutipan acak dari berbagai anime dengan karakter dan judul",
+                    "path": "/random/anime-quote",
                     "status": "ready",
                     "params": {}
                 },
@@ -76,48 +1046,6 @@
                     "name": "Cat",
                     "desc": "Random cat image - gambar kucing lucu dan menggemaskan secara acak",
                     "path": "/random/cat",
-                    "status": "ready",
-                    "params": {}
-                },
-                {
-                    "name": "Korea Girl",
-                    "desc": "Random Korea girl image - gambar gadis Korea cantik secara acak",
-                    "path": "/random/nsfw/cum",
-                    "status": "ready",
-                    "params": {}
-                },
-                {
-                    "name": "Anime Quote",
-                    "desc": "Random anime quote - kutipan acak dari berbagai anime dengan karakter dan judul",
-                    "path": "/random/nsfw/cumsluts",
-                    "status": "ready",
-                    "params": {}
-                },
-                {
-                    "name": "Blue Archive",
-                    "desc": "Random Blue Archive image - gambar karakter acak dari game Blue Archive",
-                    "path": "/random/nsfw/finger",
-                    "status": "ready",
-                    "params": {}
-                },
-                {
-                    "name": "Cat",
-                    "desc": "Random cat image - gambar kucing lucu dan menggemaskan secara acak",
-                    "path": "/random/nsfw/fuck",
-                    "status": "ready",
-                    "params": {}
-                },
-                {
-                    "name": "China Girl",
-                    "desc": "Random China girl image - gambar gadis China cantik secara acak",
-                    "path": "/random/nsfw/futa",
-                    "status": "ready",
-                    "params": {}
-                },
-                {
-                    "name": "Indonesia Girl",
-                    "desc": "Random Indonesia girl image - gambar gadis Indonesia cantik secara acak",
-                    "path": "/random/nsfw/gay",
                     "status": "ready",
                     "params": {}
                 },
@@ -150,37 +1078,16 @@
                     "params": {}
                 },
                 {
-                    "name": "Japan Girl",
-                    "desc": "Random Japan girl image - gambar gadis Jepang cantik secara acak",
-                    "path": "/random/nsfw/hentai",
-                    "status": "ready",
-                    "params": {}
-                },
-                {
-                    "name": "Korea Girl",
-                    "desc": "Random Korea girl image - gambar gadis Korea cantik secara acak",
-                    "path": "/random/nsfw/kiss",
-                    "status": "ready",
-                    "params": {}
-                },
-                {
-                    "name": "Konachan",
-                    "desc": "Random Konachan image - gambar anime wallpaper acak dari Konachan",
-                    "path": "/random/nsfw/lesbian",
-                    "status": "ready",
-                    "params": {}
-                },
-                {
-                    "name": "Loli",
-                    "desc": "Random loli image - gambar karakter loli anime secara acak",
-                    "path": "/random/nsfw/pussy",
-                    "status": "ready",
-                    "params": {}
-                },
-                {
                     "name": "Thailand Girl",
                     "desc": "Random Thailand girl image - gambar gadis Thailand cantik secara acak",
-                    "path": "/random/nsfw/real",
+                    "path": "/random/girl/thailand",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Vietnam Girl",
+                    "desc": "Random Vietnam girl image - gambar gadis Vietnam cantik secara acak",
+                    "path": "/random/girl/vietnam",
                     "status": "ready",
                     "params": {}
                 },
@@ -199,16 +1106,377 @@
                     "params": {}
                 },
                 {
-                    "name": "Thailand Girl",
-                    "desc": "Random Thailand girl image - gambar gadis Thailand cantik secara acak",
-                    "path": "/random/girl/thailand",
+                    "name": "NSFW 69",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/69",
                     "status": "ready",
                     "params": {}
                 },
                 {
-                    "name": "Vietnam Girl",
-                    "desc": "Random Vietnam girl image - gambar gadis Vietnam cantik secara acak",
-                    "path": "/random/girl/vietnam",
+                    "name": "NSFW Anal",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/anal",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Ass",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/ass",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW BlowJob",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/blowjob",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Boobs",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/boobs",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW BottomLess",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/bottomless",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Cum",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/cum",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW CumsLuts",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/cumsluts",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Fingers",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/finger",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Fuck",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/fuck",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Futa",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/futa",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Gay",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/gay",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Hentai",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/hentai",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Kiss",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/kiss",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Lesbian",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/lesbian",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Pussy",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/pussy",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Real",
+                    "desc": "Random NSFW image – gambar acak kategori khusus",
+                    "path": "/random/nsfw/real",
+                    "status": "ready",
+                    "params": {}
+                }
+            ]
+        },
+        {
+            "nama": "Search",
+            "items": [
+                {
+                    "name": "AN1 Search",
+                    "desc": "Cari aplikasi di AN1 - platform download aplikasi dan game Android",
+                    "path": "/search/an1?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Nama aplikasi atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Anichin Search",
+                    "desc": "Cari konten anime di Anichin - platform discovery untuk konten anime",
+                    "path": "/search/anichin?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Kata kunci pencarian"
+                    }
+                },
+                {
+                    "name": "Anixverse Search",
+                    "desc": "Cari anime di Anixverse - platform streaming anime dengan berbagai judul terbaru",
+                    "path": "/search/anixverse?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Judul anime atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Apk4Free Search",
+                    "desc": "Cari aplikasi gratis di Apk4Free - temukan aplikasi free dengan berbagai fitur",
+                    "path": "/search/apk4free?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Nama aplikasi atau kata kunci"
+                    }
+                },
+                {
+                    "name": "ApkMody Search",
+                    "desc": "Cari aplikasi modifikasi di ApkMody - temukan aplikasi mod dengan berbagai fitur tambahan",
+                    "path": "/search/apkmody?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Nama aplikasi atau kata kunci"
+                    }
+                },
+                {
+                    "name": "ApkPure Search",
+                    "desc": "Cari aplikasi di ApkPure - platform alternatif untuk download aplikasi Android",
+                    "path": "/search/apkpure?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Nama aplikasi atau kata kunci"
+                    }
+                },
+                {
+                    "name": "AppStore Search",
+                    "desc": "Cari aplikasi di Apple App Store - temukan aplikasi iOS dengan info lengkap",
+                    "path": "/search/appstore?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Nama aplikasi atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Berita Anime Kaori",
+                    "desc": "Berita anime terbaru dari Kaori Nusantara - artikel aktual seputar anime",
+                    "path": "/search/anime-news",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "F-Droid Search",
+                    "desc": "Cari aplikasi open source di F-Droid - platform aplikasi gratis dan open source untuk Android",
+                    "path": "/search/fdroid?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Nama aplikasi atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Mikoroku Search",
+                    "desc": "Cari konten di Mikoroku - platform untuk berbagai jenis konten dengan info detail lengkap",
+                    "path": "/search/mikoroku?url=",
+                    "status": "ready",
+                    "params": {
+                        "url": "URL konten dari Mikoroku"
+                    }
+                },
+                {
+                    "name": "Nekopoi Search",
+                    "desc": "Cari konten di Nekopoi - platform untuk berbagai jenis konten media",
+                    "path": "/search/nekopoi?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Kata kunci pencarian"
+                    }
+                },
+                {
+                    "name": "NPM Search",
+                    "desc": "Cari package di NPM Registry - temukan library JavaScript dengan info versi dan download",
+                    "path": "/search/npm?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Nama package atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Pencarian Alqanime",
+                    "desc": "Cari anime di Alqanime berdasarkan judul atau kata kunci",
+                    "path": "/anime/alqanime/search?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Judul anime atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Pencarian Anime",
+                    "desc": "Cari anime di AnimeDao berdasarkan judul atau kata kunci",
+                    "path": "/anime/search?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Judul anime atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Pencarian Doujin/Manga",
+                    "desc": "Cari doujin dan manga berdasarkan judul atau kata kunci",
+                    "path": "/anime/doujin/search?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Judul doujin/manga atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Pencarian Kompi Anime",
+                    "desc": "Cari anime di AnimeKompi berdasarkan judul atau kata kunci",
+                    "path": "/anime/kompi/search?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Judul anime atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Pinterest Search",
+                    "desc": "Cari gambar dan ide di Pinterest - temukan inspirasi visual berdasarkan kata kunci",
+                    "path": "/search/pinterest?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Kata kunci pencarian"
+                    }
+                },
+                {
+                    "name": "Pixiv R18 Search",
+                    "desc": "Cari ilustrasi R18 di Pixiv - platform seni digital dengan konten dewasa",
+                    "path": "/search/pixiv/r18?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Kata kunci pencarian"
+                    }
+                },
+                {
+                    "name": "Pixiv Safe Search",
+                    "desc": "Cari ilustrasi aman di Pixiv - platform seni digital dengan konten non-R18",
+                    "path": "/search/pixiv/safe?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Kata kunci pencarian"
+                    }
+                },
+                {
+                    "name": "Play Store Search",
+                    "desc": "Cari aplikasi di Google Play Store - dapatkan info developer, rating, dan link download",
+                    "path": "/search/playstore?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Nama aplikasi atau kata kunci"
+                    }
+                },
+                {
+                    "name": "SFile Search",
+                    "desc": "Cari file di SFile.mobi - platform berbagi file dengan berbagai jenis dokumen",
+                    "path": "/search/sfile?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Nama file atau kata kunci"
+                    }
+                },
+                {
+                    "name": "Spotify Search",
+                    "desc": "Cari lagu di Spotify - temukan track dengan info lengkap termasuk artis, album, dan preview",
+                    "path": "/search/spotify?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Judul lagu atau artis"
+                    }
+                },
+                {
+                    "name": "TikTok Search",
+                    "desc": "Cari video TikTok berdasarkan kata kunci - dapatkan info video, musik, dan link download",
+                    "path": "/search/tiktok?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Kata kunci pencarian"
+                    }
+                },
+                {
+                    "name": "TikTok Search V2",
+                    "desc": "Cari video TikTok V2 - teknologi pencarian terbaru dengan hasil lebih akurat dan lengkap",
+                    "path": "/search/tiktokv2?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Kata kunci pencarian"
+                    }
+                },
+                {
+                    "name": "YouTube Search",
+                    "desc": "Cari video YouTube - temukan video dengan info lengkap termasuk durasi dan channel",
+                    "path": "/search/youtube?q=",
+                    "status": "ready",
+                    "params": {
+                        "q": "Kata kunci pencarian"
+                    }
+                },
+                {
+                    "name": "YouTube Search V2",
+                    "desc": "YouTube API V2 - Pencarian video YouTube berdasarkan kata kunci dengan info lengkap",
+                    "path": "/search/youtubev2?query=",
+                    "status": "ready",
+                    "params": {
+                        "query": "Kata kunci pencarian YouTube"
+                    }
+                }
+            ]
+        },
+        {
+            "nama": "Tools",
+            "items": [
+                {
+                    "name": "API Status",
+                    "desc": "Cek status API - informasi runtime, total request, jumlah fitur, dan error tracking",
+                    "path": "/api/status",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Reset Errors",
+                    "desc": "Reset error counter - kembalikan hitungan error ke 0 untuk monitoring yang bersih",
+                    "path": "/api/reset-errors",
                     "status": "ready",
                     "params": {}
                 }
