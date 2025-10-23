@@ -1026,15 +1026,8 @@
             ]
         },
         {
-            "name":  "Random",
+            "name": "Random",
             "items": [
-                {
-                    "name": "Anime Quote",
-                    "desc": "Random anime quote - kutipan acak dari berbagai anime dengan karakter dan judul",
-                    "path": "/random/anime-quote",
-                    "status": "ready",
-                    "params": {}
-                },
                 {
                     "name": "Blue Archive",
                     "desc": "Random Blue Archive image - gambar karakter acak dari game Blue Archive",
@@ -1102,6 +1095,34 @@
                     "name": "Loli",
                     "desc": "Random loli image - gambar karakter loli anime secara acak",
                     "path": "/random/loli",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Waifu",
+                    "desc": "Random waifu image - gambar waifu anime secara acak (SFW)",
+                    "path": "/random/waifu",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "NSFW Random",
+                    "desc": "Random NSFW image - gambar anime NSFW secara acak (18+)",
+                    "path": "/random/nsfw",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Neko SFW",
+                    "desc": "Random neko image - gambar kucing girl anime secara acak (SFW)",
+                    "path": "/random/neko",
+                    "status": "ready",
+                    "params": {}
+                },
+                {
+                    "name": "Neko NSFW",
+                    "desc": "Random neko NSFW image - gambar kucing girl anime NSFW secara acak (18+)",
+                    "path": "/random/nsfw/neko",
                     "status": "ready",
                     "params": {}
                 },
