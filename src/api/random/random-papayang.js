@@ -1,16 +1,16 @@
-module.exports = function(app) {
-    async function bluearchive() {
+async function anim() {
         try {
-            const data = await fetchJson(`https://raw.githubusercontent.com/rynxzyy/blue-archive-r-img/refs/heads/main/links.json`)
-            const response = await getBuffer(data[Math.floor(data.length * Math.random())])
+            const data = `https://img12.pixhost.to/images/507/570627648_skyzopedia.jpg`
+            const response = await getBuffer(data)
             return response
         } catch (error) {
             throw error;
         }
     }
-    app.get('/random/ba', async (req, res) => {
+module.exports = function app (app) {
+app.get('/random/papayang', async (req, res) => {
         try {
-            const pedo = await bluearchive();
+            const pedo = await anim();
             res.writeHead(200, {
                 'Content-Type': 'image/png',
                 'Content-Length': pedo.length,
@@ -20,4 +20,4 @@ module.exports = function(app) {
             res.status(500).send(`Error: ${error.message}`);
         }
     });
-};
+}

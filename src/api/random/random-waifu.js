@@ -1,16 +1,16 @@
 module.exports = function(app) {
-    async function bluearchive() {
+    async function anim() {
         try {
-            const data = await fetchJson(`https://raw.githubusercontent.com/rynxzyy/blue-archive-r-img/refs/heads/main/links.json`)
-            const response = await getBuffer(data[Math.floor(data.length * Math.random())])
+            const data = await fetchJson(`https://api.waifu.pics/sfw/waifu`)
+            const response = await getBuffer(data.url)
             return response
         } catch (error) {
             throw error;
         }
     }
-    app.get('/random/ba', async (req, res) => {
+    app.get('/random/waifu', async (req, res) => {
         try {
-            const pedo = await bluearchive();
+            const pedo = await anim();
             res.writeHead(200, {
                 'Content-Type': 'image/png',
                 'Content-Length': pedo.length,
