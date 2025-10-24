@@ -880,23 +880,18 @@
                     "path": "/maker/fakecall",
                     "status": "ready",
                     "params": {
-                        "name":  "string",
-                        "durasi": "string",
+                        "name": "string",
+                        "durasi": "string", 
                         "avatar": "string"
                     }
                 },
                 {
                     "name": "iPhone Chat",
-                    "desc": "Generate screenshot chat iPhone",
-                    "path": "/maker/iqc",
+                    "desc": "Generate gambar fake iPhone chat",
+                    "path": "/maker/iqc", 
                     "status": "ready",
                     "params": {
-                        "time": "string",
-                        "messageText": "string",
-                        "carrierName": "string",
-                        "batteryPercentage": "string",
-                        "signalStrength": "string",
-                        "emojiStyle": "string"
+                        "text": "string"
                     }
                 }
             ]
