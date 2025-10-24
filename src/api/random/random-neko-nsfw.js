@@ -1,16 +1,15 @@
+// random-neko-nsfw.js
 module.exports = function(app) {
     async function anim() {
         try {
-            let type = ["blowjob", "neko", "trap", "waifu"]
-            let rn = type[Math.floor(Math.random() * type.length)]
-            const data = await fetchJson(`https://api.waifu.pics/nsfw/${rn}`)
+            const data = await fetchJson(`https://api.waifu.pics/nsfw/neko`)
             const response = await getBuffer(data.url)
             return response
         } catch (error) {
             throw error;
         }
     }
-    app.get('/random/nsfw', async (req, res) => {
+    app.get('/random/nsfw/neko', async (req, res) => {
         try {
             const pedo = await anim();
             res.writeHead(200, {
