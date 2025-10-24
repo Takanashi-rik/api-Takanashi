@@ -4,7 +4,9 @@ module.exports = function (app) {
     async function fakecall(nama, durasi, avatar) {
         try {
             const url = `https://api.zenzxz.my.id/maker/fakecall?nama=${encodeURIComponent(nama)}&durasi=${encodeURIComponent(durasi)}&avatar=${encodeURIComponent(avatar)}`;
-            const response = await axios.get(url, { responseType: "arraybuffer" });
+            const response = await axios.get(url, { 
+                responseType: "arraybuffer" 
+            });
             return response.data;
         } catch (error) {
             throw error;
@@ -12,25 +14,31 @@ module.exports = function (app) {
     }
 
     app.get('/maker/fakecall', async (req, res) => {
-        const { nama, durasi, avatar } = req.query;
+        const nama = req.query.name || req.query.nama;
+        const durasi = req.query.durasi || req.query.durast;
+        const avatar = req.query.avatar;
 
         if (!nama || !durasi || !avatar) {
             return res.status(400).json({
                 status: false,
-                message: "Parameter 'nama', 'durasi', dan 'avatar' wajib diisi"
+                creator: "Takanashi",
+                message: "Parameter 'name', 'durasi', dan 'avatar' wajib diisi"
             });
         }
 
         try {
-            const image = await fakecall(nama, durasi, avatar);
-            res.writeHead(200, {
-                'Content-Type': 'image/png',
-                'Content-Length': image.length
-            });
-            res.end(image);
+            const imageBuffer = await fakecall(nama, durasi, avatar);
+            
+            res.setHeader('Content-Type', 'image/png');
+            res.setHeader('Content-Length', imageBuffer.length);
+            res.setHeader('Content-Disposition', 'inline; filename="fakecall.png"');
+            
+            res.send(imageBuffer);
+            
         } catch (error) {
             res.status(500).json({
                 status: false,
+                creator: "Takanashi", 
                 message: "Gagal membuat fake call",
                 error: error.message
             });
