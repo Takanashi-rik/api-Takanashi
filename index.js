@@ -11,7 +11,7 @@ require("./function.js");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-const TELEGRAM_BOT_TOKEN = '7224289476:AAH6dxphaFFMq5HKG-WXUN2TyphUVbctd5M';
+const TELEGRAM_BOT_TOKEN = '7623684118:AAHSPZCvzwSGzPxQFHuQBdXr_9i6bUf1n7w';
 const TELEGRAM_CHAT_ID = '8062985789';
 const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
