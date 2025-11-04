@@ -13,15 +13,15 @@ module.exports = function (app) {
 
         try {
             const encodedUrl = encodeURIComponent(url);
-            const apiUrl = `https://api.nekolabs.my.id/downloader/spotify/v1?url=${encodedUrl}`;
+            const apiUrl = `https://api.nekolabs.web.id/downloader/spotify/v1?url=${encodedUrl}`;
             
             const response = await axios.get(apiUrl);
-            const result = response.data;
+            const apiResult = response.data;
 
             res.json({
                 status: true,
                 creator: "Takanashi",
-                result: result
+                result: apiResult.result
             });
         } catch (error) {
             res.status(500).json({
