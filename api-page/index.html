@@ -252,136 +252,141 @@
         clearButton.classList.add('hidden');
     }
 
-    // Function to load and render APIs - FIXED VERSION
-    async function loadApis() {
-        const apiList = document.getElementById('apiList');
-        try {
-            const response = await fetch('/assets/settings.json');
-            const data = await response.json();
-            
-            let html = '';
-            data.categories.forEach((category, catIndex) => {
-                html += `
-                <div class="category-group api-card bg-white rounded-xl shadow-sm border border-slate-200" data-category="${category.name}">
-                    <div class="mb-0">
-                        <div>
-                            <button onclick="toggleCategory(${catIndex})" class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-50 transition-all duration-200 rounded-t-xl">
-                                <h2 class="font-bold flex items-center">
-                                    <span class="material-icons text-lg mr-3 text-primary-500">folder</span>
-                                    <span class="truncate max-w-xs text-base text-slate-800">${category.name}</span>
-                                    <span class="ml-2 text-sm text-slate-500">(${category.items.length})</span>
-                                </h2>
-                                <span class="material-icons transition-transform duration-150 text-slate-400" id="category-icon-${catIndex}">expand_more</span>
-                            </button>
-                            
-                            <div id="category-${catIndex}" class="hidden border-t border-slate-100">`;
+    // Function to load and render APIs - FIXED STRUCTURE
+async function loadApis() {
+    const apiList = document.getElementById('apiList');
+    try {
+        const response = await fetch('/assets/settings.json');
+        const data = await response.json();
+        
+        let html = '';
+        data.categories.forEach((category, catIndex) => {
+            // SETIAP CATEGORY JADI CARD TERPISAH
+            html += `
+            <div class="api-card bg-white rounded-xl shadow-sm border border-slate-200 mb-4" data-category="${category.name}">
+                <div class="category-header">
+                    <button onclick="toggleCategory(${catIndex})" class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-50 transition-all duration-200 rounded-xl">
+                        <h2 class="font-bold flex items-center">
+                            <span class="material-icons text-lg mr-3 text-primary-500">folder</span>
+                            <span class="text-base text-slate-800">${category.name}</span>
+                            <span class="ml-2 text-sm text-slate-500">(${category.items.length})</span>
+                        </h2>
+                        <span class="material-icons transition-transform duration-150 text-slate-400" id="category-icon-${catIndex}">expand_more</span>
+                    </button>
+                </div>
                 
-                category.items.forEach((item, endpointIndex) => {
-                    const method = 'GET';
-                    const pathParts = item.path.split('?');
-                    const path = pathParts[0];
-                    const queryParams = new URLSearchParams(pathParts[1] || '');
+                <div id="category-${catIndex}" class="hidden border-t border-slate-100">
+            `;
+            
+            category.items.forEach((item, endpointIndex) => {
+                const method = 'GET';
+                const pathParts = item.path.split('?');
+                const path = pathParts[0];
+                const queryParams = new URLSearchParams(pathParts[1] || '');
 
-                    const statusClasses = {
-                        'ready': 'bg-green-100 text-green-700 border-green-200',
-                        'update': 'bg-yellow-100 text-yellow-700 border-yellow-200',
-                        'error': 'bg-red-100 text-red-700 border-red-200'
-                    };
-                    const statusClass = statusClasses[item.status] || 'bg-slate-100 text-slate-600 border-slate-200';
+                const statusClasses = {
+                    'ready': 'bg-green-100 text-green-700 border-green-200',
+                    'update': 'bg-yellow-100 text-yellow-700 border-yellow-200', 
+                    'error': 'bg-red-100 text-red-700 border-red-200'
+                };
+                const statusClass = statusClasses[item.status] || 'bg-slate-100 text-slate-600 border-slate-200';
 
-                    const methodColors = {
-                        'GET': 'bg-green-500',
-                        'POST': 'bg-blue-500',
-                        'PUT': 'bg-yellow-500',
-                        'DELETE': 'bg-red-500'
-                    };
-                    const methodColor = methodColors[method] || 'bg-slate-500';
+                const methodColors = {
+                    'GET': 'bg-green-500',
+                    'POST': 'bg-blue-500',
+                    'PUT': 'bg-yellow-500',
+                    'DELETE': 'bg-red-500'
+                };
+                const methodColor = methodColors[method] || 'bg-slate-500';
 
-                    html += `
-                                <div class="border-t border-slate-100 api-item" 
-                                     data-method="${method}"
-                                     data-path="${path}"
-                                     data-alias="${item.name}"
-                                     data-description="${item.desc}"
-                                     data-category="${category.name}">
-                                    <button onclick="toggleEndpoint(${catIndex}, ${endpointIndex})" class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-50 transition-all duration-200">
-                                        <div class="flex items-center min-w-0 flex-1">
-                                            <span class="inline-block px-3 py-1 text-xs font-semibold text-white mr-3 flex-shrink-0 rounded ${methodColor}">
-                                                ${method}
-                                            </span>
-                                            <div class="flex flex-col min-w-0 flex-1">
-                                                <span class="font-semibold truncate max-w-[90%] font-mono text-sm text-slate-800" title="${path}">${path}</span>
-                                                <div class="flex items-center mt-1">
-                                                    <span class="text-xs text-slate-500 truncate max-w-[90%]" title="${item.name}">${item.name}</span>
-                                                    <span class="ml-2 px-2 py-0.5 text-xs rounded-full border ${statusClass}">${item.status || 'ready'}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <span class="material-icons transition-transform duration-150 flex-shrink-0 text-slate-400" id="endpoint-icon-${catIndex}-${endpointIndex}">expand_more</span>
-                                    </button>
-                                    
-                                    <div id="endpoint-${catIndex}-${endpointIndex}" class="hidden bg-slate-50 p-6 border-t border-slate-200">
-                                        <div class="mb-4">
-                                            <div class="text-slate-600 text-sm leading-relaxed">${item.desc}</div>
-                                        </div>`;
-                    
-                    if (item.status === 'ready') {
-                        html += `
-                                        <div>
-                                            <div class="text-slate-800 font-bold text-sm mb-3 flex items-center">
-                                                <span class="material-icons text-base mr-2 text-primary-500">play_arrow</span>
-                                                TRY IT OUT
-                                            </div>
-                                            <div>
-                                                <form id="form-${catIndex}-${endpointIndex}" onsubmit="executeRequest(event, ${catIndex}, ${endpointIndex}, '${method}', '${path}', 'application/json')">
-                                                    <div class="mb-4 space-y-3">`;
-                        if (item.params) {
-                            Object.keys(item.params).forEach(paramName => {
-                                const isRequired = !queryParams.has(paramName) || queryParams.get(paramName) === '';
-                                html += `<div>
-                                            <label class="block text-sm font-medium text-slate-700 mb-2">${paramName} ${isRequired ? '<span class="text-red-500">*</span>' : ''}</label>
-                                            <input type="text" name="${paramName}" class="w-full px-4 py-3 border border-slate-300 text-sm focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white placeholder:text-slate-400 rounded-lg transition-all duration-200" placeholder="${item.params[paramName]}" ${isRequired ? 'required' : ''}>
-                                        </div>`;
-                            });
-                        }
-                        html += `
-                                                    </div>
-                                                    <div class="flex gap-3">
-                                                        <button type="submit" class="btn-gradient text-white font-semibold px-6 py-3 text-sm font-medium transition-all duration-200 rounded-lg shadow-sm">
-                                                            Execute
-                                                        </button>
-                                                        <button type="button" id="clear-${catIndex}-${endpointIndex}" onclick="clearResponse(${catIndex}, ${endpointIndex})" class="hidden bg-white border border-slate-300 hover:border-slate-400 font-semibold text-slate-700 px-6 py-3 text-sm font-medium transition-all duration-200 rounded-lg shadow-sm">
-                                                            Clear
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>`;
-                    } else {
-                        html += `<div class="bg-yellow-50 text-yellow-700 text-sm p-4 border border-yellow-200 rounded-lg">This endpoint cannot be tested at the moment.</div>`;
-                    }
-
-                    html += `
-                                        <div id="response-${catIndex}-${endpointIndex}" class="hidden mt-6">
-                                            <div class="text-slate-800 font-bold text-sm mb-3 flex items-center">
-                                                <span class="material-icons text-base mr-2 text-primary-500">code</span>
-                                                RESPONSE
-                                            </div>
-                                            <div class="bg-white text-slate-800 text-sm p-4 border border-slate-200 rounded-lg shadow-sm">
-                                                <div class="max-h-80 overflow-auto" id="response-content-${catIndex}-${endpointIndex}"></div>
-                                            </div>
-                                        </div>
+                html += `
+                    <div class="border-t border-slate-100 api-item" 
+                         data-method="${method}"
+                         data-path="${path}"
+                         data-alias="${item.name}"
+                         data-description="${item.desc}"
+                         data-category="${category.name}">
+                        <button onclick="toggleEndpoint(${catIndex}, ${endpointIndex})" class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-50 transition-all duration-200">
+                            <div class="flex items-center min-w-0 flex-1">
+                                <span class="inline-block px-3 py-1 text-xs font-semibold text-white mr-3 flex-shrink-0 rounded ${methodColor}">
+                                    ${method}
+                                </span>
+                                <div class="flex flex-col min-w-0 flex-1">
+                                    <span class="font-semibold truncate max-w-[90%] font-mono text-sm text-slate-800" title="${path}">${path}</span>
+                                    <div class="flex items-center mt-1">
+                                        <span class="text-xs text-slate-500 truncate max-w-[90%]" title="${item.name}">${item.name}</span>
+                                        <span class="ml-2 px-2 py-0.5 text-xs rounded-full border ${statusClass}">${item.status || 'ready'}</span>
                                     </div>
-                                </div>`;
-                });
-                html += `</div></div></div>`;
+                                </div>
+                            </div>
+                            <span class="material-icons transition-transform duration-150 flex-shrink-0 text-slate-400" id="endpoint-icon-${catIndex}-${endpointIndex}">expand_more</span>
+                        </button>
+                        
+                        <div id="endpoint-${catIndex}-${endpointIndex}" class="hidden bg-slate-50 p-6 border-t border-slate-200">
+                            <div class="mb-4">
+                                <div class="text-slate-600 text-sm leading-relaxed">${item.desc}</div>
+                            </div>`;
+                
+                if (item.status === 'ready') {
+                    html += `
+                            <div>
+                                <div class="text-slate-800 font-bold text-sm mb-3 flex items-center">
+                                    <span class="material-icons text-base mr-2 text-primary-500">play_arrow</span>
+                                    TRY IT OUT
+                                </div>
+                                <div>
+                                    <form id="form-${catIndex}-${endpointIndex}" onsubmit="executeRequest(event, ${catIndex}, ${endpointIndex}, '${method}', '${path}', 'application/json')">
+                                        <div class="mb-4 space-y-3">`;
+                    if (item.params) {
+                        Object.keys(item.params).forEach(paramName => {
+                            const isRequired = !queryParams.has(paramName) || queryParams.get(paramName) === '';
+                            html += `<div>
+                                        <label class="block text-sm font-medium text-slate-700 mb-2">${paramName} ${isRequired ? '<span class="text-red-500">*</span>' : ''}</label>
+                                        <input type="text" name="${paramName}" class="w-full px-4 py-3 border border-slate-300 text-sm focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-100 bg-white placeholder:text-slate-400 rounded-lg transition-all duration-200" placeholder="${item.params[paramName]}" ${isRequired ? 'required' : ''}>
+                                    </div>`;
+                        });
+                    }
+                    html += `
+                                        </div>
+                                        <div class="flex gap-3">
+                                            <button type="submit" class="btn-gradient text-white font-semibold px-6 py-3 text-sm font-medium transition-all duration-200 rounded-lg shadow-sm">
+                                                Execute
+                                            </button>
+                                            <button type="button" id="clear-${catIndex}-${endpointIndex}" onclick="clearResponse(${catIndex}, ${endpointIndex})" class="hidden bg-white border border-slate-300 hover:border-slate-400 font-semibold text-slate-700 px-6 py-3 text-sm font-medium transition-all duration-200 rounded-lg shadow-sm">
+                                                Clear
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>`;
+                } else {
+                    html += `<div class="bg-yellow-50 text-yellow-700 text-sm p-4 border border-yellow-200 rounded-lg">This endpoint cannot be tested at the moment.</div>`;
+                }
+
+                html += `
+                            <div id="response-${catIndex}-${endpointIndex}" class="hidden mt-6">
+                                <div class="text-slate-800 font-bold text-sm mb-3 flex items-center">
+                                    <span class="material-icons text-base mr-2 text-primary-500">code</span>
+                                    RESPONSE
+                                </div>
+                                <div class="bg-white text-slate-800 text-sm p-4 border border-slate-200 rounded-lg shadow-sm">
+                                    <div class="max-h-80 overflow-auto" id="response-content-${catIndex}-${endpointIndex}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
             });
-            apiList.innerHTML = html;
-        } catch (error) {
-            apiList.innerHTML = '<p class="text-red-500 bg-red-50 p-4 rounded-lg border border-red-200">Failed to load API data.</p>';
-            console.error('Error loading API data:', error);
-        }
+            
+            // TUTUP CATEGORY
+            html += `</div></div>`;
+        });
+        
+        apiList.innerHTML = html;
+    } catch (error) {
+        apiList.innerHTML = '<p class="text-red-500 bg-red-50 p-4 rounded-lg border border-red-200">Failed to load API data.</p>';
+        console.error('Error loading API data:', error);
     }
+}
     
     // Function to load and render notifications
     async function loadNotifications() {
