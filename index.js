@@ -80,18 +80,31 @@ setInterval(() => {
   axios.post(TELEGRAM_API_URL, payload).catch(console.error);
 }, 2000);
 
-function queueLog({ method, status, url, duration, error = null }) {
-  let colorCode;
-  if (status >= 500) colorCode = '[2;31m';
-  else if (status >= 400) colorCode = '[2;31m';
-  else if (status === 304) colorCode = '[2;34m';
-  else colorCode = '[2;32m';
+function queueLog({ method, status, url, duration, req, error = null }) {
+  const info = req?._requestInfo || {};
+  const name = info.name;
+  const ip = info.ip;
+  const endpoint = info.endpoint;
+  const curl = `curl -X ${method} "${req.protocol}://${req.get('host')}${endpoint}"`;
+  const markdownText =
+`\`\`\`
+Nama       : ${name}
+IP         : ${ip}
+Endpoint   : ${endpoint}
+Status     : ${status}
+Curl       : ${curl}
+${error ? "Error      : " + (error.message || error) : ""}
+\`\`\``;
+  const plainText =
+`Nama       : ${name}
+IP         : ${ip}
+Endpoint   : ${endpoint}
+Status     : ${status}
+Curl       : ${curl}
+${error ? "Error      : " + (error.message || error) : ""}`;
+  logBuffer.push(JSON.stringify({ markdownText, plainText }));
+}
 
-  let line = `${colorCode}[${method}] ${status} ${url} - ${duration}ms[0m`;
-
-  if (error) {
-    line += `\n[2;31m[ERROR] ${error.message || error}[0m`;
-  }
 
   logBuffer.push(line);
 }
@@ -148,6 +161,18 @@ app.enable("trust proxy");
 app.set("json spaces", 2);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use((req, res, next) => {
+  req._requestInfo = {
+    name: req.headers["x-user-name"] || req.query.name || (req.body && req.body.name) || "Unknown User",
+    ip: req.ip || req.headers["x-forwarded-for"] || "Unknown IP",
+    endpoint: req.originalUrl,
+    method: req.method
+  };
+  next();
+});
+
+
 app.use(cors());
 
 const settingsPath = path.join(__dirname, './assets/settings.json');
