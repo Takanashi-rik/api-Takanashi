@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Browse through our collection of code snippets, scripts, and tools. Find what you need or discover something new.">
-    <meta name="theme-color" content="#0f0f23">
-    <title>Takanashi API</title>
+    <meta name="description" content="Browse through our collection of code snippets, scripts, and tools.">
+    <meta name="theme-color" content="#1a202c">
+    <title>Takanashi-API.</title>
     <link rel="icon" href="/assets/icon.png" type="image/jpeg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,497 +14,329 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
-  tailwind.config = {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        fontFamily: {
-          'mono': ['Ubuntu Mono', 'monospace'],
-          'sans': ['Inter', 'system-ui', 'sans-serif']
-        },
-        colors: {
-          primary: {
-            50: '#f0f9ff',
-            100: '#e0f2fe',
-            500: '#8b5cf6',
-            600: '#7c3aed',
-            700: '#6d28d9'
-          },
-          dark: {
-            100: '#1e1e2e',
-            200: '#181825',
-            300: '#11111b',
-            400: '#0f0f23'
-          }
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'mono': ['Ubuntu Mono', 'monospace'],
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
         }
-      }
-    }
-  }
-</script>
+    </script>
 
     <style>
         ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1e1e2e;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #8b5cf6;
-            border-radius: 3px;
-        }
-        .glass {
-            backdrop-filter: blur(16px) saturate(180%);
-            background: rgba(30, 30, 46, 0.7);
-            border: 1px solid rgba(139, 92, 246, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-        .loader {
-            width: 28px;
-            height: 28px;
-            border: 2px solid #313244;
-            border-top: 2px solid #8b5cf6;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+            display: none;
         }
         .gradient-text {
-            background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .btn-gradient {
-            background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+        .btn-donate {
+            background: rgba(23, 25, 35, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #6366f1;
             transition: all 0.3s ease;
         }
-        .btn-gradient:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.4);
+        .btn-donate:hover {
+            background: rgba(23, 25, 35, 0.9);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-1px);
         }
-        .api-card {
+        .btn-documentation {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: 1px solid rgba(99, 102, 241, 0.5);
+            color: white;
             transition: all 0.3s ease;
-            border: 1px solid #313244;
         }
-        .api-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-            border-color: #8b5cf6;
+        .btn-documentation:hover {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px -3px rgba(99, 102, 241, 0.3);
         }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
+        .btn-report {
+            background: rgba(23, 25, 35, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #6366f1;
+            transition: all 0.3s ease;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .btn-report:hover {
+            background: rgba(23, 25, 35, 0.9);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-1px);
         }
-        .slide-down {
-            animation: slideDown 0.3s ease-out;
+        .stat-card {
+            background: rgba(30, 32, 45, 0.8);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
-        @keyframes slideDown {
-            from { opacity: 0; max-height: 0; }
-            to { opacity: 1; max-height: 500px; }
+        .stat-card:hover {
+            border-color: rgba(139, 92, 246, 0.6);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 25px -8px rgba(99, 102, 241, 0.3);
+            background: rgba(35, 37, 50, 0.95);
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.15), transparent);
+            transition: left 0.6s ease;
+        }
+        .stat-card:hover::before {
+            left: 100%;
+        }
+        .stat-card .stat-icon {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .stat-card:hover .stat-icon {
+            transform: scale(1.2) rotate(8deg);
+            filter: drop-shadow(0 0 12px rgba(139, 92, 246, 0.5));
+            color: #a855f7;
+        }
+        .stat-card .stat-number {
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        .stat-card:hover .stat-number {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+        .stat-card .stat-label {
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover .stat-label {
+            color: #cbd5e1;
+            transform: translateY(2px);
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-dark-400 to-dark-300 text-slate-200 antialiased font-sans min-h-screen transition-colors duration-300">
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+<body class="bg-gray-900 text-slate-300 antialiased font-mono min-h-screen">
+    <main class="max-w-2xl mx-auto px-8 py-16">
 
-<div class="text-left mb-8 fade-in">
-    <div class="flex items-center gap-4 mb-4">
-        <img src="/assets/icon.png" class="w-12 md:w-14 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
-        <h1 class="text-3xl md:text-4xl font-bold gradient-text">Takanashi API</h1>
-    </div>
-    <p class="text-slate-400 text-sm md:text-base mx-auto mb-4">
-        Welcome to Takanashi API documentation. This interactive interface allows you to explore and test our complete collection of API endpoints in real-time.
-    </p>
-    
-    <div class="mb-4 text-sm space-y-2 md:flex md:space-y-0 md:space-x-6" id="contact-container">
-        <div class="loader"></div>
-    </div>
-</div>
- 
-<div class="mb-8 glass rounded-xl p-4 md:p-6 fade-in">
-    <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold text-slate-200 flex items-center">
-            <i class="fas fa-bell text-lg mr-2 text-primary-500"></i>
-            Information
+        <div class="text-left mb-8">
+            <div class="flex items-center gap-4 mb-4">
+                <img src="/assets/icon.png" class="w-12 md:w-9">
+                <h1 class="text-3xl md:text-4xl font-bold gradient-text">Takanashi-API</h1>
+            </div>
+            <p class="text-slate-400 text-xs mx-auto mb-4">
+                Welcome to Takanashi-API documentation.
+            </p>
+            
+            <div class="mb-4 text-xs space-y-1">
+                <div>
+                    <a href="https://t.me/takanashi" target="_blank" class="text-slate-300 hover:text-white underline">
+                        <i class="fab fa-telegram mr-2"></i>Contact Takanashi
+                    </a>
+                </div>
+            </div>
+        </div><!-- Section Below Contact -->
+<div class="mb-8">
+    <div class="bg-gray-800 border border-gray-700 p-6">
+        <h2 class="text-lg font-semibold text-slate-300 mb-3 flex items-center">
+            <i class="fas fa-info-circle mr-2 text-gray-400"></i>
+            About Us
         </h2>
-        <span id="unread-count" class="text-xs bg-primary-500/20 text-primary-300 px-2 py-1 rounded-full hidden"></span>
-    </div>
-    <div id="notifications-list" class="space-y-3">
-        <div class="loader mx-auto"></div>
-    </div>
-</div>
-
-<div class="flex items-center justify-between mb-6 fade-in">
-    <div class="flex-1 relative">
-        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <i class="fas fa-search text-slate-400 text-sm"></i>
-        </div>
-        <input 
-            type="text" 
-            id="searchInput" 
-            placeholder="Search API endpoints..." 
-            class="w-full pl-10 pr-5 py-3 text-sm border border-slate-600 bg-dark-200 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl transition-all duration-200"
-        >
-    </div>
-</div>
-
-<div id="content" class="space-y-4">
-    <div id="noResults" class="text-center py-16" style="display: none;">
-        <div class="max-w-md mx-auto">
-            <i class="fas fa-search text-slate-600 text-4xl mb-3"></i>
-            <h3 class="text-base text-slate-500 mb-2">No results found</h3>
-            <p class="text-sm text-slate-500">Try adjusting your search terms</p>
-        </div>
-    </div>
-
-    <div id="apiList" class="space-y-4">
-    </div>
-</div>
-
-<footer class="mt-12 text-center fade-in">
-    <p class="text-slate-500 text-sm mb-2">
-        © 2025 Takanashi • Built with passion
-    </p>
-    <p class="text-slate-500 text-xs">
-        Design inspired by: <a href="https://api.nekolabs.my.id/" target="_blank" class="text-primary-400 hover:text-primary-300 transition-colors">api.nekolabs.my.id</a>
-    </p>
-</footer>
-</main>
-
-<script>
-    async function loadContact() {
-        const contactContainer = document.getElementById('contact-container');
-        try {
-            const response = await fetch('/contact.json');
-            const contactData = await response.json();
-            
-            let contactHtml = '';
-            contactData.links.forEach(link => {
-                let iconClass = 'fas fa-link';
-                if (link.icon === 'telegram') iconClass = 'fab fa-telegram';
-                if (link.icon === 'code') iconClass = 'fab fa-github';
-                if (link.icon === 'email') iconClass = 'fas fa-envelope';
-                
-                contactHtml += `
-                    <div class="mb-2 md:mb-0">
-                        <a href="${link.url}" target="_blank" class="text-primary-400 hover:text-primary-300 transition-all duration-200 flex items-center gap-2 group">
-                            <i class="${iconClass} text-sm text-primary-500 group-hover:scale-110 transition-transform"></i>
-                            ${link.name}
-                        </a>
-                    </div>
-                `;
-            });
-            
-            contactContainer.innerHTML = contactHtml;
-        } catch (error) {
-            contactContainer.innerHTML = '<div class="text-red-400 text-xs">Failed to load contact</div>';
-            console.error('Error loading contact:', error);
-        }
-    }
-
-    function toggleCategory(index) {
-        const category = document.getElementById(`category-${index}`);
-        const icon = document.getElementById(`category-icon-${index}`);
-        if (category.classList.contains('hidden')) {
-            category.classList.remove('hidden');
-            category.classList.add('slide-down');
-            icon.classList.remove('fa-chevron-down');
-            icon.classList.add('fa-chevron-up');
-        } else {
-            category.classList.add('hidden');
-            category.classList.remove('slide-down');
-            icon.classList.remove('fa-chevron-up');
-            icon.classList.add('fa-chevron-down');
-        }
-    }
-
-    function toggleEndpoint(catIndex, endpointIndex) {
-        const endpoint = document.getElementById(`endpoint-${catIndex}-${endpointIndex}`);
-        const icon = document.getElementById(`endpoint-icon-${catIndex}-${endpointIndex}`);
-        if (endpoint.classList.contains('hidden')) {
-            endpoint.classList.remove('hidden');
-            endpoint.classList.add('slide-down');
-            icon.classList.remove('fa-chevron-down');
-            icon.classList.add('fa-chevron-up');
-        } else {
-            endpoint.classList.add('hidden');
-            endpoint.classList.remove('slide-down');
-            icon.classList.remove('fa-chevron-up');
-            icon.classList.add('fa-chevron-down');
-        }
-    }
-
-    async function executeRequest(event, catIndex, endpointIndex, method, path, produces) {
-        event.preventDefault();
-        const form = document.getElementById(`form-${catIndex}-${endpointIndex}`);
-        const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
-        const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
-        const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
         
-        const formData = new FormData(form);
-        const params = new URLSearchParams();
-        for (const [key, value] of formData.entries()) {
-            if (value) {
-                params.append(key, value);
-            }
-        }
-
-        const fullPath = `${path}?${params.toString()}`;
-        responseDiv.classList.remove('hidden');
-        responseContent.innerHTML = '<div class="loader mx-auto"></div>';
-
-        try {
-            const response = await fetch(fullPath);
-            const contentType = response.headers.get("content-type");
-            if (contentType && contentType.includes("application/json")) {
-                const data = await response.json();
-                responseContent.innerHTML = `<pre class="bg-dark-200 p-4 rounded-lg border border-slate-700 overflow-auto text-slate-300">${JSON.stringify(data, null, 2)}</pre>`;
-            } else if (contentType && contentType.startsWith("image/")) {
-                const blob = await response.blob();
-                const imageUrl = URL.createObjectURL(blob);
-                responseContent.innerHTML = `<img src="${imageUrl}" class="max-w-full h-auto rounded-lg shadow-md border border-slate-700">`;
-            } else {
-                const text = await response.text();
-                responseContent.innerHTML = `<pre class="bg-dark-200 p-4 rounded-lg border border-slate-700 overflow-auto text-slate-300">${text}</pre>`;
-            }
-        } catch (error) {
-            responseContent.innerHTML = `<pre class="bg-red-900/30 text-red-300 p-4 rounded-lg border border-red-800">${error}</pre>`;
-        }
-        clearButton.classList.remove('hidden');
-    }
-
-    function clearResponse(catIndex, endpointIndex) {
-        const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
-        const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
-        const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
-        responseContent.innerHTML = '';
-        responseDiv.classList.add('hidden');
-        clearButton.classList.add('hidden');
-    }
-
-    async function loadApis() {
-        const apiList = document.getElementById('apiList');
-        try {
-            const response = await fetch('/assets/settings.json');
-            const data = await response.json();
+        <div class="mb-4">
+            <video 
+                src="/assets/rikka.mp4" 
+                controls 
+                autoplay 
+                muted
+                loop
+                class="w-full h-auto rounded-lg border border-gray-700">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <p class="text-slate-400 text-sm mb-4">
+            This is a new section added right below Takanashi contact. 
+            You can add any content here.
+        </p>
+        
+        <div class="flex justify-between items-center gap-2 mt-6">
+            <button id="donateBtn" class="btn-donate px-5 py-3 text-sm font-medium rounded-lg flex items-center justify-center flex-1 max-w-[130px]">
+                <i class="fas fa-heart mr-2 text-sm"></i>
+                Donate
+            </button>
             
-            let html = '';
-            data.categories.forEach((category, catIndex) => {
-                html += `
-                <div class="api-card bg-dark-200 rounded-xl shadow-lg border border-slate-700 mb-4 fade-in" data-category="${category.name}">
-                    <div class="category-header">
-                        <button onclick="toggleCategory(${catIndex})" class="w-full px-4 md:px-6 py-4 text-left flex items-center justify-between hover:bg-dark-100 transition-all duration-200 rounded-xl">
-                            <h2 class="font-bold flex items-center">
-                                <i class="fas fa-folder text-lg mr-3 text-primary-500"></i>
-                                <span class="text-base text-slate-200">${category.name}</span>
-                                <span class="ml-2 text-sm text-slate-400">(${category.items.length})</span>
-                            </h2>
-                            <i class="fas fa-chevron-down transition-transform duration-150 text-slate-400" id="category-icon-${catIndex}"></i>
-                        </button>
+            <button id="docsBtn" class="btn-documentation px-5 py-3 text-sm font-medium rounded-lg flex items-center justify-center flex-1 max-w-[130px]">
+                <i class="fas fa-book mr-2 text-sm"></i>
+                Documentation
+            </button>
+            
+            <button id="reportBtn" class="btn-report px-5 py-3 text-sm font-medium rounded-lg flex items-center justify-center flex-1 max-w-[130px]">
+                <i class="fas fa-flag mr-2 text-sm"></i>
+                Report
+            </button>
+        </div>
+    </div>
+</div>
+
+        <!-- Statistics Section with Font Awesome icons and 2x2 grid without section -->
+        <div class="mb-8">
+            <h2 class="text-lg font-semibold text-slate-300 mb-4 flex items-center">
+                <i class="fa-solid fa-chart-bar mr-2 text-purple-400"></i>
+                Statistics
+            </h2>
+            
+            <!-- 2x2 Grid for Statistics -->
+            <div class="grid grid-cols-2 gap-4">
+                
+                <!-- Statistics 1 -->
+                <div class="stat-card p-4 rounded-lg text-center">
+                    <i class="fa-solid fa-chart-line text-2xl text-purple-400 mb-2 stat-icon"></i>
+                    <div class="text-2xl font-bold gradient-text mb-2 stat-number">1.2K</div>
+                    <div class="text-xs text-slate-400 stat-label">Total Requests</div>
+                </div>
+                
+                <!-- Statistics 2 -->
+                <div class="stat-card p-4 rounded-lg text-center">
+                    <i class="fa-solid fa-server text-2xl text-purple-400 mb-2 stat-icon"></i>
+                    <div class="text-2xl font-bold gradient-text mb-2 stat-number">95%</div>
+                    <div class="text-xs text-slate-400 stat-label">Uptime</div>
+                </div>
+                
+                <!-- Statistics 3 -->
+                <div class="stat-card p-4 rounded-lg text-center">
+                    <i class="fa-solid fa-user text-2xl text-purple-400 mb-2 stat-icon"></i>
+                    <div class="text-2xl font-bold gradient-text mb-2 stat-number">1K+</div>
+                    <div class="text-xs text-slate-400 stat-label">Total Users</div>
+                </div>
+                
+                <!-- Statistics 4 -->
+                <div class="stat-card p-4 rounded-lg text-center">
+                    <i class="fa-solid fa-bolt text-2xl text-purple-400 mb-2 stat-icon"></i>
+                    <div class="text-2xl font-bold gradient-text mb-2 stat-number">99%</div>
+                    <div class="text-xs text-slate-400 stat-label">Availability</div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- License & Usage Section -->
+        <div class="mb-8">
+            <div class="bg-gray-800 border border-gray-700 p-6">
+                <h2 class="text-lg font-semibold text-slate-300 mb-4 flex items-center">
+                    <i class="fas fa-file-contract mr-2 text-gray-400"></i>
+                    License & Usage
+                </h2>
+                
+                <div class="space-y-4">
+                    <!-- License -->
+                    <div>
+                        <h3 class="font-semibold text-slate-300 text-sm mb-2 flex items-center">
+                            <i class="fas fa-balance-scale mr-2 text-xs text-purple-400"></i>
+                            License
+                        </h3>
+                        <p class="text-slate-400 text-xs leading-relaxed">
+                            Takanashi-API is licensed under the MIT License. You are free to use, modify, 
+                            and distribute this API for both personal and commercial purposes.
+                        </p>
                     </div>
                     
-                    <div id="category-${catIndex}" class="hidden border-t border-slate-600 overflow-hidden">
-                `;
-                
-                category.items.forEach((item, endpointIndex) => {
-                    const method = 'GET';
-                    const pathParts = item.path.split('?');
-                    const path = pathParts[0];
-                    const queryParams = new URLSearchParams(pathParts[1] || '');
-
-                    const statusClasses = {
-                        'ready': 'bg-green-900/30 text-green-300 border-green-800',
-                        'update': 'bg-yellow-900/30 text-yellow-300 border-yellow-800', 
-                        'error': 'bg-red-900/30 text-red-300 border-red-800'
-                    };
-                    const statusClass = statusClasses[item.status] || 'bg-slate-700 text-slate-400 border-slate-600';
-
-                    const methodColors = {
-                        'GET': 'bg-green-500',
-                        'POST': 'bg-blue-500',
-                        'PUT': 'bg-yellow-500',
-                        'DELETE': 'bg-red-500'
-                    };
-                    const methodColor = methodColors[method] || 'bg-slate-500';
-
-                    html += `
-                        <div class="border-t border-slate-600 api-item" 
-                             data-method="${method}"
-                             data-path="${path}"
-                             data-alias="${item.name}"
-                             data-description="${item.desc}"
-                             data-category="${category.name}">
-                            <button onclick="toggleEndpoint(${catIndex}, ${endpointIndex})" class="w-full px-4 md:px-6 py-4 text-left flex items-center justify-between hover:bg-dark-100 transition-all duration-200">
-                                <div class="flex items-center min-w-0 flex-1">
-                                    <span class="inline-block px-3 py-1 text-xs font-semibold text-white mr-3 flex-shrink-0 rounded ${methodColor}">
-                                        ${method}
-                                    </span>
-                                    <div class="flex flex-col min-w-0 flex-1">
-                                        <span class="font-semibold truncate max-w-[90%] font-mono text-sm text-slate-200" title="${path}">${path}</span>
-                                        <div class="flex items-center mt-1">
-                                            <span class="text-xs text-slate-400 truncate max-w-[90%]" title="${item.name}">${item.name}</span>
-                                            <span class="ml-2 px-2 py-0.5 text-xs rounded-full border ${statusClass}">${item.status || 'ready'}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <i class="fas fa-chevron-down transition-transform duration-150 flex-shrink-0 text-slate-400" id="endpoint-icon-${catIndex}-${endpointIndex}"></i>
-                            </button>
-                            
-                            <div id="endpoint-${catIndex}-${endpointIndex}" class="hidden bg-dark-100 p-4 md:p-6 border-t border-slate-600 overflow-hidden">
-                                <div class="mb-4">
-                                    <div class="text-slate-400 text-sm leading-relaxed">${item.desc}</div>
-                                </div>`;
+                    <!-- Usage -->
+                    <div>
+                        <h3 class="font-semibold text-slate-300 text-sm mb-2 flex items-center">
+                            <i class="fas fa-code mr-2 text-xs text-purple-400"></i>
+                            Usage Policy
+                        </h3>
+                        <ul class="text-slate-400 text-xs space-y-2 list-disc list-inside">
+                            <li>Maximum 100 requests per minute per IP</li>
+                            <li>DDOS attacks against Takanashi-API are strictly prohibited</li>
+                            <li>This website is equipped with anti-spam protection. Spamming will result in IP blacklisting</li>
+                            <li>If your IP gets blacklisted, contact Takanashi to remove the blacklist</li>
+                        </ul>
+                    </div>
                     
-                    if (item.status === 'ready') {
-                        html += `
-                                <div>
-                                    <div class="text-slate-200 font-bold text-sm mb-3 flex items-center">
-                                        <i class="fas fa-play text-base mr-2 text-primary-500"></i>
-                                        TRY IT OUT
-                                    </div>
-                                    <div>
-                                        <form id="form-${catIndex}-${endpointIndex}" onsubmit="executeRequest(event, ${catIndex}, ${endpointIndex}, '${method}', '${path}', 'application/json')">
-                                            <div class="mb-4 space-y-3">`;
-                        if (item.params) {
-                            Object.keys(item.params).forEach(paramName => {
-                                const isRequired = !queryParams.has(paramName) || queryParams.get(paramName) === '';
-                                html += `<div>
-                                            <label class="block text-sm font-medium text-slate-300 mb-2">${paramName} ${isRequired ? '<span class="text-red-400">*</span>' : ''}</label>
-                                            <input type="text" name="${paramName}" class="w-full px-4 py-3 border border-slate-600 text-sm focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 bg-dark-200 text-slate-200 placeholder:text-slate-500 rounded-lg transition-all duration-200" placeholder="${item.params[paramName]}" ${isRequired ? 'required' : ''}>
-                                        </div>`;
-                            });
-                        }
-                        html += `
-                                        </div>
-                                        <div class="flex gap-3">
-                                            <button type="submit" class="btn-gradient text-white font-semibold px-6 py-3 text-sm font-medium transition-all duration-200 rounded-lg shadow-sm">
-                                                Execute
-                                            </button>
-                                            <button type="button" id="clear-${catIndex}-${endpointIndex}" onclick="clearResponse(${catIndex}, ${endpointIndex})" class="hidden bg-dark-200 border border-slate-600 hover:border-slate-500 font-semibold text-slate-300 px-6 py-3 text-sm font-medium transition-all duration-200 rounded-lg shadow-sm">
-                                                Clear
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>`;
-                    } else {
-                        html += `<div class="bg-yellow-900/30 text-yellow-300 text-sm p-4 border border-yellow-800 rounded-lg">This endpoint cannot be tested at the moment.</div>`;
-                    }
+                    <!-- Attribution -->
+                    <div>
+                        <h3 class="font-semibold text-slate-300 text-sm mb-2 flex items-center">
+                            <i class="fas fa-handshake mr-2 text-xs text-purple-400"></i>
+                            Attribution
+                        </h3>
+                        <p class="text-slate-400 text-xs leading-relaxed">
+                            If you use Takanashi-API in public projects, please give credit 
+                            by including a link to this website.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    html += `
-                                <div id="response-${catIndex}-${endpointIndex}" class="hidden mt-6">
-                                    <div class="text-slate-200 font-bold text-sm mb-3 flex items-center">
-                                        <i class="fas fa-code text-base mr-2 text-primary-500"></i>
-                                        RESPONSE
-                                    </div>
-                                    <div class="bg-dark-200 text-slate-300 text-sm p-4 border border-slate-600 rounded-lg shadow-sm">
-                                        <div class="max-h-80 overflow-auto" id="response-content-${catIndex}-${endpointIndex}"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`;
-                });
-                
-                html += `</div></div>`;
-            });
-            
-            apiList.innerHTML = html;
-        } catch (error) {
-            apiList.innerHTML = '<p class="text-red-400 bg-red-900/30 p-4 rounded-lg border border-red-800">Failed to load API data.</p>';
-            console.error('Error loading API data:', error);
-        }
-    }
+        <!-- Footer -->
+<footer class="mt-16 pt-8 border-t border-gray-800 text-center">
+  <div class="space-y-4">
+    <div class="flex flex-col md:flex-row items-center justify-center gap-4 text-xs text-slate-500">
+      <div class="flex items-center gap-2">
+        <span>© 2025 Takanashi-API</span>
+        <span class="text-gray-600">•</span>
+        <span>Made with <i class="fas fa-heart text-red-400 mx-1"></i> by Takanashi</span>
+      </div>
+    </div>
     
-    async function loadNotifications() {
-        const notificationsList = document.getElementById('notifications-list');
-        const unreadCountBadge = document.getElementById('unread-count');
-        try {
-            const response = await fetch('/notifications.json');
-            const notifications = await response.json();
+    <div class="text-xs text-slate-600 space-y-1">
+      <p>inspirasi design dari: 
+        <a href="https://api.nekolabs.web.id/" target="_blank" class="text-purple-400 hover:text-purple-300 underline ml-1">api.nekolabs.web.id</a> 
+        <span class="text-gray-600 mx-2">•</span>
+        <a href="https://api.ootaizumi.web.id/" target="_blank" class="text-purple-400 hover:text-purple-300 underline">api.ootaizumi.web.id</a>
+      </p>
+    </div>
+</footer>
 
-            notificationsList.innerHTML = '';
-            let unreadCount = 0;
+    </main>
 
-            notifications.sort((a, b) => new Date(b.date) - new Date(a.date));
+    <script>
+        // Donate Button Logic
+        document.getElementById('donateBtn').addEventListener('click', function() {
+            window.open('https://saweria.co/takanashi0', '_blank');
+        });
 
-            notifications.forEach(notif => {
-                if (!notif.read) {
-                    unreadCount++;
-                }
-                const notifElement = document.createElement('div');
-                notifElement.className = `bg-dark-200 border border-slate-700 rounded-lg p-4 text-sm shadow-sm fade-in ${notif.read ? 'opacity-70' : ''}`;
-                notifElement.innerHTML = `
-                    <div class="flex justify-between items-start">
-                        <div class="flex-1">
-                            <p class="font-bold text-slate-200 mb-2">${notif.title}</p>
-                            <p class="text-slate-400">${notif.message}</p>
-                        </div>
-                        <div class="flex items-center ml-4 flex-shrink-0">
-                            ${!notif.read ? '<div class="w-2 h-2 bg-green-400 rounded-full mr-2" title="Unread"></div>' : ''}
-                            <span class="text-slate-500 text-xs">${new Date(notif.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-                        </div>
-                    </div>
-                `;
-                notificationsList.appendChild(notifElement);
-            });
+        // Documentation Button Logic
+        document.getElementById('docsBtn').addEventListener('click', function() {
+            window.location.href = 'docs';
+        });
 
-            if (unreadCount > 0) {
-                unreadCountBadge.textContent = `${unreadCount} Unread`;
-                unreadCountBadge.classList.remove('hidden');
-            }
-
-        } catch (error) {
-            notificationsList.innerHTML = '<p class="text-red-400 text-sm bg-red-900/30 p-3 rounded-lg border border-red-800">Failed to load notifications.</p>';
-            console.error('Error loading notifications:', error);
-        }
-    }
-
-    document.getElementById('searchInput').addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const apiItems = document.querySelectorAll('.api-item');
-        const categories = document.querySelectorAll('[data-category]');
-        const noResults = document.getElementById('noResults');
-        let visibleCount = 0;
-
-        apiItems.forEach(item => {
-            const path = item.dataset.path.toLowerCase();
-            const alias = item.dataset.alias.toLowerCase();
-            const description = item.dataset.description.toLowerCase();
+        // Report Button Logic (Currently Disabled)
+        document.getElementById('reportBtn').addEventListener('click', function() {
+            // Show notification that report feature is not available yet
+            alert('Report feature is currently under development. Please contact Takanashi directly via Telegram for any issues.');
             
-            if (path.includes(searchTerm) || alias.includes(searchTerm) || description.includes(searchTerm)) {
-                item.style.display = '';
-                visibleCount++;
-            } else {
-                item.style.display = 'none';
-            }
+            // Optional: You can also disable the button visually
+            // this.disabled = true;
+            // this.style.opacity = '0.6';
+            // this.style.cursor = 'not-allowed';
         });
 
-        categories.forEach(category => {
-            const visibleItems = category.querySelectorAll('.api-item[style=""]');
-            if (visibleItems.length > 0) {
-                category.style.display = '';
-            } else {
-                category.style.display = 'none';
-            }
+        // Optional: Add loading states for better UX
+        document.getElementById('docsBtn').addEventListener('click', function() {
+            // Add loading state if needed
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
+            this.disabled = true;
+            
+            // Reset after 2 seconds if page doesn't load
+            setTimeout(() => {
+                this.innerHTML = originalText;
+                this.disabled = false;
+            }, 2000);
         });
-
-        if (visibleCount === 0) {
-            noResults.style.display = 'block';
-        } else {
-            noResults.style.display = 'none';
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-        loadApis();
-        loadNotifications();
-        loadContact();
-    });
-</script>
+    </script>
 
 </body>
 </html>
