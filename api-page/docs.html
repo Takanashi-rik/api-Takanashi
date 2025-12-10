@@ -455,29 +455,31 @@
   <script>
     const BASE_URL = window.location.origin;
 
-    function toggleCategory(index) {
-      const category = document.getElementById(`category-${index}`);
-      const icon = document.getElementById(`category-icon-${index}`);
-      if (category.classList.contains('hidden')) {
+// Di function toggleCategory():
+function toggleCategory(index) {
+    const category = document.getElementById(`category-${index}`);
+    const icon = document.getElementById(`category-icon-${index}`);
+    if (category.classList.contains('hidden')) {
         category.classList.remove('hidden');
-        icon.textContent = 'expand_less';
-      } else {
+        icon.className = "fas fa-chevron-up transition-transform duration-150";
+    } else {
         category.classList.add('hidden');
-        icon.textContent = 'expand_more';
-      }
+        icon.className = "fas fa-chevron-down transition-transform duration-150";
     }
+}
 
-    function toggleEndpoint(catIndex, endpointIndex) {
-      const endpoint = document.getElementById(`endpoint-${catIndex}-${endpointIndex}`);
-      const icon = document.getElementById(`endpoint-icon-${catIndex}-${endpointIndex}`);
-      if (endpoint.classList.contains('hidden')) {
+// Di function toggleEndpoint():
+function toggleEndpoint(catIndex, endpointIndex) {
+    const endpoint = document.getElementById(`endpoint-${catIndex}-${endpointIndex}`);
+    const icon = document.getElementById(`endpoint-icon-${catIndex}-${endpointIndex}`);
+    if (endpoint.classList.contains('hidden')) {
         endpoint.classList.remove('hidden');
-        icon.textContent = 'expand_less';
-      } else {
+        icon.className = "fas fa-chevron-up transition-transform duration-150 flex-shrink-0";
+    } else {
         endpoint.classList.add('hidden');
-        icon.textContent = 'expand_more';
-      }
+        icon.className = "fas fa-chevron-down transition-transform duration-150 flex-shrink-0";
     }
+}
 
     function updateUrlInfo(catIndex, endpointIndex, path) {
       const form = document.getElementById(`form-${catIndex}-${endpointIndex}`);
