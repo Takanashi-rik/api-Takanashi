@@ -1,965 +1,979 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Browse through our collection of code snippets, scripts, and tools.">
-  <meta name="theme-color" content="#1a202c">
-  <title>Takanashi-API Documentation</title>
-  <link rel="icon" href="../assets/icon.png" type="image/jpeg">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            'mono': ['Ubuntu Mono', 'monospace'],
-            'sans': ['Inter', 'system-ui', 'sans-serif']
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse through our collection of code snippets, scripts, and tools.">
+    <meta name="theme-color" content="#1a202c">
+    <title>Takanashi-API Documentation</title>
+    <link rel="icon" href="/assets/icon.png" type="image/jpeg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'mono': ['Ubuntu Mono', 'monospace'],
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
         }
-      }
-    }
-  </script>
+    </script>
 
-  <style>
-    ::-webkit-scrollbar {
-      display: none;
-    }
+    <style>
+        ::-webkit-scrollbar {
+            display: none;
+        }
 
-    .gradient-text {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-    .notification-item {
-      background: rgba(30, 32, 45, 0.8);
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      border-radius: 8px;
-      padding: 16px;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
+        .glass {
+            backdrop-filter: blur(16px) saturate(180%);
+            background: rgba(23, 25, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.125);
+        }
 
-    .notification-item:hover {
-      border-color: rgba(139, 92, 246, 0.5);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px -2px rgba(139, 92, 246, 0.2);
-      background: rgba(35, 37, 50, 0.9);
-    }
+        .notification-item {
+            background: rgba(30, 32, 45, 0.8);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .notification-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
-      transition: left 0.5s ease;
-    }
+        .notification-item:hover {
+            border-color: rgba(139, 92, 246, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px -2px rgba(139, 92, 246, 0.2);
+            background: rgba(35, 37, 50, 0.9);
+        }
 
-    .notification-item:hover::before {
-      left: 100%;
-    }
+        .notification-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
 
-    .count-badge {
-      background: rgba(139, 92, 246, 0.2);
-      color: #c4b5fd;
-      border-radius: 9999px;
-      padding: 2px 8px;
-      font-size: 0.75rem;
-    }
+        .notification-item:hover::before {
+            left: 100%;
+        }
 
-    .popup-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
+        .count-badge {
+            background: rgba(139, 92, 246, 0.2);
+            color: #c4b5fd;
+            border-radius: 9999px;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+        }
 
-    .popup-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
 
-    .popup-content {
-      background: rgba(30, 32, 45, 0.95);
-      border: 1px solid rgba(139, 92, 246, 0.4);
-      border-radius: 12px;
-      padding: 24px;
-      max-width: 500px;
-      width: 90%;
-      position: relative;
-      transform: scale(0.7);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 
-        0 20px 60px -10px rgba(99, 102, 241, 0.3),
-        0 10px 40px -15px rgba(139, 92, 246, 0.4);
-    }
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
 
-    .popup-overlay.active .popup-content {
-      transform: scale(1);
-      opacity: 1;
-    }
+        .popup-content {
+            background: rgba(30, 32, 45, 0.95);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.7);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 
+                0 20px 60px -10px rgba(99, 102, 241, 0.3),
+                0 10px 40px -15px rgba(139, 92, 246, 0.4);
+        }
 
-    .gif-container {
-      position: relative;
-      display: inline-block;
-      width: 100%;
-    }
+        .popup-overlay.active .popup-content {
+            transform: scale(1);
+            opacity: 1;
+        }
 
-    .close-btn {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: rgba(139, 92, 246, 0.9);
-      border: 2px solid rgba(255, 255, 255, 0.8);
-      color: white;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 1001;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    }
+        .gif-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
 
-    .close-btn:hover {
-      background: rgba(139, 92, 246, 1);
-      border-color: white;
-      transform: rotate(90deg) scale(1.1);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    }
+        .close-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(139, 92, 246, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 1001;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
 
-    .gif-popup-image {
-      border-radius: 8px;
-      margin-bottom: 20px;
-      width: 100%;
-      height: auto;
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
-    }
+        .close-btn:hover {
+            background: rgba(139, 92, 246, 1);
+            border-color: white;
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
 
-    .popup-body {
-      text-align: left;
-    }
+        .gif-popup-image {
+            border-radius: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+        }
 
-    .popup-title {
-      color: #e2e8f0;
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
+        .popup-body {
+            text-align: left;
+        }
 
-    .popup-description {
-      color: #94a3b8;
-      font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 20px;
-    }
+        .popup-title {
+            color: #e2e8f0;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
 
-    .popup-buttons {
-      display: flex;
-      gap: 12px;
-      width: 100%;
-    }
+        .popup-description {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
 
-    .join-btn {
-      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-      color: white;
-      padding: 10px 16px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      cursor: pointer;
-      flex: 1;
-      margin-right: auto;
-    }
+        .popup-buttons {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
 
-    .donate-btn {
-      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-      color: white;
-      padding: 10px 16px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      cursor: pointer;
-      flex: 1;
-    }
+        .join-btn {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            flex: 1;
+            margin-right: auto;
+        }
 
-    .close-popup-btn {
-      background: rgba(139, 92, 246, 0.8);
-      color: white;
-      padding: 10px 16px;
-      border-radius: 8px;
-      border: none;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      flex: 1;
-      margin-left: auto;
-    }
+        .donate-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            flex: 1;
+        }
 
-    .donate-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-    }
+        .close-popup-btn {
+            background: rgba(139, 92, 246, 0.8);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex: 1;
+            margin-left: auto;
+        }
 
-    .join-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-    }
+        .donate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
 
-    .close-popup-btn:hover {
-      background: rgba(139, 92, 246, 1);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-    }
+        .join-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
 
-    .loader {
-      border: 2px solid #4a5568;
-      border-top: 2px solid #8b5cf6;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
+        .close-popup-btn:hover {
+            background: rgba(139, 92, 246, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+        .loader {
+            border: 2px solid #4a5568;
+            border-top: 2px solid #8b5cf6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
 
-    #searchInput:focus {
-      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
-    }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-    /* API List Styles */
-    .status-code {
-      font-family: 'Ubuntu Mono', monospace;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: bold;
-    }
-    .status-200 { background-color: #10b98120; color: #10b981; border: 1px solid #10b98140; }
-    .status-400 { background-color: #f59e0b20; color: #f59e0b; border: 1px solid #f59e0b40; }
-    .status-403 { background-color: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
-    .status-404 { background-color: #8b5cf620; color: #8b5cf6; border: 1px solid #8b5cf640; }
-    .status-500 { background-color: #ec489920; color: #ec4899; border: 1px solid #ec489940; }
+        #searchInput:focus {
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
 
-    .api-category {
-      background: rgba(30, 32, 45, 0.8);
-      border: 1px solid rgba(139, 92, 246, 0.2);
-      border-radius: 8px;
-      margin-bottom: 12px;
-      overflow: hidden;
-    }
+        /* API List Styles */
+        .status-code {
+            font-family: 'Ubuntu Mono', monospace;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .status-200 { background-color: #10b98120; color: #10b981; border: 1px solid #10b98140; }
+        .status-400 { background-color: #f59e0b20; color: #f59e0b; border: 1px solid #f59e0b40; }
+        .status-403 { background-color: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
+        .status-404 { background-color: #8b5cf620; color: #8b5cf6; border: 1px solid #8b5cf640; }
+        .status-500 { background-color: #ec489920; color: #ec4899; border: 1px solid #ec489940; }
 
-    .api-category-header {
-      background: rgba(35, 37, 50, 0.9);
-      border-bottom: 1px solid rgba(139, 92, 246, 0.1);
-      padding: 12px 16px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+        .api-category {
+            background: rgba(30, 32, 45, 0.8);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
 
-    .api-category-header:hover {
-      background: rgba(139, 92, 246, 0.1);
-    }
+        .api-category-header {
+            background: rgba(35, 37, 50, 0.9);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-    .api-endpoint {
-      border-bottom: 1px solid rgba(139, 92, 246, 0.1);
-      background: rgba(25, 27, 40, 0.8);
-    }
+        .api-category-header:hover {
+            background: rgba(139, 92, 246, 0.1);
+        }
 
-    .api-endpoint-header {
-      padding: 12px 16px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
+        .api-endpoint {
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+            background: rgba(25, 27, 40, 0.8);
+        }
 
-    .api-endpoint-header:hover {
-      background: rgba(139, 92, 246, 0.05);
-    }
+        .api-endpoint-header {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-    .api-endpoint-content {
-      background: rgba(20, 22, 35, 0.9);
-      padding: 16px;
-      border-top: 1px solid rgba(139, 92, 246, 0.1);
-    }
+        .api-endpoint-header:hover {
+            background: rgba(139, 92, 246, 0.05);
+        }
 
-    @media (max-width: 640px) {
-      .popup-buttons {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      
-      .popup-content {
-        padding: 16px;
-        margin: 20px;
-      }
-      
-      .join-btn,
-      .donate-btn,
-      .close-popup-btn {
-        flex: 1 0 calc(33.333% - 8px);
-        min-width: 0;
-        font-size: 13px;
-        padding: 8px 12px;
-      }
-    }
-  </style>
+        .api-endpoint-content {
+            background: rgba(20, 22, 35, 0.9);
+            padding: 16px;
+            border-top: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        @media (max-width: 640px) {
+            .popup-buttons {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .popup-content {
+                padding: 16px;
+                margin: 20px;
+            }
+            
+            .join-btn,
+            .donate-btn,
+            .close-popup-btn {
+                flex: 1 0 calc(33.333% - 8px);
+                min-width: 0;
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+        }
+
+        .btn-back {
+            background: rgba(23, 25, 35, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #6366f1;
+            transition: all 0.3s ease;
+        }
+        .btn-back:hover {
+            background: rgba(23, 25, 35, 0.9);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-1px);
+        }
+    </style>
 </head>
 
 <body class="bg-gray-900 text-slate-300 antialiased font-mono min-h-screen">
-  <main class="max-w-2xl mx-auto px-8 py-16">
-    
-    <!-- Header -->
-    <div class="text-left mb-8">
-      <div class="flex items-center gap-4 mb-4">
-        <img src="../assets/icon.png" class="w-12 md:w-9">
-        <h1 class="text-3xl md:text-4xl font-bold gradient-text">Takanashi-API</h1>
-      </div>
-      <p class="text-slate-400 text-xs mx-auto mb-4">
-        Welcome to Takanashi-API documentation. This interactive interface allows you to explore and test our complete collection of API endpoints in real-time.
-      </p>
-      <div class="mb-4 text-xs space-y-1">
-        <div>
-          <a href="https://t.me/takanashi" target="_blank" class="text-slate-300 hover:text-white underline">
-            <i class="fab fa-telegram mr-2"></i>Contact Takanashi
-          </a>
+    <main class="max-w-2xl mx-auto px-8 py-16">
+        
+        <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-4">
+                <img src="/assets/icon.png" class="w-12 md:w-9">
+                <h1 class="text-3xl md:text-4xl font-bold gradient-text">Takanashi-API</h1>
+            </div>
+            <a href="/" class="btn-back px-4 py-2 text-sm font-medium rounded-lg flex items-center gap-2">
+                <i class="fas fa-arrow-left text-xs"></i>
+                Back to Home
+            </a>
         </div>
-      </div>
-    </div>
 
-    <!-- Notifications Section -->
-    <div class="mb-8">
-      <div class="flex items-center justify-between mb-3">
-        <h2 class="text-lg font-semibold text-slate-300 flex items-center">
-          <i class="fas fa-bell mr-2 text-purple-400"></i>
-          Notifications
-        </h2>
-        <span id="unread-count" class="text-xs count-badge px-2 py-1 rounded-full hidden"></span>
-      </div>
-      <div id="notifications-list" class="space-y-2">
-        <div class="flex justify-center">
-          <div class="loader w-6 h-6 border-2 border-slate-600 border-t-purple-400 rounded-full animate-spin"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Search Section -->
-    <div class="mb-8">
-      <div class="flex-1 relative">
-        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <i class="fas fa-search text-gray-500 text-sm"></i>
-        </div>
-        <input 
-          type="text" 
-          id="searchInput" 
-          placeholder="Search API endpoints..." 
-          class="w-full pl-10 pr-4 py-3 text-sm border border-gray-700 bg-gray-800 text-slate-300 placeholder-slate-500 focus:outline-none focus:border-purple-500 rounded-lg transition-colors"
-        >
-      </div>
-    </div>
-
-    <!-- API List Container -->
-    <div id="apiList" class="space-y-3 mb-12">
-      <div class="flex justify-center py-8">
-        <div class="loader w-8 h-8 border-2 border-slate-600 border-t-purple-400 rounded-full animate-spin"></div>
-      </div>
-    </div>
-
-    <!-- No Results Message -->
-    <div id="noResults" class="text-center py-16 hidden">
-      <div class="max-w-md mx-auto">
-        <i class="fas fa-search text-slate-500 text-3xl mb-4"></i>
-        <h3 class="text-xs text-slate-400 mb-2">No API endpoints found.</h3>
-        <p class="text-slate-500 text-xs">Try a different search term.</p>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- Popup GIF -->
-  <div id="gif-popup" class="popup-overlay">
-    <div class="popup-content">
-      <div class="gif-container">
-        <button class="close-btn" onclick="closePopup()">
-          <i class="fas fa-times"></i>
-        </button>
-        <img src="../assets/icon.gif" alt="Takanashi API Preview" class="gif-popup-image">
-      </div>
-      
-      <div class="popup-body">
-        <h3 class="popup-title">Welcome to Takanashi API</h3>
-        <p class="popup-description">
-          Explore our collection of API endpoints and tools for your development needs.
+        <p class="text-slate-400 text-xs mx-auto mb-8">
+            Welcome to Takanashi-API documentation. This interactive interface allows you to explore and test our complete collection of API endpoints in real-time.
         </p>
-        
-        <div class="popup-buttons">
-          <a href="https://saweria.co/takanashi0" target="_blank" class="donate-btn">
-            <i class="fas fa-heart mr-2"></i>Donasi
-          </a>
-          <a href="https://whatsapp.com/channel/0029Vb7HgEE4inomIuF8PB00" target="_blank" class="join-btn">
-            <i class="fab fa-whatsapp mr-2"></i>Join
-          </a>
-          <button onclick="closePopup()" class="close-popup-btn">
-            <i class="fas fa-times mr-2"></i>Tutup
-          </button>
+
+        <!-- Notifications Section -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-lg font-semibold text-slate-300 flex items-center">
+                    <i class="fas fa-bell mr-2 text-purple-400"></i>
+                    Notifications
+                </h2>
+                <span id="unread-count" class="text-xs count-badge px-2 py-1 rounded-full hidden"></span>
+            </div>
+            <div id="notifications-list" class="space-y-2">
+                <div class="flex justify-center">
+                    <div class="loader w-6 h-6 border-2 border-slate-600 border-t-purple-400 rounded-full animate-spin"></div>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <!-- Search Section -->
+        <div class="mb-8">
+            <div class="flex-1 relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-500 text-sm"></i>
+                </div>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search API endpoints..." 
+                    class="w-full pl-10 pr-4 py-3 text-sm border border-gray-700 bg-gray-800 text-slate-300 placeholder-slate-500 focus:outline-none focus:border-purple-500 rounded-lg transition-colors"
+                >
+            </div>
+        </div>
+
+        <!-- API List Container -->
+        <div id="apiList" class="space-y-3 mb-12">
+            <div class="flex justify-center py-8">
+                <div class="loader w-8 h-8 border-2 border-slate-600 border-t-purple-400 rounded-full animate-spin"></div>
+            </div>
+        </div>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="text-center py-16 hidden">
+            <div class="max-w-md mx-auto">
+                <i class="fas fa-search text-slate-500 text-3xl mb-4"></i>
+                <h3 class="text-xs text-slate-400 mb-2">No API endpoints found.</h3>
+                <p class="text-slate-500 text-xs">Try a different search term.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Popup GIF -->
+    <div id="gif-popup" class="popup-overlay">
+        <div class="popup-content">
+            <div class="gif-container">
+                <button class="close-btn" onclick="closePopup()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <img src="/assets/icon.gif" alt="Takanashi API Preview" class="gif-popup-image">
+            </div>
+            
+            <div class="popup-body">
+                <h3 class="popup-title">Welcome to Takanashi API</h3>
+                <p class="popup-description">
+                    Explore our collection of API endpoints and tools for your development needs.
+                </p>
+                
+                <div class="popup-buttons">
+                    <a href="https://saweria.co/takanashi0" target="_blank" class="donate-btn">
+                        <i class="fas fa-heart mr-2"></i>Donasi
+                    </a>
+                    <a href="https://whatsapp.com/channel/0029Vb7HgEE4inomIuF8PB00" target="_blank" class="join-btn">
+                        <i class="fab fa-whatsapp mr-2"></i>Join
+                    </a>
+                    <button onclick="closePopup()" class="close-popup-btn">
+                        <i class="fas fa-times mr-2"></i>Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script>
-    const BASE_URL = window.location.origin;
+    <script>
+        const BASE_URL = window.location.origin;
 
-// Di function toggleCategory():
-function toggleCategory(index) {
-    const category = document.getElementById(`category-${index}`);
-    const icon = document.getElementById(`category-icon-${index}`);
-    if (category.classList.contains('hidden')) {
-        category.classList.remove('hidden');
-        icon.className = "fas fa-chevron-up transition-transform duration-150";
-    } else {
-        category.classList.add('hidden');
-        icon.className = "fas fa-chevron-down transition-transform duration-150";
-    }
-}
-
-// Di function toggleEndpoint():
-function toggleEndpoint(catIndex, endpointIndex) {
-    const endpoint = document.getElementById(`endpoint-${catIndex}-${endpointIndex}`);
-    const icon = document.getElementById(`endpoint-icon-${catIndex}-${endpointIndex}`);
-    if (endpoint.classList.contains('hidden')) {
-        endpoint.classList.remove('hidden');
-        icon.className = "fas fa-chevron-up transition-transform duration-150 flex-shrink-0";
-    } else {
-        endpoint.classList.add('hidden');
-        icon.className = "fas fa-chevron-down transition-transform duration-150 flex-shrink-0";
-    }
-}
-
-    function updateUrlInfo(catIndex, endpointIndex, path) {
-      const form = document.getElementById(`form-${catIndex}-${endpointIndex}`);
-      const urlInfoDiv = document.getElementById(`url-info-${catIndex}-${endpointIndex}`);
-      
-      const formData = new FormData(form);
-      const params = new URLSearchParams();
-      for (const [key, value] of formData.entries()) {
-        if (value) {
-          params.append(key, value);
+        function toggleCategory(index) {
+            const category = document.getElementById(`category-${index}`);
+            const icon = document.getElementById(`category-icon-${index}`);
+            if (category.classList.contains('hidden')) {
+                category.classList.remove('hidden');
+                icon.className = "fas fa-chevron-up transition-transform duration-150";
+            } else {
+                category.classList.add('hidden');
+                icon.className = "fas fa-chevron-down transition-transform duration-150";
+            }
         }
-      }
-      
-      const fullUrl = `${BASE_URL}${path}?${params.toString()}`;
-      const curlCommand = `curl -X GET "${fullUrl}"`;
-      
-      urlInfoDiv.innerHTML = `
-        <div class="space-y-3">
-          <div>
-            <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
-              <i class="fas fa-server mr-1 text-sm"></i>
-              Base URL
-            </div>
-            <code class="block text-xs bg-gray-800 p-2 rounded border border-gray-700">${BASE_URL}</code>
-          </div>
-          
-          <div>
-            <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
-              <i class="fas fa-terminal mr-1 text-sm"></i>
-              Command URL (cURL)
-            </div>
-            <code class="block text-xs bg-gray-800 p-2 rounded border border-gray-700 overflow-x-auto">${curlCommand}</code>
-          </div>
-          
-          <div>
-            <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
-              <i class="fas fa-link mr-1 text-sm"></i>
-              URL Executed
-            </div>
-            <code class="block text-xs bg-gray-800 p-2 rounded border border-gray-700 break-all">${fullUrl}</code>
-          </div>
-        </div>
-      `;
-    }
 
-    function getStatusCodeTable() {
-      const statusCodes = [
-        { code: 200, color: "status-200", meaning: "Success - Request completed successfully" },
-        { code: 400, color: "status-400", meaning: "Bad Request - Invalid parameters or syntax" },
-        { code: 403, color: "status-403", meaning: "Forbidden - Access denied" },
-        { code: 404, color: "status-404", meaning: "Not Found - Endpoint or resource not found" },
-        { code: 500, color: "status-500", meaning: "Internal Server Error - Server encountered an error" }
-      ];
-      
-      let tableHTML = `
-        <div class="mt-4">
-          <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
-            <i class="fas fa-code mr-1 text-sm"></i>
-            HTTP Status Codes
-          </div>
-          <div class="bg-gray-800 border border-gray-700 rounded overflow-hidden">
-            <table class="w-full text-xs">
-              <thead>
-                <tr class="bg-gray-900">
-                  <th class="text-left p-3 text-gray-300">Code</th>
-                  <th class="text-left p-3 text-gray-300">Meaning</th>
-                </tr>
-              </thead>
-              <tbody>
-      `;
-      
-      statusCodes.forEach((status, index) => {
-        tableHTML += `
-          <tr class="${index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-900'}">
-            <td class="p-3">
-              <span class="status-code ${status.color}">${status.code}</span>
-            </td>
-            <td class="p-3 text-gray-400">${status.meaning}</td>
-          </tr>
-        `;
-      });
-      
-      tableHTML += `
-              </tbody>
-            </table>
-          </div>
-        </div>
-      `;
-      
-      return tableHTML;
-    }
-
-    async function executeRequest(event, catIndex, endpointIndex, method, path) {
-      event.preventDefault();
-      const form = document.getElementById(`form-${catIndex}-${endpointIndex}`);
-      const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
-      const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
-      const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
-      const currentStatusDiv = document.getElementById(`current-status-${catIndex}-${endpointIndex}`);
-      
-      const formData = new FormData(form);
-      const params = new URLSearchParams();
-      for (const [key, value] of formData.entries()) {
-        if (value) {
-          params.append(key, value);
+        function toggleEndpoint(catIndex, endpointIndex) {
+            const endpoint = document.getElementById(`endpoint-${catIndex}-${endpointIndex}`);
+            const icon = document.getElementById(`endpoint-icon-${catIndex}-${endpointIndex}`);
+            if (endpoint.classList.contains('hidden')) {
+                endpoint.classList.remove('hidden');
+                icon.className = "fas fa-chevron-up transition-transform duration-150 flex-shrink-0";
+            } else {
+                endpoint.classList.add('hidden');
+                icon.className = "fas fa-chevron-down transition-transform duration-150 flex-shrink-0";
+            }
         }
-      }
 
-      const fullPath = `${path}?${params.toString()}`;
-      responseDiv.classList.remove('hidden');
-      responseContent.innerHTML = '<div class="loader w-6 h-6 border-2 border-slate-600 border-t-purple-400 rounded-full animate-spin"></div>';
-      
-      updateUrlInfo(catIndex, endpointIndex, path);
-
-      try {
-        const response = await fetch(fullPath);
-        const statusCode = response.status;
-        
-        const statusInfo = getCurrentStatusInfo(statusCode);
-        currentStatusDiv.innerHTML = statusInfo;
-        currentStatusDiv.classList.remove('hidden');
-        
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-          const data = await response.json();
-          responseContent.innerHTML = `<pre class="text-xs overflow-auto">${JSON.stringify(data, null, 2)}</pre>`;
-        } else if (contentType && contentType.startsWith("image/")) {
-          const blob = await response.blob();
-          const imageUrl = URL.createObjectURL(blob);
-          responseContent.innerHTML = `<img src="${imageUrl}" class="max-w-full h-auto rounded-md">`;
-        } else {
-          const text = await response.text();
-          responseContent.innerHTML = `<pre class="text-xs overflow-auto">${text}</pre>`;
-        }
-      } catch (error) {
-        responseContent.innerHTML = `<pre class="text-xs text-red-400">Error: ${error.message}</pre>`;
-        currentStatusDiv.innerHTML = getCurrentStatusInfo(0);
-        currentStatusDiv.classList.remove('hidden');
-      }
-      clearButton.classList.remove('hidden');
-    }
-
-    function getCurrentStatusInfo(code) {
-      const statusCodes = {
-        200: { message: "Request completed successfully", class: "status-200" },
-        400: { message: "Bad Request - Check your parameters", class: "status-400" },
-        403: { message: "Forbidden - Access denied", class: "status-403" },
-        404: { message: "Not Found - Endpoint not available", class: "status-404" },
-        500: { message: "Internal Server Error", class: "status-500" },
-        0: { message: "Network Error - Failed to connect", class: "status-500" }
-      };
-      
-      const info = statusCodes[code] || { 
-        message: `Status code: ${code}`, 
-        class: "status-500" 
-      };
-      
-      return `
-        <div class="mt-4">
-          <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
-            <i class="fas fa-info-circle mr-1 text-sm"></i>
-            Current Response Status
-          </div>
-          <div class="bg-gray-800 border border-gray-700 rounded p-3">
-            <div class="flex items-center justify-between">
-              <span class="font-bold">HTTP Status:</span>
-              <span class="status-code ${info.class}">${code}</span>
-            </div>
-            <div class="text-xs text-gray-400 mt-2">${info.message}</div>
-          </div>
-        </div>
-      `;
-    }
-
-    function clearResponse(catIndex, endpointIndex) {
-      const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
-      const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
-      const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
-      const currentStatusDiv = document.getElementById(`current-status-${catIndex}-${endpointIndex}`);
-      
-      responseContent.innerHTML = '';
-      responseDiv.classList.add('hidden');
-      clearButton.classList.add('hidden');
-      currentStatusDiv.classList.add('hidden');
-    }
-
-    async function loadApis() {
-      const apiList = document.getElementById('apiList');
-      const searchInput = document.getElementById('searchInput');
-      const noResults = document.getElementById('noResults');
-      
-      try {
-        const response = await fetch('/assets/settings.json');
-        const data = await response.json();
-        
-        let html = '';
-        data.categories.forEach((category, catIndex) => {
-          html += `
-          <div class="api-category category-group" data-category="${category.name}">
-            <div class="api-category-header" onclick="toggleCategory(${catIndex})">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                  <i class="fas fa-folder text-purple-400 mr-3"></i>
-                  <span class="font-bold text-sm">${category.name}</span>
-                  <span class="ml-2 text-xs text-gray-500">(${category.items.length})</span>
-                </div>
-                <i class="fas fa-chevron-down text-gray-500 transition-transform duration-150" id="category-icon-${catIndex}"></i>
-              </div>
-            </div>
+        function updateUrlInfo(catIndex, endpointIndex, path) {
+            const form = document.getElementById(`form-${catIndex}-${endpointIndex}`);
+            const urlInfoDiv = document.getElementById(`url-info-${catIndex}-${endpointIndex}`);
+            if (!form || !urlInfoDiv) return;
             
-            <div id="category-${catIndex}" class="hidden">`;
-          
-          category.items.forEach((item, endpointIndex) => {
-            const method = 'GET';
-            const pathParts = item.path.split('?');
-            const path = pathParts[0];
-            const queryParams = new URLSearchParams(pathParts[1] || '');
-
-            const statusClasses = {
-              'ready': 'bg-green-500/20 text-green-400',
-              'update': 'bg-yellow-500/20 text-yellow-400',
-              'error': 'bg-red-500/20 text-red-400'
-            };
-            const statusClass = statusClasses[item.status] || 'bg-gray-600';
-
-            html += `
-                <div class="api-endpoint api-item" 
-                     data-method="${method}"
-                     data-path="${path}"
-                     data-alias="${item.name}"
-                     data-description="${item.desc}"
-                     data-category="${category.name}">
-                  <div class="api-endpoint-header" onclick="toggleEndpoint(${catIndex}, ${endpointIndex})">
-                    <div class="flex items-center justify-between">
-                      <div class="flex items-center min-w-0 flex-1">
-                        <span class="inline-block px-3 py-1 text-xs font-semibold text-white mr-3 flex-shrink-0 bg-gray-600 rounded">
-                          ${method}
-                        </span>
-                        <div class="flex flex-col min-w-0 flex-1">
-                          <span class="font-semibold truncate max-w-[90%] font-mono text-sm" title="${path}">${path}</span>
-                          <div class="flex items-center mt-1">
-                            <span class="text-xs text-gray-400 truncate max-w-[90%]" title="${item.name}">${item.name}</span>
-                            <span class="ml-2 px-2 py-0.5 text-xs rounded-full ${statusClass}">${item.status || 'ready'}</span>
-                          </div>
+            const formData = new FormData(form);
+            const params = new URLSearchParams();
+            for (const [key, value] of formData.entries()) {
+                if (value) {
+                    params.append(key, value);
+                }
+            }
+            
+            const fullUrl = `${BASE_URL}${path}?${params.toString()}`;
+            const curlCommand = `curl -X GET "${fullUrl}"`;
+            
+            urlInfoDiv.innerHTML = `
+                <div class="space-y-3">
+                    <div>
+                        <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
+                            <i class="fas fa-server mr-1 text-sm"></i>
+                            Base URL
                         </div>
-                      </div>
-                      <i class="fas fa-chevron-down text-gray-500 transition-transform duration-150 flex-shrink-0" id="endpoint-icon-${catIndex}-${endpointIndex}"></i>
+                        <code class="block text-xs bg-gray-800 p-2 rounded border border-gray-700">${BASE_URL}</code>
                     </div>
-                  </div>
-                  
-                  <div id="endpoint-${catIndex}-${endpointIndex}" class="hidden api-endpoint-content">
-                    <div class="mb-3">
-                      <div class="text-gray-400 text-xs">${item.desc}</div>
+                    
+                    <div>
+                        <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
+                            <i class="fas fa-terminal mr-1 text-sm"></i>
+                            Command URL (cURL)
+                        </div>
+                        <code class="block text-xs bg-gray-800 p-2 rounded border border-gray-700 overflow-x-auto">${curlCommand}</code>
                     </div>
-                    `;
-            if (item.status === 'ready') {
-              html += `
-                        <div>
-                          <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
-                            <i class="fas fa-play mr-1 text-sm"></i>
-                            TRY IT OUT
-                          </div>
-                          
-                          <div>
-                            <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
-                              <i class="fas fa-sliders-h mr-1 text-sm"></i>
-                              Parameters
-                            </div>
-                            <form id="form-${catIndex}-${endpointIndex}" onsubmit="executeRequest(event, ${catIndex}, ${endpointIndex}, '${method}', '${path}')">
-                              <div class="mb-4 space-y-2">`;
-              if (item.params) {
-                Object.keys(item.params).forEach(paramName => {
-                  const isRequired = !queryParams.has(paramName) || queryParams.get(paramName) === '';
-                  html += `<div>
-                            <label class="block text-xs font-medium text-slate-400 mb-2">${paramName} ${isRequired ? '<span class="text-red-500">*</span>' : ''}</label>
-                            <input type="text" name="${paramName}" class="w-full px-3 py-2 border border-gray-600 text-sm focus:outline-none focus:border-purple-500 bg-gray-700 placeholder:text-slate-500 rounded" placeholder="${item.params[paramName]}" ${isRequired ? 'required' : ''} oninput="updateUrlInfo(${catIndex}, ${endpointIndex}, '${path}')">
-                          </div>`;
-                });
-              }
-              html += `
-                              </div>
-                              <button type="submit" class="bg-purple-600 hover:bg-purple-500 font-semibold text-white px-6 py-2 text-xs font-medium transition-colors duration-150 rounded">
-                                <i class="fas fa-play mr-1"></i>Execute
-                              </button>
-                              <button type="button" id="clear-${catIndex}-${endpointIndex}" onclick="clearResponse(${catIndex}, ${endpointIndex})" class="hidden bg-gray-700 border border-gray-600 hover:border-gray-500 font-semibold text-slate-300 px-6 py-2 text-xs font-medium transition-colors duration-150 ml-2 rounded">
-                                <i class="fas fa-times mr-1"></i>Clear
-                              </button>
-                            </form>
-                          </div>
-                          
-                          <div class="mt-4">
-                            <div id="url-info-${catIndex}-${endpointIndex}"></div>
-                          </div>
-                          
-                          ${getStatusCodeTable()}
-                          
-                          <div id="current-status-${catIndex}-${endpointIndex}" class="hidden"></div>
-                        </div>`;
-            } else {
-              html += `<div class="text-yellow-400 text-xs p-3 bg-yellow-500/20 border border-yellow-500/30 rounded">This endpoint cannot be tested at the moment.</div>`;
-            }
-
-            html += `
-                    <div id="response-${catIndex}-${endpointIndex}" class="hidden mt-4">
-                      <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
-                        <i class="fas fa-code mr-1 text-sm"></i>
-                        RESPONSE
-                      </div>
-                      <div class="bg-gray-900 text-white text-xs p-4 border border-gray-700 rounded">
-                        <div class="max-h-80 overflow-auto" id="response-content-${catIndex}-${endpointIndex}"></div>
-                      </div>
+                    
+                    <div>
+                        <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
+                            <i class="fas fa-link mr-1 text-sm"></i>
+                            URL Executed
+                        </div>
+                        <code class="block text-xs bg-gray-800 p-2 rounded border border-gray-700 break-all">${fullUrl}</code>
                     </div>
-                  </div>
-                </div>`;
-          });
-          html += `</div></div>`;
-        });
-        apiList.innerHTML = html;
-        
-        setTimeout(() => {
-          data.categories.forEach((category, catIndex) => {
-            category.items.forEach((item, endpointIndex) => {
-              if (item.status === 'ready') {
-                const pathParts = item.path.split('?');
-                const path = pathParts[0];
-                updateUrlInfo(catIndex, endpointIndex, path);
-              }
-            });
-          });
-        }, 100);
-        
-        searchInput.addEventListener('input', function() {
-          const searchTerm = this.value.toLowerCase();
-          const apiItems = document.querySelectorAll('.api-item');
-          const categories = document.querySelectorAll('.category-group');
-          let visibleCount = 0;
-
-          apiItems.forEach(item => {
-            const path = item.dataset.path.toLowerCase();
-            const alias = item.dataset.alias.toLowerCase();
-            const description = item.dataset.description.toLowerCase();
-            
-            if (path.includes(searchTerm) || alias.includes(searchTerm) || description.includes(searchTerm)) {
-              item.style.display = '';
-              visibleCount++;
-            } else {
-              item.style.display = 'none';
-            }
-          });
-
-          categories.forEach(category => {
-            const visibleItems = category.querySelectorAll('.api-item[style=""]');
-            if (visibleItems.length > 0) {
-              category.style.display = '';
-            } else {
-              category.style.display = 'none';
-            }
-          });
-
-          if (visibleCount === 0 && searchTerm !== '') {
-            noResults.classList.remove('hidden');
-          } else {
-            noResults.classList.add('hidden');
-          }
-        });
-        
-      } catch (error) {
-        apiList.innerHTML = '<p class="text-red-500 text-center py-8">Failed to load API data.</p>';
-        console.error('Error loading API data:', error);
-      }
-    }
-
-    async function loadNotifications() {
-      const notificationsList = document.getElementById('notifications-list');
-      const unreadCountBadge = document.getElementById('unread-count');
-      
-      try {
-        const response = await fetch('/assets/notifications.json');
-        const notifications = await response.json();
-
-        notificationsList.innerHTML = '';
-        let unreadCount = 0;
-
-        notifications.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-        notifications.forEach(notif => {
-          if (!notif.read) {
-            unreadCount++;
-          }
-          
-          const notifElement = document.createElement('div');
-          notifElement.className = `notification-item p-4 rounded-lg text-xs relative overflow-hidden ${notif.read ? 'opacity-60' : ''}`;
-          notifElement.innerHTML = `
-            <div class="flex justify-between items-start">
-              <div class="flex-1">
-                <div class="flex items-center mb-2">
-                  ${!notif.read ? '<div class="w-2 h-2 bg-purple-400 rounded-full mr-2 animate-pulse" title="Unread"></div>' : ''}
-                  <p class="font-semibold text-purple-300">${notif.title}</p>
                 </div>
-                <p class="text-slate-400 mb-2">${notif.message}</p>
-                <div class="flex justify-between items-center">
-                  <span class="text-slate-500">${formatNotificationDate(notif.date)}</span>
-                  <span class="text-purple-400 text-xs">${notif.id}</span>
-                </div>
-              </div>
-            </div>
-          `;
-          notificationsList.appendChild(notifElement);
-        });
-
-        if (unreadCount > 0) {
-          unreadCountBadge.textContent = `${unreadCount} unread`;
-          unreadCountBadge.classList.remove('hidden');
-        } else {
-          unreadCountBadge.classList.add('hidden');
+            `;
         }
 
-      } catch (error) {
-        notificationsList.innerHTML = `
-          <div class="notification-item p-4 rounded-lg text-xs">
-            <div class="text-center text-slate-400">
-              <i class="fas fa-exclamation-triangle text-yellow-400 mb-2"></i>
-              <p>Failed to load notifications</p>
-            </div>
-          </div>
-        `;
-      }
-    }
+        function getStatusCodeTable() {
+            const statusCodes = [
+                { code: 200, color: "status-200", meaning: "Success - Request completed successfully" },
+                { code: 400, color: "status-400", meaning: "Bad Request - Invalid parameters or syntax" },
+                { code: 403, color: "status-403", meaning: "Forbidden - Access denied" },
+                { code: 404, color: "status-404", meaning: "Not Found - Endpoint or resource not found" },
+                { code: 500, color: "status-500", meaning: "Internal Server Error - Server encountered an error" }
+            ];
+            
+            let tableHTML = `
+                <div class="mt-4">
+                    <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
+                        <i class="fas fa-code mr-1 text-sm"></i>
+                        HTTP Status Codes
+                    </div>
+                    <div class="bg-gray-800 border border-gray-700 rounded overflow-hidden">
+                        <table class="w-full text-xs">
+                            <thead>
+                                <tr class="bg-gray-900">
+                                    <th class="text-left p-3 text-gray-300">Code</th>
+                                    <th class="text-left p-3 text-gray-300">Meaning</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+            
+            statusCodes.forEach((status, index) => {
+                tableHTML += `
+                    <tr class="${index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-900'}">
+                        <td class="p-3">
+                            <span class="status-code ${status.color}">${status.code}</span>
+                        </td>
+                        <td class="p-3 text-gray-400">${status.meaning}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            
+            return tableHTML;
+        }
 
-    function formatNotificationDate(dateString) {
-      const date = new Date(dateString);
-      const now = new Date();
-      const diffTime = Math.abs(now - date);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      
-      if (diffDays === 0) {
-        return 'Today';
-      } else if (diffDays === 1) {
-        return 'Yesterday';
-      } else if (diffDays < 7) {
-        return `${diffDays} days ago`;
-      } else {
-        return date.toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'short', 
-          day: 'numeric' 
+        async function executeRequest(event, catIndex, endpointIndex, method, path) {
+            event.preventDefault();
+            const form = document.getElementById(`form-${catIndex}-${endpointIndex}`);
+            const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
+            const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
+            const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
+            const currentStatusDiv = document.getElementById(`current-status-${catIndex}-${endpointIndex}`);
+            
+            const formData = new FormData(form);
+            const params = new URLSearchParams();
+            for (const [key, value] of formData.entries()) {
+                if (value) {
+                    params.append(key, value);
+                }
+            }
+
+            const fullPath = `${path}?${params.toString()}`;
+            responseDiv.classList.remove('hidden');
+            responseContent.innerHTML = '<div class="loader w-6 h-6 border-2 border-slate-600 border-t-purple-400 rounded-full animate-spin"></div>';
+            
+            updateUrlInfo(catIndex, endpointIndex, path);
+
+            try {
+                const response = await fetch(fullPath);
+                const statusCode = response.status;
+                
+                const statusInfo = getCurrentStatusInfo(statusCode);
+                currentStatusDiv.innerHTML = statusInfo;
+                currentStatusDiv.classList.remove('hidden');
+                
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.includes("application/json")) {
+                    const data = await response.json();
+                    responseContent.innerHTML = `<pre class="text-xs overflow-auto">${JSON.stringify(data, null, 2)}</pre>`;
+                } else if (contentType && contentType.startsWith("image/")) {
+                    const blob = await response.blob();
+                    const imageUrl = URL.createObjectURL(blob);
+                    responseContent.innerHTML = `<img src="${imageUrl}" class="max-w-full h-auto rounded-md">`;
+                } else {
+                    const text = await response.text();
+                    responseContent.innerHTML = `<pre class="text-xs overflow-auto">${text}</pre>`;
+                }
+            } catch (error) {
+                responseContent.innerHTML = `<pre class="text-xs text-red-400">Error: ${error.message}</pre>`;
+                currentStatusDiv.innerHTML = getCurrentStatusInfo(0);
+                currentStatusDiv.classList.remove('hidden');
+            }
+            clearButton.classList.remove('hidden');
+        }
+
+        function getCurrentStatusInfo(code) {
+            const statusCodes = {
+                200: { message: "Request completed successfully", class: "status-200" },
+                400: { message: "Bad Request - Check your parameters", class: "status-400" },
+                403: { message: "Forbidden - Access denied", class: "status-403" },
+                404: { message: "Not Found - Endpoint not available", class: "status-404" },
+                500: { message: "Internal Server Error", class: "status-500" },
+                0: { message: "Network Error - Failed to connect", class: "status-500" }
+            };
+            
+            const info = statusCodes[code] || { 
+                message: `Status code: ${code}`, 
+                class: "status-500" 
+            };
+            
+            return `
+                <div class="mt-4">
+                    <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
+                        <i class="fas fa-info-circle mr-1 text-sm"></i>
+                        Current Response Status
+                    </div>
+                    <div class="bg-gray-800 border border-gray-700 rounded p-3">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold">HTTP Status:</span>
+                            <span class="status-code ${info.class}">${code}</span>
+                        </div>
+                        <div class="text-xs text-gray-400 mt-2">${info.message}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function clearResponse(catIndex, endpointIndex) {
+            const responseDiv = document.getElementById(`response-${catIndex}-${endpointIndex}`);
+            const responseContent = document.getElementById(`response-content-${catIndex}-${endpointIndex}`);
+            const clearButton = document.getElementById(`clear-${catIndex}-${endpointIndex}`);
+            const currentStatusDiv = document.getElementById(`current-status-${catIndex}-${endpointIndex}`);
+            
+            responseContent.innerHTML = '';
+            responseDiv.classList.add('hidden');
+            clearButton.classList.add('hidden');
+            currentStatusDiv.classList.add('hidden');
+        }
+
+        async function loadApis() {
+            const apiList = document.getElementById('apiList');
+            const searchInput = document.getElementById('searchInput');
+            const noResults = document.getElementById('noResults');
+            
+            try {
+                const response = await fetch('/assets/settings.json');
+                const data = await response.json();
+                
+                let html = '';
+                data.categories.forEach((category, catIndex) => {
+                    html += `
+                    <div class="api-category category-group" data-category="${category.name}">
+                        <div class="api-category-header" onclick="toggleCategory(${catIndex})">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <i class="fas fa-folder text-purple-400 mr-3"></i>
+                                    <span class="font-bold text-sm">${category.name}</span>
+                                    <span class="ml-2 text-xs text-gray-500">(${category.items.length})</span>
+                                </div>
+                                <i class="fas fa-chevron-down text-gray-500 transition-transform duration-150" id="category-icon-${catIndex}"></i>
+                            </div>
+                        </div>
+                        
+                        <div id="category-${catIndex}" class="hidden">`;
+                    
+                    category.items.forEach((item, endpointIndex) => {
+                        const method = 'GET';
+                        const pathParts = item.path.split('?');
+                        const path = pathParts[0];
+                        const queryParams = new URLSearchParams(pathParts[1] || '');
+
+                        const statusClasses = {
+                            'ready': 'bg-green-500/20 text-green-400',
+                            'update': 'bg-yellow-500/20 text-yellow-400',
+                            'error': 'bg-red-500/20 text-red-400'
+                        };
+                        const statusClass = statusClasses[item.status] || 'bg-gray-600';
+
+                        html += `
+                            <div class="api-endpoint api-item" 
+                                 data-method="${method}"
+                                 data-path="${path}"
+                                 data-alias="${item.name}"
+                                 data-description="${item.desc}"
+                                 data-category="${category.name}">
+                                <div class="api-endpoint-header" onclick="toggleEndpoint(${catIndex}, ${endpointIndex})">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center min-w-0 flex-1">
+                                            <span class="inline-block px-3 py-1 text-xs font-semibold text-white mr-3 flex-shrink-0 bg-gray-600 rounded">
+                                                ${method}
+                                            </span>
+                                            <div class="flex flex-col min-w-0 flex-1">
+                                                <span class="font-semibold truncate max-w-[90%] font-mono text-sm" title="${path}">${path}</span>
+                                                <div class="flex items-center mt-1">
+                                                    <span class="text-xs text-gray-400 truncate max-w-[90%]" title="${item.name}">${item.name}</span>
+                                                    <span class="ml-2 px-2 py-0.5 text-xs rounded-full ${statusClass}">${item.status || 'ready'}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <i class="fas fa-chevron-down text-gray-500 transition-transform duration-150 flex-shrink-0" id="endpoint-icon-${catIndex}-${endpointIndex}"></i>
+                                    </div>
+                                </div>
+                                
+                                <div id="endpoint-${catIndex}-${endpointIndex}" class="hidden api-endpoint-content">
+                                    <div class="mb-3">
+                                        <div class="text-gray-400 text-xs">${item.desc}</div>
+                                    </div>
+                                    `;
+                        if (item.status === 'ready') {
+                            html += `
+                                        <div>
+                                            <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
+                                                <i class="fas fa-play mr-1 text-sm"></i>
+                                                TRY IT OUT
+                                            </div>
+                                            
+                                            <div>
+                                                <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
+                                                    <i class="fas fa-sliders-h mr-1 text-sm"></i>
+                                                    Parameters
+                                                </div>
+                                                <form id="form-${catIndex}-${endpointIndex}" onsubmit="executeRequest(event, ${catIndex}, ${endpointIndex}, '${method}', '${path}')">
+                                                    <div class="mb-4 space-y-2">`;
+                            if (item.params) {
+                                Object.keys(item.params).forEach(paramName => {
+                                    const isRequired = !queryParams.has(paramName) || queryParams.get(paramName) === '';
+                                    html += `<div>
+                                                <label class="block text-xs font-medium text-slate-400 mb-2">${paramName} ${isRequired ? '<span class="text-red-500">*</span>' : ''}</label>
+                                                <input type="text" name="${paramName}" class="w-full px-3 py-2 border border-gray-600 text-sm focus:outline-none focus:border-purple-500 bg-gray-700 placeholder:text-slate-500 rounded" placeholder="${item.params[paramName]}" ${isRequired ? 'required' : ''} oninput="updateUrlInfo(${catIndex}, ${endpointIndex}, '${path}')">
+                                            </div>`;
+                                });
+                            }
+                            html += `
+                                                    </div>
+                                                    <button type="submit" class="bg-purple-600 hover:bg-purple-500 font-semibold text-white px-6 py-2 text-xs font-medium transition-colors duration-150 rounded">
+                                                        <i class="fas fa-play mr-1"></i>Execute
+                                                    </button>
+                                                    <button type="button" id="clear-${catIndex}-${endpointIndex}" onclick="clearResponse(${catIndex}, ${endpointIndex})" class="hidden bg-gray-700 border border-gray-600 hover:border-gray-500 font-semibold text-slate-300 px-6 py-2 text-xs font-medium transition-colors duration-150 ml-2 rounded">
+                                                        <i class="fas fa-times mr-1"></i>Clear
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            
+                                            <div class="mt-4">
+                                                <div id="url-info-${catIndex}-${endpointIndex}"></div>
+                                            </div>
+                                            
+                                            ${getStatusCodeTable()}
+                                            
+                                            <div id="current-status-${catIndex}-${endpointIndex}" class="hidden"></div>
+                                        </div>`;
+                        } else {
+                            html += `<div class="text-yellow-400 text-xs p-3 bg-yellow-500/20 border border-yellow-500/30 rounded">This endpoint cannot be tested at the moment.</div>`;
+                        }
+
+                        html += `
+                                    <div id="response-${catIndex}-${endpointIndex}" class="hidden mt-4">
+                                        <div class="text-gray-300 font-bold text-xs mb-2 flex items-center">
+                                            <i class="fas fa-code mr-1 text-sm"></i>
+                                            RESPONSE
+                                        </div>
+                                        <div class="bg-gray-900 text-white text-xs p-4 border border-gray-700 rounded">
+                                            <div class="max-h-80 overflow-auto" id="response-content-${catIndex}-${endpointIndex}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    });
+                    html += `</div></div>`;
+                });
+                apiList.innerHTML = html;
+                
+                setTimeout(() => {
+                    data.categories.forEach((category, catIndex) => {
+                        category.items.forEach((item, endpointIndex) => {
+                            if (item.status === 'ready') {
+                                const pathParts = item.path.split('?');
+                                const path = pathParts[0];
+                                updateUrlInfo(catIndex, endpointIndex, path);
+                            }
+                        });
+                    });
+                }, 100);
+                
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    const apiItems = document.querySelectorAll('.api-item');
+                    const categories = document.querySelectorAll('.category-group');
+                    let visibleCount = 0;
+
+                    apiItems.forEach(item => {
+                        const path = item.dataset.path.toLowerCase();
+                        const alias = item.dataset.alias.toLowerCase();
+                        const description = item.dataset.description.toLowerCase();
+                        
+                        if (path.includes(searchTerm) || alias.includes(searchTerm) || description.includes(searchTerm)) {
+                            item.style.display = '';
+                            visibleCount++;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+
+                    categories.forEach(category => {
+                        const visibleItems = category.querySelectorAll('.api-item[style=""]');
+                        if (visibleItems.length > 0) {
+                            category.style.display = '';
+                        } else {
+                            category.style.display = 'none';
+                        }
+                    });
+
+                    if (visibleCount === 0 && searchTerm !== '') {
+                        noResults.classList.remove('hidden');
+                    } else {
+                        noResults.classList.add('hidden');
+                    }
+                });
+                
+            } catch (error) {
+                apiList.innerHTML = '<p class="text-red-500 text-center py-8">Failed to load API data.</p>';
+                console.error('Error loading API data:', error);
+            }
+        }
+
+        async function loadNotifications() {
+            const notificationsList = document.getElementById('notifications-list');
+            const unreadCountBadge = document.getElementById('unread-count');
+            
+            try {
+                const response = await fetch('/assets/notifications.json');
+                const notifications = await response.json();
+
+                notificationsList.innerHTML = '';
+                let unreadCount = 0;
+
+                notifications.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                notifications.forEach(notif => {
+                    if (!notif.read) {
+                        unreadCount++;
+                    }
+                    
+                    const notifElement = document.createElement('div');
+                    notifElement.className = `notification-item p-4 rounded-lg text-xs relative overflow-hidden ${notif.read ? 'opacity-60' : ''}`;
+                    notifElement.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    ${!notif.read ? '<div class="w-2 h-2 bg-purple-400 rounded-full mr-2 animate-pulse" title="Unread"></div>' : ''}
+                                    <p class="font-semibold text-purple-300">${notif.title}</p>
+                                </div>
+                                <p class="text-slate-400 mb-2">${notif.message}</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-500">${formatNotificationDate(notif.date)}</span>
+                                    <span class="text-purple-400 text-xs">${notif.id}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    notificationsList.appendChild(notifElement);
+                });
+
+                if (unreadCount > 0) {
+                    unreadCountBadge.textContent = `${unreadCount} unread`;
+                    unreadCountBadge.classList.remove('hidden');
+                } else {
+                    unreadCountBadge.classList.add('hidden');
+                }
+
+            } catch (error) {
+                notificationsList.innerHTML = `
+                    <div class="notification-item p-4 rounded-lg text-xs">
+                        <div class="text-center text-slate-400">
+                            <i class="fas fa-exclamation-triangle text-yellow-400 mb-2"></i>
+                            <p>Failed to load notifications</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function formatNotificationDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) {
+                return 'Today';
+            } else if (diffDays === 1) {
+                return 'Yesterday';
+            } else if (diffDays < 7) {
+                return `${diffDays} days ago`;
+            } else {
+                return date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+            }
+        }
+
+        function showPopup() {
+            const popup = document.getElementById('gif-popup');
+            popup.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('gif-popup');
+            popup.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('gif-popup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePopup();
+            }
         });
-      }
-    }
 
-    function showPopup() {
-      const popup = document.getElementById('gif-popup');
-      popup.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePopup();
+            }
+        });
 
-    function closePopup() {
-      const popup = document.getElementById('gif-popup');
-      popup.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-
-    document.getElementById('gif-popup').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closePopup();
-      }
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        closePopup();
-      }
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-      loadNotifications();
-      loadApis();
-      
-      setTimeout(showPopup, 1000);
-    });
-  </script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNotifications();
+            loadApis();
+            
+            setTimeout(showPopup, 1000);
+        });
+    </script>
 </body>
 </html>

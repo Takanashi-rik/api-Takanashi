@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard Takanashi-API">
+    <meta name="theme-color" content="#1a202c">
+    <title>Dashboard - Takanashi-API</title>
+    <link rel="icon" href="/assets/icon.png" type="image/jpeg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'mono': ['Ubuntu Mono', 'monospace'],
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            display: none !important;
+        }
+        .glass {
+            backdrop-filter: blur(16px) saturate(180%);
+            background: rgba(23, 25, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.125);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-gradient:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+        }
+        .btn-gradient:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .stat-card {
+            background: rgba(30, 32, 45, 0.8);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card:hover {
+            border-color: rgba(139, 92, 246, 0.6);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 25px -8px rgba(99, 102, 241, 0.3);
+            background: rgba(35, 37, 50, 0.95);
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.15), transparent);
+            transition: left 0.6s ease;
+        }
+        .stat-card:hover::before {
+            left: 100%;
+        }
+        .stat-card .stat-icon {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .stat-card:hover .stat-icon {
+            transform: scale(1.2) rotate(8deg);
+            filter: drop-shadow(0 0 12px rgba(139, 92, 246, 0.5));
+            color: #a855f7;
+        }
+        .stat-card .stat-number {
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        .stat-card:hover .stat-number {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+        .stat-card .stat-label {
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover .stat-label {
+            color: #cbd5e1;
+            transform: translateY(2px);
+        }
+        .activity-item {
+            border-left: 2px solid #6366f1;
+            padding-left: 16px;
+            margin-bottom: 16px;
+        }
+        .activity-item:last-child {
+            margin-bottom: 0;
+        }
+        .btn-back {
+            background: rgba(23, 25, 35, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #6366f1;
+            transition: all 0.3s ease;
+        }
+        .btn-back:hover {
+            background: rgba(23, 25, 35, 0.9);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-1px);
+        }
+        .btn-logout {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            transition: all 0.3s ease;
+        }
+        .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.5);
+            transform: translateY(-1px);
+        }
+        .api-key-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-family: 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            color: #94a3b8;
+            word-break: break-all;
+            position: relative;
+        }
+        .api-key-box .copy-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(99, 102, 241, 0.2);
+            border: none;
+            color: #6366f1;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .api-key-box .copy-btn:hover {
+            background: rgba(99, 102, 241, 0.4);
+        }
+        .premium-badge {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 2px 12px;
+            border-radius: 9999px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .free-badge {
+            background: rgba(100, 116, 139, 0.3);
+            color: #94a3b8;
+            padding: 2px 12px;
+            border-radius: 9999px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .vip-badge {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: white;
+            padding: 2px 12px;
+            border-radius: 9999px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .btn-generate {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            transition: all 0.3s ease;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-generate:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+        }
+        .btn-generate:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .btn-revoke {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            transition: all 0.3s ease;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-revoke:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.5);
+            transform: translateY(-1px);
+        }
+        .btn-revoke:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .api-key-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .api-key-list::-webkit-scrollbar {
+            display: none !important;
+        }
+        .api-key-item {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .api-key-item:last-child {
+            margin-bottom: 0;
+        }
+        .api-key-item .key-text {
+            font-family: 'Ubuntu Mono', monospace;
+            font-size: 11px;
+            color: #94a3b8;
+            word-break: break-all;
+            flex: 1;
+        }
+        .loader {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #4a5568;
+            border-top: 2px solid #e2e8f0;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        #notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-120%);
+            opacity: 0;
+            z-index: 9999;
+            width: auto;
+            min-width: 280px;
+            max-width: 420px;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.5s ease;
+        }
+        #notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        #notification.hide {
+            transform: translateX(-50%) translateY(-120%);
+            opacity: 0;
+        }
+        .notification-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-left: 4px solid #6366f1;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            padding: 14px 20px;
+            border-radius: 10px;
+        }
+        .notification-content .flex {
+            gap: 10px;
+        }
+        .notification-content .w-10.h-10 {
+            width: 36px;
+            height: 36px;
+        }
+        .notification-content .w-10.h-10 .material-icons {
+            font-size: 18px;
+        }
+        .notification-content #notifTitle {
+            font-size: 13px;
+        }
+        .notification-content #notifMessage {
+            font-size: 12px;
+        }
+        .notification-content button .material-icons {
+            font-size: 16px;
+        }
+        .notification-progress {
+            height: 2.5px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            width: 100%;
+            animation: progressShrink 3s linear forwards;
+            border-radius: 0 0 10px 10px;
+            margin-top: 10px;
+        }
+        @keyframes progressShrink {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-slate-300 antialiased font-mono min-h-screen">
+
+    <!-- Notification -->
+    <div id="notification">
+        <div class="notification-content">
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <div class="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center">
+                        <span class="material-icons text-indigo-400">info</span>
+                    </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="font-semibold text-white" id="notifTitle" style="font-size: 13px;">Info</p>
+                    <p class="text-slate-400 mt-0.5" id="notifMessage" style="font-size: 12px;">-</p>
+                </div>
+                <button onclick="closeNotification()" class="flex-shrink-0 text-slate-500 hover:text-slate-300 transition-colors">
+                    <span class="material-icons" style="font-size: 16px;">close</span>
+                </button>
+            </div>
+            <div class="notification-progress"></div>
+        </div>
+    </div>
+
+    <nav class="glass sticky top-0 z-50 border-b border-gray-700/50">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <img src="/assets/icon.png" class="w-8 md:w-10">
+                <h1 class="text-xl font-bold gradient-text">Takanashi-API</h1>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-sm text-slate-400 hidden sm:inline" id="greeting">Halo, User!</span>
+                <a href="/" class="text-sm text-slate-400 hover:text-white transition-colors flex items-center gap-1">
+                    <i class="fas fa-home text-xs"></i>
+                    Home
+                </a>
+                <button onclick="logout()" class="btn-logout px-3 py-1.5 text-xs font-medium rounded-lg flex items-center gap-1">
+                    <i class="fas fa-sign-out-alt text-xs"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-8">
+
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-white" id="welcomeText">Selamat datang kembali, User!</h2>
+            <p class="text-slate-400 text-sm mt-1">Kelola akun dan API Key Anda di sini</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="stat-card p-6 rounded-xl">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center stat-icon">
+                        <i class="fas fa-user text-indigo-400"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">Username</p>
+                        <p class="text-sm font-semibold text-white" id="displayUsername">-</p>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card p-6 rounded-xl">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center stat-icon">
+                        <i class="fas fa-check-circle text-green-400"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">Status</p>
+                        <p class="text-sm font-semibold text-green-400">Aktif</p>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card p-6 rounded-xl">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center stat-icon">
+                        <i class="fas fa-key text-blue-400"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">API Keys</p>
+                        <p class="text-sm font-semibold text-white" id="totalApiKeys">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card p-6 rounded-xl">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center stat-icon">
+                        <i class="fas fa-crown text-yellow-400"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">Tipe Akun</p>
+                        <p class="text-sm font-semibold text-white" id="accountType">Free</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- API Key Management -->
+            <div class="lg:col-span-2 glass rounded-xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2">
+                        <i class="fas fa-key text-indigo-400"></i>
+                        API Key Management
+                    </h3>
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-slate-400" id="keyLimitInfo">0 / 0</span>
+                        <button id="generateBtn" class="btn-generate" onclick="generateApiKey()">
+                            <i class="fas fa-plus mr-1"></i> Generate
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mb-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-slate-400">Status Generate</p>
+                            <p class="text-sm text-white" id="generateStatus">
+                                <span class="text-green-400"><i class="fas fa-check-circle mr-1"></i> Bisa generate</span>
+                            </p>
+                        </div>
+                        <div id="roleBadge">
+                            <span class="free-badge"><i class="fas fa-user mr-1"></i> Free</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="apiKeyList" class="api-key-list space-y-2">
+                    <p class="text-slate-400 text-sm text-center py-4">Belum ada API Key</p>
+                </div>
+            </div>
+
+            <!-- Profile -->
+            <div class="glass rounded-xl p-6">
+                <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                    <i class="fas fa-cog text-indigo-400"></i>
+                    Akun Saya
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-xs text-slate-400">User ID</p>
+                        <p class="text-sm text-white font-medium" id="profileId">-</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">Username</p>
+                        <p class="text-sm text-white font-medium" id="profileUsername">-</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">Email</p>
+                        <p class="text-sm text-white font-medium" id="profileEmail">-</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">Limit</p>
+                        <p class="text-sm text-white font-medium" id="profileLimit">-</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">Tipe Akun</p>
+                        <p class="text-sm font-medium" id="profileStatus">-</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">Bergabung</p>
+                        <p class="text-sm text-white font-medium" id="profileJoined">-</p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-700 flex gap-2">
+                        <a href="/docs" class="text-sm text-indigo-400 hover:text-indigo-300 transition-colors flex items-center gap-1">
+                            <i class="fas fa-book text-xs"></i>
+                            Dokumentasi
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-500 text-xs">
+                2025 Takanashi-API
+            </p>
+        </footer>
+
+    </main>
+
+    <script>
+        let currentUser = null;
+        let apiKeys = [];
+
+        // Notification
+        function showNotification(title, message, type = 'info') {
+            const notif = document.getElementById('notification');
+            document.getElementById('notifTitle').textContent = title;
+            document.getElementById('notifMessage').textContent = message;
+            
+            const icon = notif.querySelector('.material-icons');
+            const bg = notif.querySelector('.w-10.h-10');
+            
+            if (type === 'success') {
+                icon.textContent = 'check_circle';
+                bg.className = 'w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center';
+                icon.className = 'material-icons text-green-400';
+            } else if (type === 'error') {
+                icon.textContent = 'error';
+                bg.className = 'w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center';
+                icon.className = 'material-icons text-red-400';
+            } else {
+                icon.textContent = 'info';
+                bg.className = 'w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center';
+                icon.className = 'material-icons text-indigo-400';
+            }
+            
+            notif.classList.remove('hide', 'show');
+            void notif.offsetWidth;
+            notif.classList.add('show');
+            clearTimeout(window.notifTimeout);
+            window.notifTimeout = setTimeout(() => {
+                closeNotification();
+            }, 3000);
+        }
+
+        function closeNotification() {
+            const notif = document.getElementById('notification');
+            notif.classList.remove('show');
+            notif.classList.add('hide');
+        }
+
+        function logout() {
+            localStorage.removeItem('rememberedUsername');
+            localStorage.removeItem('rememberMeExpiry');
+            localStorage.removeItem('userData');
+            window.location.href = '/login';
+        }
+
+        function getRoleLimit(role) {
+            if (role === 'vip') return Infinity;
+            if (role === 'premium') return 2;
+            return 1;
+        }
+
+        function getRoleName(role) {
+            if (role === 'vip') return 'VIP';
+            if (role === 'premium') return 'Premium';
+            return 'Free';
+        }
+
+        function getRoleBadge(role) {
+            if (role === 'vip') {
+                return '<span class="vip-badge"><i class="fas fa-crown mr-1"></i>VIP</span>';
+            } else if (role === 'premium') {
+                return '<span class="premium-badge"><i class="fas fa-crown mr-1"></i>Premium</span>';
+            } else {
+                return '<span class="free-badge"><i class="fas fa-user mr-1"></i>Free</span>';
+            }
+        }
+
+        function getGenerateStatus(role, currentCount) {
+            const limit = getRoleLimit(role);
+            if (role === 'vip') {
+                return { text: '✅ Bisa generate unlimited', color: 'text-green-400' };
+            } else if (role === 'premium') {
+                if (currentCount < limit) {
+                    return { text: `✅ Bisa generate (${currentCount}/${limit})`, color: 'text-green-400' };
+                } else {
+                    return { text: `❌ Maksimal ${limit} API Key`, color: 'text-red-400' };
+                }
+            } else {
+                if (currentCount < limit) {
+                    return { text: `✅ Bisa generate (${currentCount}/${limit})`, color: 'text-green-400' };
+                } else {
+                    return { text: `❌ Maksimal ${limit} API Key`, color: 'text-red-400' };
+                }
+            }
+        }
+
+        function canGenerate(role, currentCount) {
+            const limit = getRoleLimit(role);
+            return currentCount < limit;
+        }
+
+        function canRevoke(role) {
+            return role === 'free' || role === 'premium' || role === 'vip';
+        }
+
+        function renderApiKeys() {
+            const container = document.getElementById('apiKeyList');
+            const totalKeys = document.getElementById('totalApiKeys');
+            const keyLimitInfo = document.getElementById('keyLimitInfo');
+            const generateBtn = document.getElementById('generateBtn');
+            const generateStatus = document.getElementById('generateStatus');
+            
+            totalKeys.textContent = apiKeys.length;
+            
+            const role = currentUser?.role || 'free';
+            const limit = getRoleLimit(role);
+            keyLimitInfo.textContent = `${apiKeys.length} / ${limit === Infinity ? '∞' : limit}`;
+            
+            // Update generate button
+            const canGen = canGenerate(role, apiKeys.length);
+            generateBtn.disabled = !canGen;
+            
+            // Update status
+            const status = getGenerateStatus(role, apiKeys.length);
+            generateStatus.innerHTML = `<span class="${status.color}">${status.text}</span>`;
+            
+            // Update badge
+            document.getElementById('roleBadge').innerHTML = getRoleBadge(role);
+            document.getElementById('accountType').textContent = getRoleName(role);
+            
+            if (apiKeys.length === 0) {
+                container.innerHTML = `<p class="text-slate-400 text-sm text-center py-4">Belum ada API Key</p>`;
+                return;
+            }
+
+            let html = '';
+            apiKeys.forEach((key, index) => {
+                const canRev = canRevoke(role);
+                html += `
+                    <div class="api-key-item">
+                        <span class="key-text">${key}</span>
+                        <div class="flex items-center gap-2 flex-shrink-0">
+                            <button class="copy-btn-mini btn-generate" style="background:rgba(99,102,241,0.2);color:#6366f1;padding:2px 8px;border-radius:4px;font-size:10px;border:none;cursor:pointer;" onclick="copyKey('${key}')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="btn-revoke" style="padding:2px 10px;font-size:10px;" onclick="revokeApiKey(${index})" ${!canRev ? 'disabled' : ''}>
+                                <i class="fas fa-trash"></i> Revoke
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function copyKey(key) {
+            navigator.clipboard.writeText(key).then(() => {
+                showNotification('Berhasil', 'API Key disalin ke clipboard!', 'success');
+            });
+        }
+
+        async function generateApiKey() {
+            const btn = document.getElementById('generateBtn');
+            btn.innerHTML = '<div class="loader"></div>';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/api/generate-apikey', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: currentUser.id
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    apiKeys.push(data.apikey);
+                    renderApiKeys();
+                    showNotification('Berhasil', 'API Key baru berhasil dibuat!', 'success');
+                } else {
+                    showNotification('Gagal', data.error || 'Gagal generate API Key', 'error');
+                }
+            } catch (error) {
+                showNotification('Error', 'Terjadi kesalahan server', 'error');
+            }
+
+            btn.innerHTML = '<i class="fas fa-plus mr-1"></i> Generate';
+            btn.disabled = false;
+        }
+
+        async function revokeApiKey(index) {
+            if (!confirm('Yakin ingin menghapus API Key ini?')) return;
+
+            const key = apiKeys[index];
+            const btn = document.querySelectorAll('.btn-revoke')[index];
+            btn.innerHTML = '<div class="loader" style="width:12px;height:12px;"></div>';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/api/revoke-apikey', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: currentUser.id,
+                        apikey: key
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    apiKeys.splice(index, 1);
+                    renderApiKeys();
+                    showNotification('Berhasil', 'API Key berhasil dihapus!', 'success');
+                } else {
+                    showNotification('Gagal', data.error || 'Gagal hapus API Key', 'error');
+                }
+            } catch (error) {
+                showNotification('Error', 'Terjadi kesalahan server', 'error');
+            }
+
+            renderApiKeys();
+        }
+
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedUsername = localStorage.getItem('rememberedUsername');
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            
+            if (!savedUsername || !userData) {
+                window.location.href = '/login';
+                return;
+            }
+
+            currentUser = userData;
+            apiKeys = userData.apikeys || [];
+
+            document.getElementById('greeting').textContent = `Halo, ${savedUsername}!`;
+            document.getElementById('welcomeText').textContent = `Selamat datang kembali, ${savedUsername}!`;
+            document.getElementById('displayUsername').textContent = savedUsername;
+
+            document.getElementById('profileId').textContent = userData.id || '-';
+            document.getElementById('profileUsername').textContent = userData.username || '-';
+            document.getElementById('profileEmail').textContent = userData.email || '-';
+            document.getElementById('profileLimit').textContent = userData.limit || 0;
+
+            const role = userData.role || 'free';
+            const statusEl = document.getElementById('profileStatus');
+            statusEl.innerHTML = getRoleBadge(role);
+
+            if (userData.createdAt) {
+                const date = new Date(userData.createdAt * 1000);
+                document.getElementById('profileJoined').textContent = date.toLocaleDateString('id-ID', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            } else {
+                document.getElementById('profileJoined').textContent = '-';
+            }
+
+            renderApiKeys();
+        });
+    </script>
+</body>
+</html>
