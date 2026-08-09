@@ -194,6 +194,10 @@ app.get('/docs', (req, res) => {
     res.sendFile(path.join(__dirname, 'api-page', 'docs.html'));
 });
 
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'api-page', 'login.html'));
+});
+
 app.use((req, res, next) => {
     queueLog({
         method: req.method,
