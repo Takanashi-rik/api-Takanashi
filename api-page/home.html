@@ -286,17 +286,7 @@
     </main>
 
     <script>
-        function isLoggedIn() {
-            return localStorage.getItem('rememberedUsername') !== null;
-        }
 
-        function requireLogin(targetUrl) {
-            if (!isLoggedIn()) {
-                window.location.href = '/login';
-                return false;
-            }
-            return true;
-        }
 
         document.getElementById('docsBtn').addEventListener('click', function() {
             if (requireLogin('/docs')) {
