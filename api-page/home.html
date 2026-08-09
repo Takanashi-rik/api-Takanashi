@@ -286,26 +286,22 @@
     </main>
 
     <script>
-
-
+        // Tombol Documentation
         document.getElementById('docsBtn').addEventListener('click', function() {
-            if (requireLogin('/docs')) {
-                const btn = this;
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
-                btn.disabled = true;
-                window.location.href = '/docs';
-            }
+            const btn = this;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
+            btn.disabled = true;
+            window.location.href = '/docs';
         });
 
+        // Tombol Dashboard
         document.getElementById('dashboardBtn').addEventListener('click', function() {
-            if (requireLogin('/dashboard')) {
-                const btn = this;
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
-                btn.disabled = true;
-                window.location.href = '/dashboard';
-            }
+            const btn = this;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
+            btn.disabled = true;
+            window.location.href = '/dashboard';
         });
     </script>
 </body>
